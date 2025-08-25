@@ -1,0 +1,23 @@
+PENDIENTES DE IMPLEMENTACIÓN — SSL.com SWS API
+Referencia: https://www.ssl.com/ssl-web-services-sws-api/?_gl=1*44h9rz*_gcl_au*Njg2NTk1NTc0LjE3NTUxODU4MjI
+
+Tabla de endpoints (estado actual)
+Metodo | Endpoint | Funcional | Fecha | Version
+POST | /users | si | 25 del 8, 2025 | 1
+GET | /user/{login}/ | no | - | -
+GET | /users/get_teams | no | - | -
+PUT | /users/set_default_team | no | - | -
+GET | /certificates | no | - | -
+POST | /certificates | no | - | -
+GET | /certificate/{ref} | no | - | -
+PUT | /certificate/{ref} | no | - | -
+DELETE | /certificate/{ref} | no | - | -
+GET | /certificate/{ref}/validations/methods | no | - | -
+POST | /certificates/validations/email | no | - | -
+POST | /certificates/validations/csr_hash | no | - | -
+GET | /certificate/{ref}/api_parameters/{action} | no | - | -
+
+Notas:
+- "Funcional = si" indica que el flujo está implementado y probado desde el menú.
+- Las fechas futuras se completarán al momento de implementar cada endpoint.
+

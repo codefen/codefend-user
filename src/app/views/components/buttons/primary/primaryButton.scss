@@ -101,6 +101,9 @@ button.btn {
 
 [data-theme='dark'] {
   button.btn {
+    &.btn-dark-black {
+      color: var(--tertiary-color-50);
+    }
     &.btn-red {
       background: linear-gradient(90deg, #320809 5.75%, #1d0a0c 73.08%);
       border: 1px solid #b10101;
@@ -123,7 +126,7 @@ button.btn {
       color: #d9d9d9;
 
       &:hover {
-        ackground: linear-gradient(90deg, #434243 5.75%, #282324 76.44%, #1d191a 96.63%);
+        background: linear-gradient(90deg, #434243 5.75%, #282324 76.44%, #1d191a 96.63%);
         background-size: 150% 200%;
         color: #ededed;
         border-color: #d6d6d6;

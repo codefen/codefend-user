@@ -310,7 +310,7 @@ export const WelcomeDomain = ({
 
     // Método 3: Verificar datos temporales del onboarding
     try {
-      const tempOnboardingData = localStorage.getItem('onboarding_data');
+      const tempOnboardingData = sessionStorage.getItem('onboarding_data');
       if (tempOnboardingData) {
         const tempData = JSON.parse(tempOnboardingData);
         if (tempData.user?.personal_user === '1' || tempData.user?.personal_user === 1) {
@@ -641,7 +641,7 @@ export const WelcomeDomain = ({
       } else {
         // Si no hay email en el usuario actual, verificar datos temporales del onboarding
         try {
-          const tempOnboardingData = localStorage.getItem('onboarding_data');
+          const tempOnboardingData = sessionStorage.getItem('onboarding_data');
           if (tempOnboardingData) {
             const tempData = JSON.parse(tempOnboardingData);
             if (tempData.user?.email) {
@@ -761,10 +761,28 @@ export const WelcomeDomain = ({
     <ModalWrapper showCloseBtn={true} type="welcome-modal-container" action={close}>
       <div className="welcome-content">
         <img className="logose" src={`/codefend/brand-small-${theme}.png`} width={130} />
+        {/* Tabs: Explore dataleaks | Scan corporate infrastructure */}
+        <div className="scope-type-buttons-full" style={{ marginTop: 10 }}>
+          <button
+            type="button"
+            className={`btn scope-btn-tab ${scopeType === 'email' ? 'active' : ''}`}
+            onClick={handlePersonalEmailScan}
+            disabled={isLoading || loading}>
+            Explore dataleaks
+          </button>
+          <button
+            type="button"
+            className={`btn scope-btn-tab ${scopeType === 'website' ? 'active' : ''}`}
+            onClick={handleBusinessWebsiteScan}
+            disabled={isLoading || loading}>
+            Scan corporate infrastructure
+          </button>
+        </div>
         <div className="welcome-header">
           <img src="/codefend/IA ICON.png" alt="AI Scanner" className="scanner-eye" />
           <p className="welcome-text">
-            <b>Welcome to Codefend!</b> Let's perform an automated AI based scan over your attack surface! <b>Provide any domain name</b> and we <b>will take it from there:</b>
+            <b>Welcome to Codefend!</b> Let's perform an automated AI based scan over your attack
+            surface! <b>Provide any domain name</b> and we <b>will take it from there:</b>
           </p>
         </div>
 
@@ -772,33 +790,13 @@ export const WelcomeDomain = ({
         <hr className="onboarding-separator" />
 
         <form className="input-container" ref={formRef} onSubmit={changeInitialDomain}>
-          {/* Botones de selección de tipo de scan - ocupando todo el ancho */}
-          <div className="scope-type-buttons-full">
-            <button
-              type="button"
-              className={`btn scope-btn-tab ${scopeType === 'email' ? 'active' : ''}`}
-              onClick={handlePersonalEmailScan}
-              disabled={isLoading || loading}>
-              Explore dataleaks
-            </button>
-            <button
-              type="button"
-              className={`btn scope-btn-tab ${scopeType === 'website' ? 'active' : ''}`}
-              onClick={handleBusinessWebsiteScan}
-              disabled={isLoading || loading}>
-              Scan corporate infrastructure
-            </button>
-          </div>
-
           <input
             type="text"
             id="initialScope"
             name="initialScope"
             autoComplete="off"
             placeholder={
-              scopeType === 'email' 
-                ? 'Enter email to scan for leaks'
-                : 'Enter domain to attack'
+              scopeType === 'email' ? 'Enter email to scan for leaks' : 'Enter domain to attack'
             }
             value={currentValue || ''}
             onChange={e => handleInputChange(e.target.value)}

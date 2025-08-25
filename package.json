@@ -16,7 +16,8 @@
 		"build": "tsc && vite build",
 		"preview": "vite preview",
 		"tauri": "tauri",
-		"spellcheck": " git diff --name-only | npx cspell --file-list stdin"
+		"spellcheck": " git diff --name-only | npx cspell --file-list stdin",
+		"build-tauri-windows": "cross-env RUSTFLAGS=\"-C target-feature=+crt-static\" TAURI_SIGNING_PRIVATE_KEY=\"dW50cnVzdGVkIGNvbW1lbnQ6IHJzaWduIGVuY3J5cHRlZCBzZWNyZXQga2V5ClJXUlRZMEl5NVFwSUthdnV6NTlFWnAyYksxSDl0NlhFd1dUL25iZTlpVlVhMFJGUmZkWUFBQkFBQUFBQUFBQUFBQUlBQUFBQXU5WFNHMFdRUWJBSHdZVUZ4bXJIRS83ejIvalY5T2VZZnA2b2JIK0EyRGhCSDZSQWtMejdUMmF2KzdQc29tdGhnTVk2VlZJdmFzcm1raSsvdVRibFk2cDQ1dy9ZZXBJN0FjSVB5WnFQdTJETjFtTGtxN0N0OExtN1F2dUovT3R4bEtVYU16b1ZYODQ9Cg==\" TAURI_SIGNING_PRIVATE_KEY_PASSWORD=\"q2GegW0RLQWvTYC7QPay\" bun tauri build --target x86_64-pc-windows-msvc"
 	},
 	"dependencies": {
 		"@stripe/react-stripe-js": "3.7.0",
@@ -60,6 +61,7 @@
 		"@typescript-eslint/eslint-plugin": "8.34.0",
 		"@typescript-eslint/parser": "8.34.0",
 		"@vitejs/plugin-react-swc": "3.7.2",
+		"cross-env": "10.0.0",
 		"eslint": "9.26.0",
 		"eslint-config-prettier": "10.1.5",
 		"eslint-plugin-prettier": "5.4.1",

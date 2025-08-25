@@ -1,0 +1,89 @@
+=== ANÁLISIS DE CREATE_USERS.BAT ===
+
+PARÁMETROS RECIBIDOS:
+1. ACCOUNT_KEY: "d47f660f18cd"
+2. SECRET_KEY: "AJbPUYI1fO5rRA=="
+3. NEW_LOGIN: "chrisrusso2"
+4. NEW_EMAIL: "chris.russo99@gmail.com"
+5. NEW_PASSWORD: "Nzmxcn!!!znxm!!22988"
+
+ENDPOINT TARGET:
+- Host: sws.sslpki.com
+- URL: https://sws.sslpki.com/users
+- Método: POST
+- Certificado: ../SSL_COM_ROOT_CERTIFICATION_AUTHORITY_RSA.crt
+
+REQUEST HTTP:
+POST /users HTTP/1.1
+Host: sws.sslpki.com
+Accept: application/json
+Content-Type: application/x-www-form-urlencoded
+
+login=chrisrusso2&email=chris.russo99%40gmail.com&password=Nzmxcn!!!znxm!!22988&account_key=d47f660f18cd&secret_key=AJbPUYI1fO5rRA%3D%3D
+
+FLUJO DE EJECUCIÓN:
+1. Script recibe 5 parámetros posicionales
+2. Configura variables de entorno y URL base
+3. Realiza POST usando curl con:
+   - Certificado SSL específico (--cacert)
+   - Headers Accept y Content-Type
+   - URL encoding automático de parámetros
+   - Output a create_users.json
+   - Métricas de tiempo y status HTTP
+
+MANEJO DE ERRORES:
+- Si curl falla (errorlevel != 0):
+  * Muestra "✗ ERROR: La peticion fallo"
+  * Pausa ejecución
+  * Sale con código 1
+- Si create_users.json no existe:
+  * Muestra "X Error: No se pudo crear el archivo create_users.json"
+
+REPRODUCCIÓN DE ERROR:
+Para reproducir en browser, el principal problema será el certificado SSL. El BAT usa un certificado root específico que el browser no tiene. Opciones:
+
+1. Usando fetch (fallará por SSL):
+```javascript
+fetch('https://sws.sslpki.com/users', {
+  method: 'POST',
+  headers: {
+    'Accept': 'application/json',
+    'Content-Type': 'application/x-www-form-urlencoded'
+  },
+  body: new URLSearchParams({
+    login: 'chrisrusso2',
+    email: 'chris.russo99@gmail.com',
+    password: 'Nzmxcn!!!znxm!!22988',
+    account_key: 'd47f660f18cd',
+    secret_key: 'AJbPUYI1fO5rRA=='
+  }).toString()
+})
+.then(r => r.text())
+.then(console.log)
+.catch(console.error);
+```
+
+2. Usando curl (funcionará):
+```bash
+curl -X POST "https://sws.sslpki.com/users" \
+     --cacert "SSL_COM_ROOT_CERTIFICATION_AUTHORITY_RSA.crt" \
+     -H "Accept: application/json" \
+     -H "Content-Type: application/x-www-form-urlencoded" \
+     --data-urlencode "login=chrisrusso2" \
+     --data-urlencode "email=chris.russo99@gmail.com" \
+     --data-urlencode "password=Nzmxcn!!!znxm!!22988" \
+     --data-urlencode "account_key=d47f660f18cd" \
+     --data-urlencode "secret_key=AJbPUYI1fO5rRA=="
+```
+
+ERRORES COMUNES:
+1. SSL_CERT_ERROR: El certificado de sws.sslpki.com no es confiable sin el root cert
+2. 400 Bad Request: Parámetros faltantes o malformados
+3. 401 Unauthorized: account_key/secret_key inválidos
+4. 409 Conflict: Usuario/email ya existe
+
+NOTAS:
+- El script guarda output en create_users.json
+- Muestra métricas de tiempo y status HTTP
+- URL encoding es manejado automáticamente por curl
+- Requiere certificado SSL específico para TLS

@@ -33,9 +33,8 @@ const SelectField = forwardRef<HTMLSelectElement, SelectFieldProps>(function Sel
       <select
         ref={ref}
         name={name}
-        defaultValue={defaultValue}
+        {...(value !== undefined ? { value } : { defaultValue })}
         onChange={onChange}
-        value={value}
         disabled={disabled}
         className="log-inputs log-text"
         required={required}>

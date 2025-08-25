@@ -1,4 +1,4 @@
-import { useEffect, type PropsWithChildren, useRef, useMemo } from 'react';
+import { useEffect, type PropsWithChildren, useRef, useMemo, useCallback } from 'react';
 import createFastContext from './FastContextProvider';
 import { RESOURCE_CLASS } from '@/app/constants/app-texts';
 import type { AuditData, KeyPress, LocationData, OwnerData } from '@interfaces/util';
@@ -171,17 +171,59 @@ const GlobalStorePersistor = () => {
     [keys.map(key => store[key].get)]
   );
 
+  // Función utility para limpiar localStorage de forma segura
+  const cleanupLocalStorage = useCallback(() => {
+    try {
+      console.log('🧹 Cleaning up localStorage due to storage issues');
+      const keysToRemove = ['globalStore', 'temp_session_data', 'temp_onboarding_data'];
+      keysToRemove.forEach(key => localStorage.removeItem(key));
+      
+      // Mantener solo configuraciones del usuario si existen
+      const userPrefs = localStorage.getItem('user_preferences');
+      localStorage.clear();
+      if (userPrefs) {
+        localStorage.setItem('user_preferences', userPrefs);
+      }
+    } catch (error) {
+      console.error('Error during localStorage cleanup:', error);
+    }
+  }, []);
+
   useEffect(() => {
     const persistState = () => {
       try {
         const serialized = JSON.stringify(currentValues);
         // Solo escribir si el contenido cambió
         if (serialized !== lastSerializedRef.current) {
+          // Verificar si el tamaño es razonable antes de guardar
+          if (serialized.length > 5 * 1024 * 1024) { // 5MB limit
+            console.warn('GlobalStore data too large, clearing localStorage');
+            localStorage.clear();
+            return;
+          }
+          
           localStorage.setItem('globalStore', serialized);
           lastSerializedRef.current = serialized;
         }
       } catch (error) {
-        console.warn('Error saving to localStorage:', error);
+        if (error instanceof DOMException && error.name === 'QuotaExceededError') {
+          console.warn('localStorage quota exceeded, performing cleanup');
+          cleanupLocalStorage();
+          // Intentar guardar solo los datos esenciales
+          try {
+            const essentialData = {
+              session: currentValues.session,
+              user: currentValues.user,
+              company: currentValues.company,
+            };
+            localStorage.setItem('globalStore', JSON.stringify(essentialData));
+            lastSerializedRef.current = JSON.stringify(essentialData);
+          } catch (retryError) {
+            console.error('Failed to save essential data after cleanup:', retryError);
+          }
+        } else {
+          console.warn('Error saving to localStorage:', error);
+        }
       }
     };
 

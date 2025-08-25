@@ -1,0 +1,184 @@
+2025-08-25 14:44:56,120 | 
+=== SSL.com User Creation Tool ===
+
+2025-08-25 14:45:03,009 | Account Key entered: d47f660f18cd
+2025-08-25 14:45:13,521 | Secret Key entered: AJbPUYI1fO5rRA==
+2025-08-25 14:45:21,088 | Login entered: test123
+2025-08-25 14:45:24,993 | Email entered: test123@codefend.com
+2025-08-25 14:45:27,633 | Password entered: asdasdasd
+2025-08-25 14:45:29,168 | Confirm Password entered: asdasdasd
+2025-08-25 14:45:29,169 | URL: https://sws.sslpki.com/users
+2025-08-25 14:45:29,169 | Headers:
+2025-08-25 14:45:29,169 |   Accept: application/json
+2025-08-25 14:45:29,169 |   Content-Type: application/x-www-form-urlencoded
+2025-08-25 14:45:29,171 | 
+Payload (FULL DATA):
+2025-08-25 14:45:29,171 | {
+  "login": "test123",
+  "email": "test123@codefend.com",
+  "password": "asdasdasd",
+  "account_key": "d47f660f18cd",
+  "secret_key": "AJbPUYI1fO5rRA=="
+}
+2025-08-25 14:45:29,174 | Starting new HTTPS connection (1): sws.sslpki.com:443
+2025-08-25 14:45:29,843 | https://sws.sslpki.com:443 "POST /users HTTP/1.1" 400 None
+2025-08-25 14:45:29,845 | Status Code: 400
+2025-08-25 14:45:29,845 | Response Time: 0.67s
+2025-08-25 14:45:29,849 | 
+Response content:
+2025-08-25 14:45:29,849 | {"response_type":"ERROR","response_code":400,"message":{"password":["must be at least 8 characters long and include at least 1 of each of the following: uppercase, lowercase, number and special character such as ~`!@#\\$%^\u0026*()-+={}[]|;:\"\u003c\u003e,./?"]}}
+2025-08-25 14:47:56,248 | 
+=== SSL.com User Creation Tool ===
+
+2025-08-25 14:49:16,440 | 
+=== SSL.com User Creation Tool ===
+
+2025-08-25 14:49:45,650 | 
+=== SSL.com User Creation Tool ===
+
+2025-08-25 14:49:45,650 | 🔑 API Credentials:
+2025-08-25 14:49:50,568 | Account Key entered: d47f660f18cd
+2025-08-25 14:49:57,416 | Secret Key entered: AJbPUYI1fO5rRA==
+2025-08-25 14:49:57,417 | 
+👤 New User Information:
+2025-08-25 14:50:00,728 | Login entered: chris
+2025-08-25 14:50:04,017 | Email entered: chris@codefend.com
+2025-08-25 14:50:27,186 | ✅ Password válido y confirmado
+2025-08-25 14:50:27,186 | 
+🔄 Creando usuario...
+2025-08-25 14:50:27,187 | 
+📡 Request Details:
+2025-08-25 14:50:27,187 | URL: https://sws.sslpki.com/users
+2025-08-25 14:50:27,187 | Headers:
+2025-08-25 14:50:27,187 |   Accept: application/json
+2025-08-25 14:50:27,188 |   Content-Type: application/x-www-form-urlencoded
+2025-08-25 14:50:27,188 | 
+Payload (FULL DATA):
+2025-08-25 14:50:27,188 | {
+  "login": "chris",
+  "email": "chris@codefend.com",
+  "password": "Generar-un-Password!!12312",
+  "account_key": "d47f660f18cd",
+  "secret_key": "AJbPUYI1fO5rRA=="
+}
+2025-08-25 14:50:27,192 | Starting new HTTPS connection (1): sws.sslpki.com:443
+2025-08-25 14:50:28,792 | https://sws.sslpki.com:443 "POST /users HTTP/1.1" 400 None
+2025-08-25 14:50:28,793 | 
+📊 Results:
+2025-08-25 14:50:28,793 | Status Code: 400
+2025-08-25 14:50:28,793 | Response Time: 1.60s
+2025-08-25 14:50:28,793 | 
+📝 Response saved to: create_users.json
+2025-08-25 14:50:28,793 | 
+❌ Error en login: has already been taken
+2025-08-25 14:55:47,504 | 
+=== SSL.com User Creation Tool ===
+
+2025-08-25 14:55:47,504 | 🔑 API Credentials:
+2025-08-25 14:55:47,505 | ✅ Credenciales de API cargadas
+2025-08-25 14:55:47,505 | 
+👤 Información del nuevo usuario:
+2025-08-25 14:55:55,235 | ✅ Usuario: chrisrusso99
+2025-08-25 14:56:00,394 | ✅ Email: chrisrusso@codefend.com
+2025-08-25 14:56:15,098 | ✅ Password válido y confirmado
+2025-08-25 14:56:15,098 | 
+🔄 Creando usuario...
+2025-08-25 14:56:15,098 | 
+📡 Request Details:
+2025-08-25 14:56:15,098 | URL: https://sws.sslpki.com/users
+2025-08-25 14:56:15,098 | Headers:
+2025-08-25 14:56:15,098 |   Accept: application/json
+2025-08-25 14:56:15,098 |   Content-Type: application/x-www-form-urlencoded
+2025-08-25 14:56:15,098 | 
+Payload (FULL DATA):
+2025-08-25 14:56:15,100 | {
+  "login": "chrisrusso99",
+  "email": "chrisrusso@codefend.com",
+  "password": "Generar!un!password9127!!!",
+  "account_key": "d47f660f18cd",
+  "secret_key": "AJbPUYI1fO5rRA=="
+}
+2025-08-25 14:56:15,103 | Starting new HTTPS connection (1): sws.sslpki.com:443
+2025-08-25 14:56:18,398 | https://sws.sslpki.com:443 "POST /users HTTP/1.1" 200 None
+2025-08-25 14:56:18,400 | 
+📊 Results:
+2025-08-25 14:56:18,400 | Status Code: 200
+2025-08-25 14:56:18,401 | Response Time: 3.30s
+2025-08-25 14:56:18,401 | 
+📝 Response saved to: create_users.json
+2025-08-25 14:56:18,401 | 
+✅ Usuario creado exitosamente!
+2025-08-25 15:00:20,119 | 
+=== SSL.com User Creation Tool ===
+
+2025-08-25 15:00:20,119 | 🔑 API Credentials:
+2025-08-25 15:00:20,119 | ✅ Credenciales de API cargadas
+2025-08-25 15:00:20,119 | 
+👤 Información del nuevo usuario:
+2025-08-25 15:00:28,618 | ✅ Usuario: marcos
+2025-08-25 15:00:31,986 | ✅ Email: marcos@codefend.com
+2025-08-25 15:00:52,107 | ✅ Password válido y confirmado
+2025-08-25 15:00:52,108 | 
+🔄 Creando usuario...
+2025-08-25 15:00:52,108 | 
+📡 Request Details:
+2025-08-25 15:00:52,108 | URL: https://sws.sslpki.com/users
+2025-08-25 15:00:52,109 | Headers:
+2025-08-25 15:00:52,109 |   Accept: application/json
+2025-08-25 15:00:52,109 |   Content-Type: application/x-www-form-urlencoded
+2025-08-25 15:00:52,109 | 
+Payload (FULL DATA):
+2025-08-25 15:00:52,109 | {
+  "login": "marcos",
+  "email": "marcos@codefend.com",
+  "password": "okQuierounPassword18211!",
+  "account_key": "d47f660f18cd",
+  "secret_key": "AJbPUYI1fO5rRA=="
+}
+2025-08-25 15:00:52,113 | Starting new HTTPS connection (1): sws.sslpki.com:443
+2025-08-25 15:00:53,631 | https://sws.sslpki.com:443 "POST /users HTTP/1.1" 400 None
+2025-08-25 15:00:53,633 | 
+📊 Results:
+2025-08-25 15:00:53,633 | Status Code: 400
+2025-08-25 15:00:53,633 | Response Time: 1.52s
+2025-08-25 15:00:53,633 | 
+📝 Response saved to: create_users.json
+2025-08-25 15:00:53,634 | 
+❌ Error en login: has already been taken
+2025-08-25 15:00:58,421 | 
+=== SSL.com User Creation Tool ===
+
+2025-08-25 15:00:58,421 | 🔑 API Credentials:
+2025-08-25 15:00:58,421 | ✅ Credenciales de API cargadas
+2025-08-25 15:00:58,422 | 
+👤 Información del nuevo usuario:
+2025-08-25 15:01:09,466 | ✅ Usuario: Marcos99
+2025-08-25 15:01:15,915 | ✅ Email: marcos@codefend.com
+2025-08-25 15:01:38,314 | ✅ Password válido y confirmado
+2025-08-25 15:01:38,314 | 
+🔄 Creando usuario...
+2025-08-25 15:01:38,314 | 
+📡 Request Details:
+2025-08-25 15:01:38,314 | URL: https://sws.sslpki.com/users
+2025-08-25 15:01:38,315 | Headers:
+2025-08-25 15:01:38,315 |   Accept: application/json
+2025-08-25 15:01:38,315 |   Content-Type: application/x-www-form-urlencoded
+2025-08-25 15:01:38,315 | 
+Payload (FULL DATA):
+2025-08-25 15:01:38,315 | {
+  "login": "Marcos99",
+  "email": "marcos@codefend.com",
+  "password": "Creamos-Password!121232\"\"\"",
+  "account_key": "d47f660f18cd",
+  "secret_key": "AJbPUYI1fO5rRA=="
+}
+2025-08-25 15:01:38,317 | Starting new HTTPS connection (1): sws.sslpki.com:443
+2025-08-25 15:01:41,616 | https://sws.sslpki.com:443 "POST /users HTTP/1.1" 200 None
+2025-08-25 15:01:41,617 | 
+📊 Results:
+2025-08-25 15:01:41,617 | Status Code: 200
+2025-08-25 15:01:41,618 | Response Time: 3.30s
+2025-08-25 15:01:41,618 | 
+📝 Response saved to: create_users.json
+2025-08-25 15:01:41,618 | 
+✅ Usuario creado exitosamente!

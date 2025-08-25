@@ -105,7 +105,6 @@ export const SidebarDesktop = ({
     setIsOpen(true);
   };
 
-
   const isNotProviderAndReseller = !isProvider() && !isReseller();
 
   const newMenuItems = [
@@ -119,6 +118,14 @@ export const SidebarDesktop = ({
           id: 'sidebar_commander',
           icon: <LightningIcon isVisible />,
           to: '/admin/commander',
+          root: false,
+          haveAccess: isAdmin(),
+        },
+        {
+          title: 'Landers Monitor',
+          id: 'sidebar_landers',
+          icon: <LightningIcon isVisible />,
+          to: '/admin/landers',
           root: false,
           haveAccess: isAdmin(),
         },
@@ -177,6 +184,14 @@ export const SidebarDesktop = ({
           to: '/reseller/orders',
           root: false,
           haveAccess: isReseller(),
+        },
+        {
+          title: 'Company Panel',
+          id: 'sidebar_company_panel',
+          icon: <AdminCompanyIcon />,
+          to: '/admin/company',
+          root: isAdmin(),
+          haveAccess: isAdmin() || isProviderWithAccess,
         },
         {
           title: 'Dashboard',

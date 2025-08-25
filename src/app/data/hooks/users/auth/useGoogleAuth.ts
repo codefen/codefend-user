@@ -134,8 +134,8 @@ export const useGoogleAuth = () => {
         // Verificar si necesita onboarding ANTES de hacer login
         if ((leadData as any)?.needs_onboarding) {
           // Guardar datos temporales para el onboarding
-          localStorage.setItem('onboarding_data', JSON.stringify(leadData));
-          localStorage.setItem(
+          sessionStorage.setItem('onboarding_data', JSON.stringify(leadData));
+          sessionStorage.setItem(
             'temp_session_data',
             JSON.stringify({ session: (leadData as any).session })
           );

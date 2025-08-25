@@ -33,4 +33,12 @@ dist-ssr
 
 .husky
 
+tauri.ke
+tauri.ke.pub
 .env
+
+# SSL.com API credentials
+**/llaves.py
+**/credentials.py
+**/secrets.py
+scripts/ssl_api/llaves.py

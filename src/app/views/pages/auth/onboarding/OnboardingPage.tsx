@@ -110,9 +110,10 @@ export const OnboardingPage = () => {
 
   useEffect(() => {
     // NUEVO: Verificar si hay datos temporales de registro
-    const tempOnboardingData = localStorage.getItem('onboarding_data');
-    const tempSessionData = localStorage.getItem('temp_session_data');
-
+    const tempOnboardingData = sessionStorage.getItem('onboarding_data');
+    const tempSessionData = sessionStorage.getItem('temp_session_data');
+    console.log('tempOnboardingData', tempOnboardingData);
+    console.log('tempSessionData', tempSessionData);
     if (tempOnboardingData && tempSessionData) {
       // Caso 1: Usuario recién registrado con datos temporales
       // console.log('🚀 Onboarding con datos temporales de registro');
@@ -140,11 +141,22 @@ export const OnboardingPage = () => {
     // Caso 2: Usuario con sesión activa
     const currentSession = session.get;
     const currentUser = user.get;
+    console.log('tempData', session);
+    console.log('sessionData', user);
+    console.log('currentSession', currentSession);
+    console.log('currentUser', currentUser);
 
     if (!currentSession || !currentUser) {
-      // Si no hay sesión NI datos temporales, redirigir al login
-      // console.log('❌ No hay sesión ni datos temporales, redirigiendo al login');
-      window.location.href = '/auth/signin';
+      // Si no hay sesión NI datos temporales, limpiar localStorage y redirigir
+      console.log('❌ No hay sesión válida, limpiando datos y redirigiendo al login');
+      localStorage.removeItem('globalStore');
+      localStorage.removeItem('temp_session_data');
+      localStorage.removeItem('temp_onboarding_data');
+      
+      // Pequeño delay para evitar loops infinitos
+      setTimeout(() => {
+        window.location.href = '/auth/signin';
+      }, 100);
       return;
     }
 
@@ -273,8 +285,8 @@ export const OnboardingPage = () => {
     // Para usuarios personales no hay validaciones adicionales ya que se generan automáticamente
 
     // NUEVO: Verificar si estamos usando datos temporales
-    const tempOnboardingData = localStorage.getItem('onboarding_data');
-    const tempSessionData = localStorage.getItem('temp_session_data');
+    const tempOnboardingData = sessionStorage.getItem('onboarding_data');
+    const tempSessionData = sessionStorage.getItem('temp_session_data');
 
     let sessionToUse: string | null = null;
     let userToUse: any = null;
@@ -361,8 +373,8 @@ export const OnboardingPage = () => {
       }
 
       // Limpiar datos temporales
-      localStorage.removeItem('onboarding_data');
-      localStorage.removeItem('temp_session_data');
+      sessionStorage.removeItem('onboarding_data');
+      sessionStorage.removeItem('temp_session_data');
 
       // Si era usuario temporal, ahora hacer login real
       if (tempOnboardingData && tempSessionData) {
@@ -386,60 +398,6 @@ export const OnboardingPage = () => {
 
   return (
     <ModalWrapper showCloseBtn={false} type="onboarding-modal-container" action={handleClose}>
-      <div className="new-auth-content readonly-content">
-        <h1>
-          Unveil the full attack surface...
-          <br />
-          <span>discover real threats</span>
-        </h1>
-
-        <p className="header-text">
-          Start with a one domain or email. Codefend uncovers what’s leaking, exposed or exploitable
-          — before attackers do. Browse and scan across thousands of systems and millions of
-          breached identities indexed. We are experts in blackbox operations.
-        </p>
-
-        <div className="features-list">
-          <div className="feature-item">
-            <div className="feature-icon">
-              <img src="/codefend/Grupo-1.png" alt="Professional hackers" />
-            </div>
-            <div className="feature-content">
-              <h3>Professional hackers on demand</h3>
-              <p>
-                Hire professional hackers on demand, when you need them! Our professionals follow
-                the same paths real attackers do.
-              </p>
-            </div>
-          </div>
-
-          <div className="feature-item">
-            <div className="feature-icon">
-              <img src="/codefend/icono-leaks.png" alt="Database explorer" />
-            </div>
-            <div className="feature-content">
-              <h3>Full dataleaks explorer</h3>
-              <p>
-                See what parts of your tech stack have already been leaked. Correlate your users
-                with 190B+ breached records and discover hidden threats.
-              </p>
-            </div>
-          </div>
-
-          <div className="feature-item">
-            <div className="feature-icon">
-              <img src="/codefend/icono-bicho.png" alt="Attack surface map" />
-            </div>
-            <div className="feature-content">
-              <h3>Automated attack surface map</h3>
-              <p>
-                Visualize the online exposure like never before. From one domain to your full
-                infrastructure — unveil hosts, techs, live vulnerabilities and people and more.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
       <div className="new-auth-content welcome-content">
         <img className="logose" src={`/codefend/brand-small-${theme}.png`} width={220} />
 
@@ -530,6 +488,61 @@ export const OnboardingPage = () => {
             </div>
           </form>
         )}
+      </div>
+
+      <div className="new-auth-content readonly-content">
+        <h1>
+          Unveil the full attack surface...
+          <br />
+          <span>discover real threats</span>
+        </h1>
+
+        <p className="header-text">
+          Start with a one domain or email. Codefend uncovers what’s leaking, exposed or exploitable
+          — before attackers do. Browse and scan across thousands of systems and millions of
+          breached identities indexed. We are experts in blackbox operations.
+        </p>
+
+        <div className="features-list">
+          <div className="feature-item">
+            <div className="feature-icon">
+              <img src="/codefend/Grupo-1.png" alt="Professional hackers" />
+            </div>
+            <div className="feature-content">
+              <h3>Professional hackers on demand</h3>
+              <p>
+                Hire professional hackers on demand, when you need them! Our professionals follow
+                the same paths real attackers do.
+              </p>
+            </div>
+          </div>
+
+          <div className="feature-item">
+            <div className="feature-icon">
+              <img src="/codefend/icono-leaks.png" alt="Database explorer" />
+            </div>
+            <div className="feature-content">
+              <h3>Full dataleaks explorer</h3>
+              <p>
+                See what parts of your tech stack have already been leaked. Correlate your users
+                with 190B+ breached records and discover hidden threats.
+              </p>
+            </div>
+          </div>
+
+          <div className="feature-item">
+            <div className="feature-icon">
+              <img src="/codefend/icono-bicho.png" alt="Attack surface map" />
+            </div>
+            <div className="feature-content">
+              <h3>Automated attack surface map</h3>
+              <p>
+                Visualize the online exposure like never before. From one domain to your full
+                infrastructure — unveil hosts, techs, live vulnerabilities and people and more.
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </ModalWrapper>
   );

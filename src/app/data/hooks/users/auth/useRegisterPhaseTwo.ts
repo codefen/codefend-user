@@ -46,13 +46,10 @@ export const useRegisterPhaseTwo = () => {
         if (data.email_error === '1' || apiErrorValidation(data)) {
           throw new Error(data?.info || APP_MESSAGE_TOAST.API_UNEXPECTED_ERROR);
         }
-
         // Verificar si necesita onboarding ANTES de hacer login
         if (data.needs_onboarding) {
-          // NO llamar a handleSuccessfulLogin aún
-          // Guardar datos temporales para el onboarding
-          localStorage.setItem('onboarding_data', JSON.stringify(data));
-          localStorage.setItem('temp_session_data', JSON.stringify({ session: data.session }));
+          sessionStorage.setItem('onboarding_data', JSON.stringify(data));
+          sessionStorage.setItem('temp_session_data', JSON.stringify({ session: data.session }));
 
           // console.log('🚀 Datos temporales guardados para onboarding');
 
