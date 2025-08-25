@@ -115,7 +115,7 @@ jobs:
           args: '--verbose'
           
       - name: ☕ Install Maven and Java
-        uses: s4u/setup-maven-action@v1.3.1
+        uses: s4u/setup-maven-action@v1.14.0
         with:
           java-version: 17
           maven-version: 3.8.5
