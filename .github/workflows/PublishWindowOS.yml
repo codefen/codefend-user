@@ -71,14 +71,6 @@ jobs:
             core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
             core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
 
-      - name: 🔧 Install system dependencies
-        run: |
-          echo "VCPKG_ROOT=$env:VCPKG_INSTALLATION_ROOT" | Out-File -FilePath $env:GITHUB_ENV -Append
-          vcpkg install openssl:x64-windows-static-md
-          choco install wget -y
-        env:
-          VCPKG_BINARY_SOURCES: "clear;x-gha,readwrite"
-
       - name: 🦀 Install rust stable
         uses: dtolnay/rust-toolchain@stable
         with:
@@ -166,11 +158,15 @@ jobs:
             
             # Verificar que el archivo es ejecutable
             Write-Host "🔍 Verificando CodeSignTool.bat..."
-            try {
-              $testOutput = & cmd.exe /c "`"$batFile`" --help" 2>&1
-              Write-Host $testOutput
-            } catch {
-              Write-Warning "⚠️ No se pudo ejecutar test del bat file, pero continuando..."
+            $testOutput = & cmd.exe /c "`"$batFile`" --help" 2>&1
+            Write-Host "Exit code: $LASTEXITCODE"
+            Write-Host "Output: $testOutput"
+            
+            if ($LASTEXITCODE -ne 0) {
+              Write-Warning "⚠️ CodeSignTool devolvió código de salida $LASTEXITCODE, pero continuando..."
+              Write-Host "Detalles del error: $testOutput"
+            } else {
+              Write-Host "✅ CodeSignTool respondió correctamente"
             }
           } else {
             Write-Error "❌ No se encontró CodeSignTool.bat"
