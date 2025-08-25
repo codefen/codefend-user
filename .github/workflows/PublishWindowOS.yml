@@ -166,7 +166,12 @@ jobs:
             
             # Verificar que el archivo es ejecutable
             Write-Host "🔍 Verificando CodeSignTool.bat..."
-            & "$batFile" --help 2>&1 | Write-Host
+            try {
+              $testOutput = & cmd.exe /c "`"$batFile`" --help" 2>&1
+              Write-Host $testOutput
+            } catch {
+              Write-Warning "⚠️ No se pudo ejecutar test del bat file, pero continuando..."
+            }
           } else {
             Write-Error "❌ No se encontró CodeSignTool.bat"
             Write-Host "📋 Listando todos los archivos encontrados:"
@@ -219,7 +224,8 @@ jobs:
           )
           
           # Ejecutar escaneo
-          $scanOutput = & "${{ steps.setup-codesigntool.outputs.CODESIGNTOOL_BAT }}" @arguments 2>&1
+          $batPath = "${{ steps.setup-codesigntool.outputs.CODESIGNTOOL_BAT }}"
+          $scanOutput = & cmd.exe /c "`"$batPath`" $($arguments -join ' ')" 2>&1
           Write-Host "Resultado del escaneo: $scanOutput"
           
           if ($LASTEXITCODE -ne 0) {
@@ -257,7 +263,8 @@ jobs:
           )
           
           # Ejecutar firma
-          & "${{ steps.setup-codesigntool.outputs.CODESIGNTOOL_BAT }}" @arguments
+          $batPath = "${{ steps.setup-codesigntool.outputs.CODESIGNTOOL_BAT }}"
+          & cmd.exe /c "`"$batPath`" $($arguments -join ' ')"
           
           if ($LASTEXITCODE -ne 0) {
             Write-Error "❌ Error al firmar MSI"
