@@ -18,6 +18,8 @@ def view_api_map():
     with open('API_MAP.md', 'r', encoding='utf-8') as f:
         print(f.read())
 
+from retro_sounds import RetroSounds
+
 def show_intro():
     """Muestra una intro retro"""
     os.system('cls')
@@ -38,10 +40,10 @@ def show_intro():
     loading_text = "INITIALIZING SECURE CONNECTION"
     for i in range(3):
         print(f"\r{loading_text}{'.' * (i + 1)}   ", end='')
-        winsound.Beep(440 + i * 100, 200)
+        RetroSounds.play_pattern('typing')
         time.sleep(0.5)
     print("\n\nACCESS GRANTED!")
-    winsound.Beep(880, 200)
+    RetroSounds.play_powerup()
     time.sleep(1)
 
 def main():

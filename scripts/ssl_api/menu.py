@@ -7,19 +7,7 @@ import winsound
 import random
 from typing import List, Callable, Optional
 
-# Efectos de sonido retro
-def beep_select():
-    winsound.Beep(1000, 50)
-
-def beep_move():
-    winsound.Beep(750, 30)
-    
-def beep_error():
-    winsound.Beep(250, 100)
-    
-def beep_success():
-    for f in [523, 659, 784]:  # Notas Do-Mi-Sol
-        winsound.Beep(f, 100)
+from retro_sounds import RetroSounds
 
 # Arte ASCII retro
 BORDER_H = "═"
@@ -102,18 +90,18 @@ class Menu:
         
         # Escape
         if key == b'\x1b':
-            beep_error()
+            RetroSounds.play_error()
             return True
             
         # Enter
         if key == b'\r':
-            beep_select()
+            RetroSounds.play_menu_select()
             item = self.items[self.selected]
             if item.action:
                 self._clear_screen()
                 self._loading_animation("LOADING", 1.0)
                 item.action()
-                beep_success()
+                RetroSounds.play_success()
                 input("\nPresiona Enter para continuar...")
             elif item.submenu:
                 submenu = Menu(item.title, item.submenu)
@@ -122,13 +110,17 @@ class Menu:
             
         # Flecha arriba
         if key == b'H':
-            beep_move()
+            RetroSounds.play_menu_move()
             self.selected = (self.selected - 1) % len(self.items)
             
         # Flecha abajo
         if key == b'P':
-            beep_move()
+            RetroSounds.play_menu_move()
             self.selected = (self.selected + 1) % len(self.items)
+            
+        # Cualquier otra tecla (para debug/diversión)
+        else:
+            RetroSounds.play_typing_sound()
             
         return False
         
