@@ -385,16 +385,19 @@ export const NewSignupForm = () => {
         });
 
         // Verificar si necesita onboarding
+        // alert('res');
         if (res.needs_onboarding) {
           // Redirigir al onboarding para capturar datos de empresa
           // console.log('🚀 Usuario necesita onboarding, redirigiendo...');
           // window.location.href = '/auth/onboarding';
-          navigate('/auth/onboarding');
+          // navigate('/auth/onboarding');
+          window.location.href = '/auth/onboarding';
         } else {
           // Redirigir al dashboard si ya completó onboarding
           // console.log('✅ Usuario ya completó onboarding, ir al dashboard');
           // window.location.href = '/';
-          navigate('/');
+          // navigate('/');
+          window.location.href = '/';
         }
       }
     });
@@ -419,9 +422,7 @@ export const NewSignupForm = () => {
           <hr className="onboarding-separator" />
 
           <form onSubmit={nextFirstStep}>
-            {/* <div className={css['headerText']}>{<p>{STEPSDATA[activeStep]?.label}</p>}</div> */}
             <h2>Private account creation</h2>
-            {/* <ProgressBar activeStep={activeStep} /> */}
             <AuthInput
               placeholder="Name"
               name="lead_fname"

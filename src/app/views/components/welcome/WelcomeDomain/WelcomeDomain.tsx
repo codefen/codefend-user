@@ -310,7 +310,7 @@ export const WelcomeDomain = ({
 
     // Método 3: Verificar datos temporales del onboarding
     try {
-      const tempOnboardingData = localStorage.getItem('onboarding_data');
+      const tempOnboardingData = sessionStorage.getItem('onboarding_data');
       if (tempOnboardingData) {
         const tempData = JSON.parse(tempOnboardingData);
         if (tempData.user?.personal_user === '1' || tempData.user?.personal_user === 1) {
@@ -641,7 +641,7 @@ export const WelcomeDomain = ({
       } else {
         // Si no hay email en el usuario actual, verificar datos temporales del onboarding
         try {
-          const tempOnboardingData = localStorage.getItem('onboarding_data');
+          const tempOnboardingData = sessionStorage.getItem('onboarding_data');
           if (tempOnboardingData) {
             const tempData = JSON.parse(tempOnboardingData);
             if (tempData.user?.email) {
@@ -781,7 +781,8 @@ export const WelcomeDomain = ({
         <div className="welcome-header">
           <img src="/codefend/IA ICON.png" alt="AI Scanner" className="scanner-eye" />
           <p className="welcome-text">
-            <b>Welcome to Codefend!</b> Let's perform an automated AI based scan over your attack surface! <b>Provide any domain name</b> and we <b>will take it from there:</b>
+            <b>Welcome to Codefend!</b> Let's perform an automated AI based scan over your attack
+            surface! <b>Provide any domain name</b> and we <b>will take it from there:</b>
           </p>
         </div>
 
@@ -795,9 +796,7 @@ export const WelcomeDomain = ({
             name="initialScope"
             autoComplete="off"
             placeholder={
-              scopeType === 'email' 
-                ? 'Enter email to scan for leaks'
-                : 'Enter domain to attack'
+              scopeType === 'email' ? 'Enter email to scan for leaks' : 'Enter domain to attack'
             }
             value={currentValue || ''}
             onChange={e => handleInputChange(e.target.value)}
