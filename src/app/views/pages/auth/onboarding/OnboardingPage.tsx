@@ -147,9 +147,16 @@ export const OnboardingPage = () => {
     console.log('currentUser', currentUser);
 
     if (!currentSession || !currentUser) {
-      // Si no hay sesión NI datos temporales, redirigir al login
-      // console.log('❌ No hay sesión ni datos temporales, redirigiendo al login');
-      window.location.href = '/auth/signin';
+      // Si no hay sesión NI datos temporales, limpiar localStorage y redirigir
+      console.log('❌ No hay sesión válida, limpiando datos y redirigiendo al login');
+      localStorage.removeItem('globalStore');
+      localStorage.removeItem('temp_session_data');
+      localStorage.removeItem('temp_onboarding_data');
+      
+      // Pequeño delay para evitar loops infinitos
+      setTimeout(() => {
+        window.location.href = '/auth/signin';
+      }, 100);
       return;
     }
 
