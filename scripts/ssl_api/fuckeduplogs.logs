@@ -172,3 +172,28 @@ Payload (FULL DATA):
 2025-08-25 15:56:16,866 | https://sws.sslpki.com:443 "POST /api/login HTTP/1.1" 422 None
 2025-08-25 16:12:00,074 | Starting new HTTPS connection (1): sws.sslpki.com:443
 2025-08-25 16:12:01,075 | https://sws.sslpki.com:443 "POST /api/login HTTP/1.1" 422 None
+2025-08-25 16:24:20,218 | Starting new HTTPS connection (1): sws.sslpki.com:443
+2025-08-25 16:24:21,217 | https://sws.sslpki.com:443 "POST /user/Cualquiera918291! HTTP/1.1" 400 None
+2025-08-25 16:24:33,248 | Starting new HTTPS connection (1): sws.sslpki.com:443
+2025-08-25 16:24:33,869 | https://sws.sslpki.com:443 "POST /user/d47f660f18cd HTTP/1.1" 401 None
+2025-08-25 16:24:46,192 | Starting new HTTPS connection (1): sws.sslpki.com:443
+2025-08-25 16:24:46,838 | https://sws.sslpki.com:443 "POST /user/Cualquiera918291! HTTP/1.1" 401 None
+2025-08-25 16:28:02,012 | 
+=== SSL.com User Creation Tool ===
+
+2025-08-25 16:28:02,012 | 🔑 API Credentials:
+2025-08-25 16:28:02,012 | ✅ Credenciales de API cargadas
+2025-08-25 16:28:02,013 | 
+👤 Información del nuevo usuario:
+2025-08-25 16:28:02,013 | ✅ Usuario: asdas
+2025-08-25 16:28:31,902 | ❌ Error inesperado: 
+2025-08-25 16:28:54,081 | Starting new HTTPS connection (1): sws.sslpki.com:443
+2025-08-25 16:28:54,717 | https://sws.sslpki.com:443 "GET /user/asd?password=asd HTTP/1.1" 400 None
+2025-08-25 16:29:28,608 | Starting new HTTPS connection (1): sws.sslpki.com:443
+2025-08-25 16:29:29,229 | https://sws.sslpki.com:443 "GET /user/Cualquiera918291!?password=dFYZSGV8prDH4A%3D%3D HTTP/1.1" 401 None
+2025-08-25 16:33:20,995 | Starting new HTTPS connection (1): sws.sslpki.com:443
+2025-08-25 16:33:21,635 | https://sws.sslpki.com:443 "GET /user/asd HTTP/1.1" 400 None
+2025-08-25 16:38:16,546 | Starting new HTTPS connection (1): sws.sslpki.com:443
+2025-08-25 16:38:17,494 | https://sws.sslpki.com:443 "GET /user/Cualquiera918291! HTTP/1.1" 401 None
+2025-08-25 16:45:04,842 | Starting new HTTPS connection (1): sws.sslpki.com:443
+2025-08-25 16:45:05,814 | https://sws.sslpki.com:443 "POST /oauth/token HTTP/1.1" 422 None

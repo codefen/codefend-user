@@ -85,39 +85,53 @@ def request_credentials():
     from auth import SSLAuth
     auth = SSLAuth()
     
-    # Intentar cargar credenciales existentes
-    creds = auth.load_credentials()
-    if creds:
-        account_key, secret_key = creds
-        print("\n🔑 Probando credenciales guardadas...")
-        valid, msg = auth.test_credentials(account_key, secret_key)
-        if valid:
+    try:
+        # Intentar cargar credenciales existentes
+        creds = auth.load_credentials()
+        if creds:
+            account_key, secret_key = creds
+            print("\n🔑 Probando credenciales guardadas...")
+            valid, msg = auth.test_credentials(account_key, secret_key)
+            if valid:
+                print(msg)
+                return True
             print(msg)
-            return True
-        print(msg)
-    
-    # Solicitar nuevas credenciales
-    while True:
-        print("\n🔐 Ingrese sus credenciales de SSL.com:")
-        account_key = input("Account Key: ").strip()
-        secret_key = input("Secret Key: ").strip()
         
-        if not account_key or not secret_key:
-            print("❌ Ambos campos son requeridos")
-            continue
-            
-        print("\n🔄 Verificando credenciales...")
-        valid, msg = auth.test_credentials(account_key, secret_key)
-        print(msg)
-        
-        if valid:
-            # Guardar credenciales válidas
-            auth.save_credentials(account_key, secret_key)
-            return True
-            
-        retry = input("\n¿Reintentar? (s/n): ").strip().lower()
-        if retry != 's':
-            return False
+        # Solicitar nuevas credenciales
+        while True:
+            try:
+                print("\n🔐 Ingrese sus credenciales de SSL.com:")
+                account_key = input("Account Key: ").strip()
+                secret_key = input("Secret Key: ").strip()
+                
+                if not account_key or not secret_key:
+                    print("❌ Ambos campos son requeridos")
+                    continue
+                    
+                print("\n🔄 Verificando credenciales...")
+                valid, msg = auth.test_credentials(account_key, secret_key)
+                print(msg)
+                
+                if valid:
+                    # Guardar credenciales válidas
+                    auth.save_credentials(account_key, secret_key)
+                    return True
+                
+                while True:
+                    retry = input("\n¿Reintentar? (s/n): ").strip().lower()
+                    if retry in ['s', 'n']:
+                        if retry == 'n':
+                            return False
+                        break
+                    print("❌ Por favor ingrese 's' para sí o 'n' para no")
+                    
+            except KeyboardInterrupt:
+                print("\n\n⚠️ Operación cancelada por el usuario")
+                return False
+                
+    except Exception as e:
+        print(f"\n❌ Error inesperado: {str(e)}")
+        return False
 
 def main():
     # Importar hot reload
@@ -152,13 +166,22 @@ def main():
         reload_menu()
         
         # Mantener proceso vivo
-        while True:
-            time.sleep(1)
+        try:
+            while True:
+                time.sleep(1)
+        except KeyboardInterrupt:
+            print("\n\n⚠️ Cerrando aplicación...")
+            time.sleep(0.5)
+            return
             
-    except KeyboardInterrupt:
-        observer.stop()
+    except Exception as e:
+        print(f"\n❌ Error fatal: {str(e)}")
     finally:
-        observer.join()
+        if 'observer' in locals():
+            observer.stop()
+            observer.join(timeout=1)  # Esperar máximo 1 segundo
+        print("\n👋 ¡Hasta luego!")
+        sys.exit(0)
     
     # Menú principal
     main_menu_items = [
