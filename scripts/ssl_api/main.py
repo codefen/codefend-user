@@ -7,6 +7,12 @@ import msvcrt
 import winsound
 from pathlib import Path
 from menu import Menu, MenuItem
+import json
+from user_api import (
+    retrieve_user_credentials,
+    get_teams,
+    set_default_team,
+)
 from create_users import SSLUserCreator
 
 def create_user():
@@ -14,6 +20,37 @@ def create_user():
     creator = SSLUserCreator()
     if creator.get_credentials():
         creator.create_user()
+
+
+def _prompt_login_password() -> tuple[str, str]:
+    login = logged_input("Login (usuario): ").strip()
+    password = logged_input("Password: ", redact=True).strip()
+    return login, password
+
+
+def user_action_retrieve():
+    login, password = _prompt_login_password()
+    status, body = retrieve_user_credentials(login, password)
+    print("\nStatus:", status)
+    print("Response:")
+    print(json.dumps(body, indent=2) if isinstance(body, dict) else body)
+
+
+def user_action_get_teams():
+    login, password = _prompt_login_password()
+    status, body = get_teams(login, password)
+    print("\nStatus:", status)
+    print("Response:")
+    print(json.dumps(body, indent=2) if isinstance(body, dict) else body)
+
+
+def user_action_set_default_team():
+    login, password = _prompt_login_password()
+    acct = logged_input("Account Number (team a definir por defecto): ").strip()
+    status, body = set_default_team(login, password, acct)
+    print("\nStatus:", status)
+    print("Response:")
+    print(json.dumps(body, indent=2) if isinstance(body, dict) else body)
 
 def view_api_map():
     """Muestra el mapa de la API"""
@@ -100,24 +137,14 @@ def reload_menu():
     
     # Recrear items del menú
     main_menu_items = [
-        MenuItem("Crear Usuario", create_user),
-        MenuItem("Certificados SSL/TLS", submenu=[
-            MenuItem("Basic SSL", lambda: print("🚧 En desarrollo...")),
-            MenuItem("Premium SSL", lambda: print("🚧 En desarrollo...")),
-            MenuItem("Enterprise EV", lambda: print("🚧 En desarrollo...")),
-            MenuItem("Wildcard SSL/TLS", lambda: print("🚧 En desarrollo...")),
-            MenuItem("Multi-domain (UCC/SAN)", lambda: print("🚧 En desarrollo...")),
+        MenuItem("Usuario", submenu=[
+            MenuItem("Crear Usuario", create_user),
+            MenuItem("Obtener credenciales API (/user/{login}/)", lambda: user_action_retrieve()),
+            MenuItem("Listar equipos (/users/get_teams)", lambda: user_action_get_teams()),
+            MenuItem("Definir equipo por defecto (/users/set_default_team)", lambda: user_action_set_default_team()),
         ]),
-        MenuItem("Code Signing", submenu=[
-            MenuItem("Standard Code Signing", lambda: print("🚧 En desarrollo...")),
-            MenuItem("EV Code Signing", lambda: print("🚧 En desarrollo...")),
-            MenuItem("Timestamp Service", lambda: print("🚧 En desarrollo...")),
-        ]),
-        MenuItem("Email & Client Auth", submenu=[
-            MenuItem("S/MIME (Secure Email)", lambda: print("🚧 En desarrollo...")),
-            MenuItem("Client Authentication", lambda: print("🚧 En desarrollo...")),
-            MenuItem("Document Signing", lambda: print("🚧 En desarrollo...")),
-        ]),
+        # Submenús de certificados y otros quedan ocultos por ahora para evitar ruido visual
+        # MenuItem("Certificados SSL/TLS", submenu=[ ... ]),
         MenuItem("Ver Mapa de API", view_api_map),
         MenuItem("Salir", lambda: sys.exit(0))
     ]
