@@ -114,7 +114,7 @@ export enum AUTH_TEXT {
 	DOMAIN_NOT_EMAIL = 'Business website must be a domain, not an email address.',
 	DOMAIN_INVALID_FORMAT = 'Invalid domain format. Please enter a valid domain like yourcompany.com',
 
-	SEND_RECOVERY_CODE = 'Please check your email inbox for the password recovery code.',
+	SEND_RECOVERY_CODE = 'Check your inbox!',
 	PASSWORD_UPDATED = 'Password successfully updated.',
 	FAILURE_PASSWORD_UPDATED = 'Unable to update the password. Please try generating a new recovery code.',
 }
