@@ -4,6 +4,7 @@ import os
 import time
 import msvcrt
 import winsound
+from pathlib import Path
 from menu import Menu, MenuItem
 from create_users import SSLUserCreator
 
@@ -46,9 +47,118 @@ def show_intro():
     RetroSounds.play_powerup()
     time.sleep(1)
 
+def reload_menu():
+    """Recarga y redibuja el menú"""
+    global main_menu_items  # Necesario para modificar la variable
+    
+    # Recrear items del menú
+    main_menu_items = [
+        MenuItem("Crear Usuario", create_user),
+        MenuItem("Certificados SSL/TLS", submenu=[
+            MenuItem("Basic SSL", lambda: print("🚧 En desarrollo...")),
+            MenuItem("Premium SSL", lambda: print("🚧 En desarrollo...")),
+            MenuItem("Enterprise EV", lambda: print("🚧 En desarrollo...")),
+            MenuItem("Wildcard SSL/TLS", lambda: print("🚧 En desarrollo...")),
+            MenuItem("Multi-domain (UCC/SAN)", lambda: print("🚧 En desarrollo...")),
+        ]),
+        MenuItem("Code Signing", submenu=[
+            MenuItem("Standard Code Signing", lambda: print("🚧 En desarrollo...")),
+            MenuItem("EV Code Signing", lambda: print("🚧 En desarrollo...")),
+            MenuItem("Timestamp Service", lambda: print("🚧 En desarrollo...")),
+        ]),
+        MenuItem("Email & Client Auth", submenu=[
+            MenuItem("S/MIME (Secure Email)", lambda: print("🚧 En desarrollo...")),
+            MenuItem("Client Authentication", lambda: print("🚧 En desarrollo...")),
+            MenuItem("Document Signing", lambda: print("🚧 En desarrollo...")),
+        ]),
+        MenuItem("Ver Mapa de API", view_api_map),
+        MenuItem("Salir", lambda: sys.exit(0))
+    ]
+    
+    # Limpiar pantalla y mostrar menú
+    os.system('cls')
+    menu = Menu("SSL.com Web Services (SWS) API", main_menu_items)
+    menu.display()
+
+def request_credentials():
+    """Solicita y valida credenciales"""
+    from auth import SSLAuth
+    auth = SSLAuth()
+    
+    # Intentar cargar credenciales existentes
+    creds = auth.load_credentials()
+    if creds:
+        account_key, secret_key = creds
+        print("\n🔑 Probando credenciales guardadas...")
+        valid, msg = auth.test_credentials(account_key, secret_key)
+        if valid:
+            print(msg)
+            return True
+        print(msg)
+    
+    # Solicitar nuevas credenciales
+    while True:
+        print("\n🔐 Ingrese sus credenciales de SSL.com:")
+        account_key = input("Account Key: ").strip()
+        secret_key = input("Secret Key: ").strip()
+        
+        if not account_key or not secret_key:
+            print("❌ Ambos campos son requeridos")
+            continue
+            
+        print("\n🔄 Verificando credenciales...")
+        valid, msg = auth.test_credentials(account_key, secret_key)
+        print(msg)
+        
+        if valid:
+            # Guardar credenciales válidas
+            auth.save_credentials(account_key, secret_key)
+            return True
+            
+        retry = input("\n¿Reintentar? (s/n): ").strip().lower()
+        if retry != 's':
+            return False
+
 def main():
-    show_intro()
-    msvcrt.getch()  # Esperar tecla
+    # Importar hot reload
+    from hot_reload import start_hot_reload
+    
+    # Módulos a monitorear (paths relativos al directorio del script)
+    script_dir = Path(__file__).parent
+    modules = {
+        'menu': str(script_dir / 'menu.py'),
+        'retro_sounds': str(script_dir / 'retro_sounds.py'),
+        'main': str(script_dir / 'main.py')
+    }
+    
+    # Iniciar hot reload
+    observer, reloader = start_hot_reload(modules, reload_menu)
+    
+    try:
+        # Mostrar intro
+        show_intro()
+        msvcrt.getch()  # Esperar tecla
+        
+        # Validar credenciales
+        if not request_credentials():
+            print("\n❌ No se pudo acceder sin credenciales válidas")
+            return
+            
+        RetroSounds.play_success()
+        print("\n✨ Acceso concedido!")
+        time.sleep(1)
+        
+        # Mostrar menú inicial
+        reload_menu()
+        
+        # Mantener proceso vivo
+        while True:
+            time.sleep(1)
+            
+    except KeyboardInterrupt:
+        observer.stop()
+    finally:
+        observer.join()
     
     # Menú principal
     main_menu_items = [
