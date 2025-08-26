@@ -201,8 +201,11 @@ jobs:
           
           if ($msiFiles) {
             foreach ($file in $msiFiles) {
+              # Convertir a ruta relativa desde el directorio de trabajo
+              $relativePath = ".\src-tauri\target\release\bundle\msi\$($file.Name)"
               Write-Host "  MSI: $($file.FullName)"
-              echo "MSI_FILE=$($file.FullName)" >> $env:GITHUB_ENV
+              Write-Host "  MSI (relative): $relativePath"
+              echo "MSI_FILE=$relativePath" >> $env:GITHUB_ENV
             }
           } else {
             Write-Host "  ⚠️ No se encontraron archivos MSI"
@@ -210,8 +213,11 @@ jobs:
           
           if ($nsisFiles) {
             foreach ($file in $nsisFiles) {
+              # Convertir a ruta relativa desde el directorio de trabajo
+              $relativePath = ".\src-tauri\target\release\bundle\nsis\$($file.Name)"
               Write-Host "  EXE: $($file.FullName)"
-              echo "EXE_FILE=$($file.FullName)" >> $env:GITHUB_ENV
+              Write-Host "  EXE (relative): $relativePath"
+              echo "EXE_FILE=$relativePath" >> $env:GITHUB_ENV
             }
           } else {
             Write-Host "  ⚠️ No se encontraron archivos EXE"
@@ -232,13 +238,19 @@ jobs:
         run: |
           Write-Host "🔍 Escaneando MSI: $env:MSI_FILE"
           
-          # Comando para escanear
+          # Verificar que el archivo existe antes del escaneo
+          if (-not (Test-Path "$env:MSI_FILE")) {
+            Write-Error "❌ Archivo MSI no encontrado: $env:MSI_FILE"
+            exit 1
+          }
+          
+          # Comando para escanear - escapar rutas con espacios
           $arguments = @(
             "scan_code",
-            "-credential_id", "$env:CREDENTIAL_ID",
-            "-input_file_path", "$env:MSI_FILE",
-            "-username", "$env:SSL_USERNAME",
-            "-password", "$env:SSL_PASSWORD"
+            "-credential_id", "`"$env:CREDENTIAL_ID`"",
+            "-input_file_path", "`"$env:MSI_FILE`"",
+            "-username", "`"$env:SSL_USERNAME`"",
+            "-password", "`"$env:SSL_PASSWORD`""
           )
           
           # Ejecutar escaneo
@@ -269,15 +281,15 @@ jobs:
         run: |
           Write-Host "🔐 Firmando MSI: $env:MSI_FILE"
           
-          # Comando para firmar
+          # Comando para firmar - escapar rutas con espacios
           $arguments = @(
             "sign",
-            "-credential_id", "$env:CREDENTIAL_ID",
-            "-input_file_path", "$env:MSI_FILE",
-            "-username", "$env:SSL_USERNAME",
-            "-password", "$env:SSL_PASSWORD",
-            "-output_dir_path", "$env:GITHUB_WORKSPACE\signed",
-            "-totp_secret", "$env:SSL_TOTP_SECRET"
+            "-credential_id", "`"$env:CREDENTIAL_ID`"",
+            "-input_file_path", "`"$env:MSI_FILE`"",
+            "-username", "`"$env:SSL_USERNAME`"",
+            "-password", "`"$env:SSL_PASSWORD`"",
+            "-output_dir_path", "`"$env:GITHUB_WORKSPACE\signed`"",
+            "-totp_secret", "`"$env:SSL_TOTP_SECRET`""
           )
           
           # Ejecutar firma
@@ -301,17 +313,24 @@ jobs:
         run: |
           Write-Host "🔍 Escaneando EXE: $env:EXE_FILE"
           
-          # Comando para escanear
+          # Verificar que el archivo existe antes del escaneo
+          if (-not (Test-Path "$env:EXE_FILE")) {
+            Write-Error "❌ Archivo EXE no encontrado: $env:EXE_FILE"
+            exit 1
+          }
+          
+          # Comando para escanear - escapar rutas con espacios
           $arguments = @(
             "scan_code",
-            "-credential_id", "$env:CREDENTIAL_ID",
-            "-input_file_path", "$env:EXE_FILE",
-            "-username", "$env:SSL_USERNAME",
-            "-password", "$env:SSL_PASSWORD"
+            "-credential_id", "`"$env:CREDENTIAL_ID`"",
+            "-input_file_path", "`"$env:EXE_FILE`"",
+            "-username", "`"$env:SSL_USERNAME`"",
+            "-password", "`"$env:SSL_PASSWORD`""
           )
           
           # Ejecutar escaneo
-          $scanOutput = & "${{ steps.setup-codesigntool.outputs.CODESIGNTOOL_BAT }}" @arguments 2>&1
+          $batPath = "${{ steps.setup-codesigntool.outputs.CODESIGNTOOL_BAT }}"
+          $scanOutput = & cmd.exe /c "`"$batPath`" $($arguments -join ' ')" 2>&1
           Write-Host "Resultado del escaneo: $scanOutput"
           
           if ($LASTEXITCODE -ne 0) {
@@ -337,19 +356,20 @@ jobs:
         run: |
           Write-Host "🔐 Firmando EXE: $env:EXE_FILE"
           
-          # Comando para firmar
+          # Comando para firmar - escapar rutas con espacios
           $arguments = @(
             "sign",
-            "-credential_id", "$env:CREDENTIAL_ID",
-            "-input_file_path", "$env:EXE_FILE",
-            "-username", "$env:SSL_USERNAME",
-            "-password", "$env:SSL_PASSWORD",
-            "-output_dir_path", "$env:GITHUB_WORKSPACE\signed",
-            "-totp_secret", "$env:SSL_TOTP_SECRET"
+            "-credential_id", "`"$env:CREDENTIAL_ID`"",
+            "-input_file_path", "`"$env:EXE_FILE`"",
+            "-username", "`"$env:SSL_USERNAME`"",
+            "-password", "`"$env:SSL_PASSWORD`"",
+            "-output_dir_path", "`"$env:GITHUB_WORKSPACE\signed`"",
+            "-totp_secret", "`"$env:SSL_TOTP_SECRET`""
           )
           
           # Ejecutar firma
-          & "${{ steps.setup-codesigntool.outputs.CODESIGNTOOL_BAT }}" @arguments
+          $batPath = "${{ steps.setup-codesigntool.outputs.CODESIGNTOOL_BAT }}"
+          & cmd.exe /c "`"$batPath`" $($arguments -join ' ')"
           
           if ($LASTEXITCODE -ne 0) {
             Write-Error "❌ Error al firmar EXE"
