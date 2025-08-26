@@ -416,10 +416,17 @@ jobs:
         run: |
           Write-Host "🔍 Verificando firmas digitales de los binarios finales..."
           
-          # Buscar todos los archivos finales en sus ubicaciones correctas (excluyendo .sig)
+          # Buscar primero en carpeta /signed (excluyendo .sig)
           $finalFiles = @()
-          $finalFiles += Get-ChildItem -Path ".\src-tauri\target\release\bundle\msi" -Filter "*.msi" -ErrorAction SilentlyContinue | Where-Object { $_.Name -notlike "*.sig" }
-          $finalFiles += Get-ChildItem -Path ".\src-tauri\target\release\bundle\nsis" -Filter "*.exe" -ErrorAction SilentlyContinue | Where-Object { $_.Name -notlike "*.sig" }
+          $signedFiles = Get-ChildItem -Path "$env:GITHUB_WORKSPACE\signed" -Include "*.msi", "*.exe" -Recurse -ErrorAction SilentlyContinue | Where-Object { $_.Name -notlike "*.sig" }
+          if ($signedFiles -and $signedFiles.Count -gt 0) {
+            Write-Host "📁 Usando archivos firmados desde: $env:GITHUB_WORKSPACE\signed"
+            $finalFiles = $signedFiles
+          } else {
+            Write-Host "ℹ️ No hay archivos en /signed, verificando en ubicaciones originales"
+            $finalFiles += Get-ChildItem -Path ".\src-tauri\target\release\bundle\msi" -Filter "*.msi" -ErrorAction SilentlyContinue | Where-Object { $_.Name -notlike "*.sig" }
+            $finalFiles += Get-ChildItem -Path ".\src-tauri\target\release\bundle\nsis" -Filter "*.exe" -ErrorAction SilentlyContinue | Where-Object { $_.Name -notlike "*.sig" }
+          }
           
           if ($finalFiles.Count -eq 0) {
             Write-Error "❌ No se encontraron archivos finales para verificar"
