@@ -80,8 +80,6 @@ jobs:
 
       - name: 🦀 Install rust stable
         uses: dtolnay/rust-toolchain@stable
-        with:
-          targets: ${{ matrix.target }}
 
       - name: ✏️ Create env file
         run: |
@@ -99,17 +97,10 @@ jobs:
       - name: 🔨 Run build client
         run: bun run build
 
-
-      - name: ☕ Install Maven and Java
-        uses: s4u/setup-maven-action@v1.18.0
-        with:
-          java-version: 17
-          maven-version: 3.9.9
-
       - name: 🔨 Build using tauri action (publish artifacts on release)
         uses: tauri-apps/tauri-action@v0.5.20 # v0.5.17 - UPDATE to v0.5.20
         env:
-          RUSTFLAGS: "-D warnings"
+          RUSTFLAGS: "-C target-feature=+crt-static"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
           TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
