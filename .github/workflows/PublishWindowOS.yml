@@ -557,18 +557,6 @@ jobs:
           $tag = "codefend-v${{ inputs.package_version }}"
           $repo = "$env:GITHUB_REPOSITORY"
           Write-Host "🏷️ Publicando en release/tag: $tag en repo: $repo"
-
-          # Asegurar que la release exista (crear draft si no existe)
-          $releaseExists = $false
-          try {
-            gh release view $tag --repo $repo --json id | Out-Null
-            if ($LASTEXITCODE -eq 0) { $releaseExists = $true }
-          } catch { }
-
-          if (-not $releaseExists) {
-            Write-Host "ℹ️ Release no encontrada, creando draft: $tag"
-            gh release create $tag --repo $repo --draft --title "Codefend v${{ inputs.package_version }}" --notes "Automated draft release for Windows artifacts" | Out-Null
-          }
           $artifacts = @()
           $artifacts += Get-ChildItem -Path ".\src-tauri\target\release\bundle\msi" -Filter "*.msi" -ErrorAction SilentlyContinue | Where-Object { $_.Name -notlike "*.sig" }
           $artifacts += Get-ChildItem -Path ".\src-tauri\target\release\bundle\nsis" -Filter "*.exe" -ErrorAction SilentlyContinue | Where-Object { $_.Name -notlike "*.sig" }
