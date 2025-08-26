@@ -110,7 +110,6 @@ jobs:
           TAURI_BUNDLE_VERSION: ${{ inputs.package_version }}
         with:
           args: '--verbose'
-          bundler: ${{ matrix.settings.bundles }}
           
       - name: 📥 Download and Setup CodeSignTool
         id: setup-codesigntool
