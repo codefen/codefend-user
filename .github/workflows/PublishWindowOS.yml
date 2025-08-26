@@ -187,22 +187,38 @@ jobs:
           # Crear directorio para archivos firmados
           New-Item -ItemType Directory -Force -Path "$env:GITHUB_WORKSPACE\signed"
           
-          # Buscar archivos generados por Tauri
-          $msiFiles = Get-ChildItem -Path ".\src-tauri\target\release\bundle\msi" -Filter "*.msi" -ErrorAction SilentlyContinue
-          $nsisFiles = Get-ChildItem -Path ".\src-tauri\target\release\bundle\nsis" -Filter "*.exe" -ErrorAction SilentlyContinue
+          # Buscar archivos generados por Tauri (excluyendo archivos .sig)
+          $msiFiles = Get-ChildItem -Path ".\src-tauri\target\release\bundle\msi" -Filter "*.msi" -ErrorAction SilentlyContinue | Where-Object { $_.Name -notlike "*.sig" }
+          $nsisFiles = Get-ChildItem -Path ".\src-tauri\target\release\bundle\nsis" -Filter "*setup.exe" -ErrorAction SilentlyContinue | Where-Object { $_.Name -notlike "*.sig" }
+          
+          # También buscar cualquier .exe que no sea .sig
+          if (-not $nsisFiles) {
+            $nsisFiles = Get-ChildItem -Path ".\src-tauri\target\release\bundle\nsis" -Filter "*.exe" -ErrorAction SilentlyContinue | Where-Object { $_.Name -notlike "*.sig" }
+          }
           
           Write-Host "📝 Archivos encontrados para firmar:"
+          Write-Host "📁 Buscando en: $(Resolve-Path '.\src-tauri\target\release\bundle')"
+          
           if ($msiFiles) {
             foreach ($file in $msiFiles) {
               Write-Host "  MSI: $($file.FullName)"
               echo "MSI_FILE=$($file.FullName)" >> $env:GITHUB_ENV
             }
+          } else {
+            Write-Host "  ⚠️ No se encontraron archivos MSI"
           }
           
           if ($nsisFiles) {
             foreach ($file in $nsisFiles) {
               Write-Host "  EXE: $($file.FullName)"
               echo "EXE_FILE=$($file.FullName)" >> $env:GITHUB_ENV
+            }
+          } else {
+            Write-Host "  ⚠️ No se encontraron archivos EXE"
+            # Listar todos los archivos en el directorio para debug
+            Write-Host "📋 Contenido del directorio nsis:"
+            Get-ChildItem -Path ".\src-tauri\target\release\bundle\nsis" -ErrorAction SilentlyContinue | ForEach-Object {
+              Write-Host "    $($_.Name)"
             }
           }
 
@@ -347,10 +363,10 @@ jobs:
         run: |
           Write-Host "🔍 Verificando firmas digitales de los binarios finales..."
           
-          # Buscar todos los archivos finales en sus ubicaciones correctas
+          # Buscar todos los archivos finales en sus ubicaciones correctas (excluyendo .sig)
           $finalFiles = @()
-          $finalFiles += Get-ChildItem -Path ".\src-tauri\target\release\bundle\msi" -Filter "*.msi" -ErrorAction SilentlyContinue
-          $finalFiles += Get-ChildItem -Path ".\src-tauri\target\release\bundle\nsis" -Filter "*.exe" -ErrorAction SilentlyContinue
+          $finalFiles += Get-ChildItem -Path ".\src-tauri\target\release\bundle\msi" -Filter "*.msi" -ErrorAction SilentlyContinue | Where-Object { $_.Name -notlike "*.sig" }
+          $finalFiles += Get-ChildItem -Path ".\src-tauri\target\release\bundle\nsis" -Filter "*.exe" -ErrorAction SilentlyContinue | Where-Object { $_.Name -notlike "*.sig" }
           
           if ($finalFiles.Count -eq 0) {
             Write-Error "❌ No se encontraron archivos finales para verificar"
@@ -424,8 +440,8 @@ jobs:
         run: |
           Write-Host "📂 Gestionando archivos firmados..."
           
-          # Verificar archivos en carpeta /signed
-          $signedFiles = Get-ChildItem -Path "$env:GITHUB_WORKSPACE\signed" -Include "*.exe", "*.msi" -Recurse -ErrorAction SilentlyContinue
+          # Verificar archivos en carpeta /signed (excluyendo archivos .sig)
+          $signedFiles = Get-ChildItem -Path "$env:GITHUB_WORKSPACE\signed" -Include "*.exe", "*.msi" -Recurse -ErrorAction SilentlyContinue | Where-Object { $_.Name -notlike "*.sig" }
           
           if ($signedFiles.Count -gt 0) {
             Write-Host "✅ Encontrados $($signedFiles.Count) archivos firmados en carpeta /signed"
@@ -476,10 +492,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         shell: pwsh
         run: |
-          # Buscar archivos firmados en sus ubicaciones finales
+          # Buscar archivos firmados en sus ubicaciones finales (excluyendo .sig)
           $artifacts = @()
-          $artifacts += Get-ChildItem -Path ".\src-tauri\target\release\bundle\msi" -Filter "*.msi" -ErrorAction SilentlyContinue
-          $artifacts += Get-ChildItem -Path ".\src-tauri\target\release\bundle\nsis" -Filter "*.exe" -ErrorAction SilentlyContinue
+          $artifacts += Get-ChildItem -Path ".\src-tauri\target\release\bundle\msi" -Filter "*.msi" -ErrorAction SilentlyContinue | Where-Object { $_.Name -notlike "*.sig" }
+          $artifacts += Get-ChildItem -Path ".\src-tauri\target\release\bundle\nsis" -Filter "*.exe" -ErrorAction SilentlyContinue | Where-Object { $_.Name -notlike "*.sig" }
           
           foreach ($artifact in $artifacts) {
             if (Test-Path $artifact.FullName) {
@@ -503,8 +519,8 @@ jobs:
         id: extract-signatures
         shell: pwsh
         run: |
-          # Generar hash SHA256 del MSI firmado
-          $msiFile = Get-ChildItem -Path ".\src-tauri\target\release\bundle\msi" -Filter "*.msi" | Select-Object -First 1
+          # Generar hash SHA256 del MSI firmado (excluyendo .sig)
+          $msiFile = Get-ChildItem -Path ".\src-tauri\target\release\bundle\msi" -Filter "*.msi" -ErrorAction SilentlyContinue | Where-Object { $_.Name -notlike "*.sig" } | Select-Object -First 1
           
           if ($msiFile) {
             $hash = (Get-FileHash -Path $msiFile.FullName -Algorithm SHA256).Hash
