@@ -550,9 +550,25 @@ jobs:
         if: inputs.release_id != ''
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         shell: pwsh
         run: |
           # Buscar archivos firmados en sus ubicaciones finales (excluyendo .sig)
+          $tag = "codefend-v${{ inputs.package_version }}"
+          $repo = "$env:GITHUB_REPOSITORY"
+          Write-Host "🏷️ Publicando en release/tag: $tag en repo: $repo"
+
+          # Asegurar que la release exista (crear draft si no existe)
+          $releaseExists = $false
+          try {
+            gh release view $tag --repo $repo --json id | Out-Null
+            if ($LASTEXITCODE -eq 0) { $releaseExists = $true }
+          } catch { }
+
+          if (-not $releaseExists) {
+            Write-Host "ℹ️ Release no encontrada, creando draft: $tag"
+            gh release create $tag --repo $repo --draft --title "Codefend v${{ inputs.package_version }}" --notes "Automated draft release for Windows artifacts" | Out-Null
+          }
           $artifacts = @()
           $artifacts += Get-ChildItem -Path ".\src-tauri\target\release\bundle\msi" -Filter "*.msi" -ErrorAction SilentlyContinue | Where-Object { $_.Name -notlike "*.sig" }
           $artifacts += Get-ChildItem -Path ".\src-tauri\target\release\bundle\nsis" -Filter "*.exe" -ErrorAction SilentlyContinue | Where-Object { $_.Name -notlike "*.sig" }
@@ -560,7 +576,7 @@ jobs:
           foreach ($artifact in $artifacts) {
             if (Test-Path $artifact.FullName) {
               Write-Host "📤 Subiendo a release: $($artifact.Name)"
-              gh release upload ${{ inputs.release_id }} $artifact.FullName --clobber
+              gh release upload $tag $artifact.FullName --repo $repo --clobber
             }
           }
 
@@ -579,16 +595,36 @@ jobs:
         id: extract-signatures
         shell: pwsh
         run: |
-          # Generar hash SHA256 del MSI firmado (excluyendo .sig)
+          # Seleccionar artefacto principal (MSI preferido; si no, EXE)
           $msiFile = Get-ChildItem -Path ".\src-tauri\target\release\bundle\msi" -Filter "*.msi" -ErrorAction SilentlyContinue | Where-Object { $_.Name -notlike "*.sig" } | Select-Object -First 1
-          
-          if ($msiFile) {
-            $hash = (Get-FileHash -Path $msiFile.FullName -Algorithm SHA256).Hash
-            echo "windows_x86_64_sig=$hash" >> $env:GITHUB_OUTPUT
-            echo "windows_x86_64_name=$($msiFile.Name)" >> $env:GITHUB_OUTPUT
-            
-            Write-Host "📊 Signature hash: $hash"
-            Write-Host "📦 Package name: $($msiFile.Name)"
+          $exeFile = Get-ChildItem -Path ".\src-tauri\target\release\bundle\nsis" -Filter "*.exe" -ErrorAction SilentlyContinue | Where-Object { $_.Name -notlike "*.sig" } | Select-Object -First 1
+          $artifact = $msiFile
+          if (-not $artifact) { $artifact = $exeFile }
+
+          if ($artifact) {
+            $sigFile = "$($artifact.FullName).sig"
+            if (-not (Test-Path $sigFile)) {
+              if ($artifact.Extension -ieq ".msi") {
+                $sigAlt = Join-Path $artifact.DirectoryName "$(Split-Path $artifact.FullName -Leaf).zip.sig" -Resolve -ErrorAction SilentlyContinue
+                if ($sigAlt) { $sigFile = $sigAlt }
+              }
+            }
+
+            $signature = $null
+            if (Test-Path $sigFile) {
+              $signature = (Get-Content -Raw -Path $sigFile).Trim()
+            } else {
+              Write-Warning "No se encontró archivo .sig, usando SHA256 como fallback"
+              $signature = (Get-FileHash -Path $artifact.FullName -Algorithm SHA256).Hash
+            }
+
+            echo "windows_x86_64_sig=$signature" >> $env:GITHUB_OUTPUT
+            echo "windows_x86_64_name=$($artifact.Name)" >> $env:GITHUB_OUTPUT
+
+            Write-Host "📦 Package name: $($artifact.Name)"
+            Write-Host "🖊️ Signature (trunc): $($signature.Substring(0, [Math]::Min(16, $signature.Length)))..."
+          } else {
+            Write-Warning "No se encontró artefacto MSI o EXE para extraer firma"
           }
 
       # ============= LIMPIAR ARCHIVOS TEMPORALES =============
