@@ -39,17 +39,31 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const { data } = await github.rest.repos.createRelease({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              tag_name: `codefend-v${{ steps.get-version.outputs.VERSION }}`,
-              name: `Codefend v${{ steps.get-version.outputs.VERSION }}`,
-              body: "What's new? 🎉📣",
-              draft: true,
-              prerelease: false
-            });
-            core.setOutput('release_id', data.id);
-            core.setOutput('release_upload_url', data.upload_url);
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const tag = `codefend-v${{ steps.get-version.outputs.VERSION }}`;
+            try {
+              const { data } = await github.rest.repos.createRelease({
+                owner,
+                repo,
+                tag_name: tag,
+                name: `Codefend v${{ steps.get-version.outputs.VERSION }}`,
+                body: "What's new? 🎉📣",
+                draft: true,
+                prerelease: false
+              });
+              core.setOutput('release_id', data.id);
+              core.setOutput('release_upload_url', data.upload_url);
+            } catch (e) {
+              if (e.status === 422) {
+                // Release with this tag already exists – reuse it
+                const { data } = await github.rest.repos.getReleaseByTag({ owner, repo, tag });
+                core.setOutput('release_id', data.id);
+                core.setOutput('release_upload_url', data.upload_url);
+              } else {
+                throw e;
+              }
+            }
 
   build_linux:
     needs: [createRelease]
@@ -157,10 +171,30 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            github.rest.repos.updateRelease({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              release_id: ${{ needs.createRelease.outputs.release_id }},
-              draft: false,
-              prerelease: false
-            })
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const tag = `codefend-v${{ needs.createRelease.outputs.package_version }}`;
+            const releaseId = ${{ needs.createRelease.outputs.release_id }};
+            try {
+              await github.rest.repos.updateRelease({
+                owner,
+                repo,
+                release_id: releaseId,
+                draft: false,
+                prerelease: false
+              });
+            } catch (e) {
+              if (e.status === 422) {
+                // Fallback: find by tag and publish
+                const { data } = await github.rest.repos.getReleaseByTag({ owner, repo, tag });
+                await github.rest.repos.updateRelease({
+                  owner,
+                  repo,
+                  release_id: data.id,
+                  draft: false,
+                  prerelease: false
+                });
+              } else {
+                throw e;
+              }
+            }
