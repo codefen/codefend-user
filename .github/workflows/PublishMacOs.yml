@@ -92,8 +92,8 @@ jobs:
           echo "VITE_DEBUG=false" >> .env
           echo "VITE_APP_ENV=production" >> .env
 
-      - name: 🔨 Run build client
-        run: bun run build
+      # - name: 🔨 Run build client
+      #   run: bun run build
 
       - name: 📥 Cached install leptosfmt
         uses: taiki-e/cache-cargo-install-action@caa6f48d18d42462f9c30df89e2b4f71a42b7c2c # v2.0.1

@@ -94,8 +94,8 @@ jobs:
           echo "VITE_DEBUG=false" >> .env
           echo "VITE_APP_ENV=production" >> .env
 
-      - name: 🔨 Run build client
-        run: bun run build
+      # - name: 🔨 Run build client
+      #   run: bun run build
 
       - name: 🔨 Build using tauri action (publish artifacts on release)
         uses: tauri-apps/tauri-action@v0.5.20 # v0.5.17 - UPDATE to v0.5.20
@@ -108,7 +108,13 @@ jobs:
           TAURI_BUNDLE_VERSION: ${{ inputs.package_version }}
         with:
           args: '--verbose'
-          
+
+      - name: ☕ Setup Java 17 (Temurin)
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
       - name: 📥 Download and Setup CodeSignTool
         id: setup-codesigntool
         shell: pwsh
@@ -167,6 +173,7 @@ jobs:
           # Obtener el directorio del bat file para verificar estructura
           $batDir = Split-Path -Parent $batFile
           Write-Host "📁 Directorio del bat file: $batDir"
+          echo "CODESIGNTOOL_DIR=$batDir" >> $env:GITHUB_OUTPUT
             
           # Listar contenido del directorio
           Write-Host "📋 Archivos en el directorio:"
@@ -205,7 +212,8 @@ jobs:
               $relativePath = ".\src-tauri\target\release\bundle\msi\$($file.Name)"
               Write-Host "  MSI: $($file.FullName)"
               Write-Host "  MSI (relative): $relativePath"
-              echo "MSI_FILE=$relativePath" >> $env:GITHUB_ENV
+              # Exportar ruta ABSOLUTA para evitar problemas de cwd
+              echo "MSI_FILE=$($file.FullName)" >> $env:GITHUB_ENV
             }
           } else {
             Write-Host "  ⚠️ No se encontraron archivos MSI"
@@ -217,7 +225,8 @@ jobs:
               $relativePath = ".\src-tauri\target\release\bundle\nsis\$($file.Name)"
               Write-Host "  EXE: $($file.FullName)"
               Write-Host "  EXE (relative): $relativePath"
-              echo "EXE_FILE=$relativePath" >> $env:GITHUB_ENV
+              # Exportar ruta ABSOLUTA para evitar problemas de cwd
+              echo "EXE_FILE=$($file.FullName)" >> $env:GITHUB_ENV
             }
           } else {
             Write-Host "  ⚠️ No se encontraron archivos EXE"
@@ -255,7 +264,13 @@ jobs:
           
           # Ejecutar escaneo
           $batPath = "${{ steps.setup-codesigntool.outputs.CODESIGNTOOL_BAT }}"
-          $scanOutput = & cmd.exe /c "`"$batPath`" $($arguments -join ' ')" 2>&1
+          $batDir = Split-Path -Parent $batPath
+          Push-Location $batDir
+          try {
+            $scanOutput = & cmd.exe /c "`"CodeSignTool.bat`" $($arguments -join ' ')" 2>&1
+          } finally {
+            Pop-Location
+          }
           Write-Host "Resultado del escaneo: $scanOutput"
           
           if ($LASTEXITCODE -ne 0) {
@@ -294,7 +309,13 @@ jobs:
           
           # Ejecutar firma
           $batPath = "${{ steps.setup-codesigntool.outputs.CODESIGNTOOL_BAT }}"
-          & cmd.exe /c "`"$batPath`" $($arguments -join ' ')"
+          $batDir = Split-Path -Parent $batPath
+          Push-Location $batDir
+          try {
+            & cmd.exe /c "`"CodeSignTool.bat`" $($arguments -join ' ')"
+          } finally {
+            Pop-Location
+          }
           
           if ($LASTEXITCODE -ne 0) {
             Write-Error "❌ Error al firmar MSI"
@@ -330,7 +351,13 @@ jobs:
           
           # Ejecutar escaneo
           $batPath = "${{ steps.setup-codesigntool.outputs.CODESIGNTOOL_BAT }}"
-          $scanOutput = & cmd.exe /c "`"$batPath`" $($arguments -join ' ')" 2>&1
+          $batDir = Split-Path -Parent $batPath
+          Push-Location $batDir
+          try {
+            $scanOutput = & cmd.exe /c "`"CodeSignTool.bat`" $($arguments -join ' ')" 2>&1
+          } finally {
+            Pop-Location
+          }
           Write-Host "Resultado del escaneo: $scanOutput"
           
           if ($LASTEXITCODE -ne 0) {
@@ -349,7 +376,7 @@ jobs:
         if: env.EXE_FILE != ''
         shell: pwsh
         env:
-          SSL_USERNAME: ${{ secrets.SSLCOM_USE_ESIGNER }}
+          SSL_USERNAME: ${{ secrets.SSLCOM_USERNAME }}
           SSL_PASSWORD: ${{ secrets.SSLCOM_PASSWORD }}
           CREDENTIAL_ID: ${{ secrets.SSLCOM_CREDENTIAL_ID }}
           SSL_TOTP_SECRET: ${{ secrets.SSLCOM_TOTP_SECRET }}
@@ -369,7 +396,13 @@ jobs:
           
           # Ejecutar firma
           $batPath = "${{ steps.setup-codesigntool.outputs.CODESIGNTOOL_BAT }}"
-          & cmd.exe /c "`"$batPath`" $($arguments -join ' ')"
+          $batDir = Split-Path -Parent $batPath
+          Push-Location $batDir
+          try {
+            & cmd.exe /c "`"CodeSignTool.bat`" $($arguments -join ' ')"
+          } finally {
+            Pop-Location
+          }
           
           if ($LASTEXITCODE -ne 0) {
             Write-Error "❌ Error al firmar EXE"
