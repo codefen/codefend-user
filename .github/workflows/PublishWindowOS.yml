@@ -71,6 +71,13 @@ jobs:
             core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
             core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
 
+      - name: 🔧 Install system dependencies
+        run: |
+          echo "VCPKG_ROOT=$env:VCPKG_INSTALLATION_ROOT" | Out-File -FilePath $env:GITHUB_ENV -Append
+          choco install wget -y
+        env:
+          VCPKG_BINARY_SOURCES: "clear;x-gha,readwrite"
+
       - name: 🦀 Install rust stable
         uses: dtolnay/rust-toolchain@stable
         with:
