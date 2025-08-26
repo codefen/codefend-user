@@ -109,8 +109,9 @@ jobs:
           TAURI_BUNDLE_IDENTIFIER: "com.codefend.app"
           TAURI_BUNDLE_VERSION: ${{ inputs.package_version }}
         with:
-          releaseId: ${{ inputs.release_id }}
           args: '--verbose'
+          bundler: ${{ matrix.settings.bundles }}
+          buildScript: 'bun tauri'
           
       - name: 📥 Download and Setup CodeSignTool
         id: setup-codesigntool
