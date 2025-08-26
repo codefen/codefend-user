@@ -102,7 +102,7 @@ jobs:
       - name: 🔨 Build using tauri action (publish artifacts on release)
         uses: tauri-apps/tauri-action@v0.5.20 # v0.5.17 - UPDATE to v0.5.20
         env:
-          RUSTFLAGS: "-C target-feature=+crt-static"
+          RUSTFLAGS: "-D warnings"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
           TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
@@ -111,7 +111,6 @@ jobs:
         with:
           args: '--verbose'
           bundler: ${{ matrix.settings.bundles }}
-          buildScript: 'bun tauri'
           
       - name: 📥 Download and Setup CodeSignTool
         id: setup-codesigntool
