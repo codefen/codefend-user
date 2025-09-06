@@ -54,7 +54,7 @@ fn open_devtools_for_main(app: tauri::AppHandle) -> Result<(), String> {
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     let builder = tauri::Builder::default()
-        .plugin(tauri_plugin_updater::Builder::new().build())
+        .plugin(tauri_plugin_updater::Builder::new().pubkey("dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEQxRDdEODQyRjlBNDUxNzYKUldSMlVhVDVRdGpYMFV4Nkd5UmxXcnlsU05qUkVoVFZkNURDWlBFYmY0cWVwYmFpSEp4SXhIN2UK").build())
         .plugin(tauri_plugin_shell::init())
         .plugin(tauri_plugin_os::init())
         .plugin(tauri_plugin_dialog::init())
