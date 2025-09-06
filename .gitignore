@@ -42,3 +42,4 @@ tauri.ke.pub
 **/credentials.py
 **/secrets.py
 scripts/ssl_api/llaves.py
+latestjson.json

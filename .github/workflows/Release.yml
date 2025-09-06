@@ -110,48 +110,77 @@ jobs:
         with:
           node-version: 20
 
-      - name: 📜 Create Update Manifest Script
-        run: |
-          package_version="${{ needs.createRelease.outputs.package_version }}"
-          pub_date=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+      - name: 📜 Create Update Manifest from Release Assets
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const version = '${{ needs.createRelease.outputs.package_version }}';
+            const tag = `codefend-v${version}`;
 
-          read_signature() {
-            local file="$1"
-            if [[ ! -f "$file" ]]; then
-              echo "Error: File $file not found" >&2
-              exit 1
-            fi
-            tr -d '\n' < "$file" | xargs
-          }
+            const { data: release } = await github.rest.repos.getReleaseByTag({ owner, repo, tag });
+            const assets = release.assets || [];
 
-          cat > latest.json << EOL
-          {
-            "version": "${package_version}",
-            "notes": "Codefend Panel ${package_version} release",
-            "pub_date": "${pub_date}",
-            "platforms": {
-              "darwin-aarch64": {
-                "signature": "${{ needs.build_macos.outputs.macos_aarch64_sig }}",
-                "url": "https://github.com/codefen/codefend-user/releases/download/codefend-v${package_version}/${{ needs.build_macos.outputs.macos_aarch64_name }}"
-              },
-              "darwin-x86_64": {
-                "signature": "${{ needs.build_macos.outputs.macos_x86_64_sig }}",
-                "url": "https://github.com/codefen/codefend-user/releases/download/codefend-v${package_version}/${{ needs.build_macos.outputs.macos_x86_64_name }}"
-              },
-              "linux-x86_64": {
-                "signature": "${{ needs.build_linux.outputs.linux_x86_64_sig }}",
-                "url": "https://github.com/codefen/codefend-user/releases/download/codefend-v${package_version}/${{ needs.build_linux.outputs.linux_x86_64_name }}"
-              },
-              "windows-x86_64": {
-                "signature": "${{ needs.build_windows.outputs.windows_x86_64_sig }}",
-                "url": "https://github.com/codefen/codefend-user/releases/download/codefend-v${package_version}/${{ needs.build_windows.outputs.windows_x86_64_name }}"
-              }
+            const find = (re) => assets.find(a => re.test(a.name));
+            const urlOf = (asset) => `https://github.com/${owner}/${repo}/releases/download/${tag}/${asset.name}`;
+            const sigContent = async (asset) => {
+              const res = await github.request('GET ' + asset.url, { headers: { accept: 'application/octet-stream' } });
+              return Buffer.from(res.data).toString('utf8').trim();
+            };
+
+            // Match assets by extension and arch hints in the name
+            const win = find(/x64-setup\.exe$/i);
+            const winSig = find(/x64-setup\.exe\.sig$/i);
+
+            const lin = find(/(amd64|x86_64)\.(AppImage|deb|rpm|tar\.gz)$/i);
+            const linSig = find(/(amd64|x86_64)\.(AppImage|deb|rpm|tar\.gz)\.sig$/i);
+
+            const macArm = find(/(aarch64|arm64).*\.(dmg|tar\.gz)$/i);
+            const macArmSig = find(/(aarch64|arm64).*\.(dmg|tar\.gz)\.sig$/i);
+            const macX64 = find(/(x86_64|x64).*\.(dmg|tar\.gz)$/i);
+            const macX64Sig = find(/(x86_64|x64).*\.(dmg|tar\.gz)\.sig$/i);
+
+            const latest = {
+              version,
+              notes: `Codefend Panel ${version} release`,
+              pub_date: new Date().toISOString(),
+              platforms: {}
+            };
+
+            if (macArm && macArmSig) {
+              latest.platforms['darwin-aarch64'] = {
+                signature: await sigContent(macArmSig),
+                url: urlOf(macArm)
+              };
             }
-          }
-          EOL
+            if (macX64 && macX64Sig) {
+              latest.platforms['darwin-x86_64'] = {
+                signature: await sigContent(macX64Sig),
+                url: urlOf(macX64)
+              };
+            }
+            if (lin && linSig) {
+              latest.platforms['linux-x86_64'] = {
+                signature: await sigContent(linSig),
+                url: urlOf(lin)
+              };
+            }
+            if (win && winSig) {
+              latest.platforms['windows-x86_64'] = {
+                signature: await sigContent(winSig),
+                url: urlOf(win)
+              };
+            }
 
-          echo "Update manifest generated successfully:"
-          cat latest.json
+            if (!Object.keys(latest.platforms).length) {
+              core.setFailed('No platforms found to include in latest.json');
+              return;
+            }
+
+            const fs = require('fs');
+            fs.writeFileSync('latest.json', JSON.stringify(latest, null, 2));
+            core.info('latest.json generated from release assets');
 
       - name: 📤 Commit and Push to a new branch
         env:
