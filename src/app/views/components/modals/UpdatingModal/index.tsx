@@ -16,7 +16,13 @@ export const UpdatingModal = () => {
   const startUpdate = async () => {
     console.log('startUpdate - 1');
     try {
-      return await updateState.update?.downloadAndInstall(event => {
+      if (!updateState.update) {
+        throw new Error('No update payload available');
+      }
+
+      let finished = false;
+
+      await updateState.update.downloadAndInstall(event => {
         console.log('event', event);
         console.log('event?.event', event?.event);
         console.log('event?.data', (event as any)?.data);
@@ -36,14 +42,18 @@ export const UpdatingModal = () => {
           }
           case 'Finished': {
             setProgress(100);
+            finished = true;
             break;
           }
         }
       });
+
+      return { finished };
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Unknown update error';
       setHasError(message);
       console.error('Updater error:', err);
+      throw err;
     }
   };
 
@@ -60,7 +70,11 @@ export const UpdatingModal = () => {
     setHasError(null);
 
     startUpdate()
-      .then(() => {
+      .then(({ finished }) => {
+        if (!finished) {
+          isStartingRef.current = false;
+          return;
+        }
         // Hide modals/state before relaunching
         setHas(false);
         setAccept(false);

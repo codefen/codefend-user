@@ -20,8 +20,9 @@ export const AppWrapper = ({ children }: PropsWithChildren) => {
       if (!updateState.reject && !updateState.accept && !updateState.has) {
         check().then(update => {
           if (!!update && update.available) {
-            setHas(true);
+            // Ensure update object is set before opening the modal
             setUpdate(update);
+            setHas(true);
           }
         });
       }
