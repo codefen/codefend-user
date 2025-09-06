@@ -8,9 +8,8 @@ extern crate objc;
 use tauri::{
     Emitter, LogicalSize, Manager, PhysicalPosition, Position, WebviewUrl, WebviewWindowBuilder,
 };
-use tauri_plugin_log::Target;
-use tauri_plugin_log::TargetKind;
 use tauri_plugin_window_state::StateFlags;
+use tauri_plugin_devtools::init as devtools_init;
 
 #[tauri::command]
 fn create_main_window(app: tauri::AppHandle) -> Result<(), tauri::Error> {
@@ -42,9 +41,19 @@ fn create_main_window(app: tauri::AppHandle) -> Result<(), tauri::Error> {
     Ok(())
 }
 
+#[tauri::command]
+fn open_devtools_for_main(app: tauri::AppHandle) -> Result<(), String> {
+    if let Some(win) = app.get_webview_window("main") {
+        win.open_devtools();
+        Ok(())
+    } else {
+        Err("main window not found".into())
+    }
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
-    let builder = tauri::Builder::default()
+    let  builder = tauri::Builder::default()
         .plugin(tauri_plugin_updater::Builder::new().build())
         .plugin(tauri_plugin_shell::init())
         .plugin(tauri_plugin_os::init())
@@ -53,6 +62,7 @@ pub fn run() {
         .plugin(tauri_plugin_notification::init())
         .plugin(tauri_plugin_fs::init())
         .plugin(tauri_plugin_http::init())
+        .plugin(devtools_init())
         .plugin(
             tauri_plugin_window_state::Builder::default()
                 .with_state_flags(StateFlags::all())
@@ -62,21 +72,10 @@ pub fn run() {
         .plugin(tauri_plugin_process::init());
 
     builder
+        .invoke_handler(tauri::generate_handler![open_devtools_for_main])
         .setup(|#[allow(unused_variables)] app| {
             #[cfg(desktop)]
             {
-                #[cfg(desktop)]
-                if cfg!(debug_assertions) {
-                    app.handle().plugin(
-                        tauri_plugin_log::Builder::default()
-                            .targets([
-                                Target::new(TargetKind::LogDir { file_name: None }),
-                                Target::new(TargetKind::Stdout),
-                            ])
-                            .level(log::LevelFilter::Info)
-                            .build(),
-                    )?;
-                }
                 create_main_window(app.handle().clone())?;
 
                 app.handle().emit("window-ready", ()).unwrap();

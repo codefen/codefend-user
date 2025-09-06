@@ -1,6 +1,6 @@
 import ModalWrapper from '@modals/modalwrapper/ModalWrapper';
 import scss from './updating.module.scss';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { RUNNING_DESKTOP } from '@utils/helper';
 import { relaunch } from '@tauri-apps/plugin-process';
 import { useUploadingStore } from '@stores/updating.store';
@@ -10,34 +10,66 @@ export const UpdatingModal = () => {
   const [progress, setProgress] = useState(0);
   const [totalSize, setTotalSize] = useState(0);
   const [downloaded, setDownloaded] = useState(0);
+  const [hasError, setHasError] = useState<string | null>(null);
+  const isStartingRef = useRef(false);
 
   const startUpdate = async () => {
-    return updateState.update?.downloadAndInstall(event => {
-      switch (event.event) {
-        case 'Started':
-          const size = event.data?.contentLength ?? 0;
-          setTotalSize(size);
-          break;
-        case 'Progress':
-          const chunkLength = event.data?.chunkLength ?? 0;
-          setDownloaded(prev => prev + chunkLength);
-          break;
-        case 'Finished':
-          setProgress(100);
-          setHas(true);
-          setAccept(false);
-          setReject(false);
-          break;
-      }
-    });
+    console.log('startUpdate - 1');
+    try {
+      return await updateState.update?.downloadAndInstall(event => {
+        console.log('event', event);
+        console.log('event?.event', event?.event);
+        console.log('event?.data', (event as any)?.data);
+        switch (event?.event) {
+          case 'Started': {
+            const size = event.data?.contentLength ?? 0;
+            setTotalSize(size);
+            setDownloaded(0);
+            setProgress(0);
+            setHasError(null);
+            break;
+          }
+          case 'Progress': {
+            const chunkLength = event.data?.chunkLength ?? 0;
+            setDownloaded(prev => prev + chunkLength);
+            break;
+          }
+          case 'Finished': {
+            setProgress(100);
+            break;
+          }
+        }
+      });
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Unknown update error';
+      setHasError(message);
+      console.error('Updater error:', err);
+    }
   };
 
   useEffect(() => {
-    if (RUNNING_DESKTOP() && updateState.accept && progress === 0) {
-      startUpdate().then(() => {
-        relaunch().then(() => {});
+    if (!RUNNING_DESKTOP()) return;
+    if (!updateState.accept) return;
+    if (isStartingRef.current) return;
+    isStartingRef.current = true;
+
+    // reset state when starting
+    setProgress(0);
+    setTotalSize(0);
+    setDownloaded(0);
+    setHasError(null);
+
+    startUpdate()
+      .then(() => {
+        // Hide modals/state before relaunching
+        setHas(false);
+        setAccept(false);
+        setReject(false);
+        relaunch().catch(err => console.error('Failed to relaunch:', err));
+      })
+      .catch(() => {
+        isStartingRef.current = false;
       });
-    }
   }, [updateState.update, updateState.accept]);
 
   useEffect(() => {
@@ -78,7 +110,9 @@ export const UpdatingModal = () => {
       </div>
       <div className={scss['updating-bot-modal']}>
         <div className={scss['updating-bot-text']}>
-          <span>UPDATE IN PROGRESS {progress}%...</span>
+          <span>
+            {hasError ? `UPDATE FAILED: ${hasError}` : `UPDATE IN PROGRESS ${progress}%...`}
+          </span>
           <span className="codefend-text-red">V. {updateState?.update?.version}</span>
         </div>
         <div className={scss['updating-bot-progress-bar']}>

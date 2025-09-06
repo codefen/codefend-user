@@ -6,6 +6,7 @@ import { useUploadingStore } from '@stores/updating.store';
 import { check } from '@tauri-apps/plugin-updater';
 import { RUNNING_DESKTOP } from '@utils/helper';
 import { useEffect, type PropsWithChildren } from 'react';
+import { invoke } from '@tauri-apps/api/core';
 import { BrowserRouter } from 'react-router';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -26,6 +27,23 @@ export const AppWrapper = ({ children }: PropsWithChildren) => {
       }
     }
     return () => {};
+  }, []);
+
+  // Enable DevTools toggle with F12 or Ctrl+Shift+I in desktop builds (including production)
+  useEffect(() => {
+    if (!RUNNING_DESKTOP()) return;
+    const handler = (e: KeyboardEvent) => {
+      const isF12 = e.key === 'F12';
+      const isCtrlShiftI =
+        (e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'I' || e.key === 'i');
+      if (isF12 || isCtrlShiftI) {
+        invoke('open_devtools_for_main').catch(() => {
+          console.error('Failed to open DevTools');
+        });
+      }
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
   }, []);
 
   return (
