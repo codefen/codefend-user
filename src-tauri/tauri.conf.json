@@ -78,6 +78,7 @@
 			"requireLiteralLeadingDot": false
 		},
 		"updater": {
+			"active": true,
 			"pubkey":"dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEQxRDdEODQyRjlBNDUxNzYKUldSMlVhVDVRdGpYMFV4Nkd5UmxXcnlsU05qUkVoVFZkNURDWlBFYmY0cWVwYmFpSEp4SXhIN2UK",
 			"endpoints": [
 				"https://raw.githubusercontent.com/codefen/codefend-user/update-latest-json/latest.json"

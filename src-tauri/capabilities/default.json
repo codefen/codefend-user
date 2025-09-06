@@ -30,13 +30,13 @@
       "identifier": "http:default",
       "allow": [
         {
-          "url": "https://github.com/*"
+          "url": "https://github.com/codefen/*"
         },
         {
           "url": "https://api.github.com/*"
         },
         {
-          "url": "https://raw.githubusercontent.com/*"
+          "url": "https://raw.githubusercontent.com/codefen/*"
         },
         {
           "url": "https://archive.org/*"
@@ -48,7 +48,10 @@
           "url": "https://objects.githubusercontent.com/*"
         },
         {
-          "url": "https://neil-morrison44.github.io/*"
+          "url": "https://m.stripe.com/*"
+        },
+        {
+          "url": "https://api.codefend.com/*"
         }
       ]
     },
