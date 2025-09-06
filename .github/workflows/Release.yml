@@ -118,8 +118,10 @@ jobs:
             const repo = context.repo.repo;
             const version = '${{ needs.createRelease.outputs.package_version }}';
             const tag = `codefend-v${version}`;
+            const releaseId = ${{ needs.createRelease.outputs.release_id }};
 
-            const { data: release } = await github.rest.repos.getReleaseByTag({ owner, repo, tag });
+            // Use release ID to support draft releases (getReleaseByTag returns 404 for drafts)
+            const { data: release } = await github.rest.repos.getRelease({ owner, repo, release_id: releaseId });
             const assets = release.assets || [];
 
             const find = (re) => assets.find(a => re.test(a.name));
