@@ -564,7 +564,7 @@ jobs:
           foreach ($artifact in $artifacts) {
             if (Test-Path $artifact.FullName) {
               Write-Host "📤 Subiendo a release: $($artifact.Name)"
-              gh release upload $tag $artifact.FullName --repo $repo --clobber
+              gh release upload $tag "$(($artifact.FullName))" --repo $repo --clobber
             }
           }
 
