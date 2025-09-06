@@ -195,7 +195,7 @@ export const NewSigninForm = () => {
         <p>
           {mfaStep
             ? 'This account has two-factor authentication enabled, please complete the verification process.'
-            : 'Welcome back'}
+            : 'Welcome back.'}
         </p>
 
         {/* Botón de Google OAuth - Solo mostrar si no está en paso MFA */}
