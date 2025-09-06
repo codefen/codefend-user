@@ -8,8 +8,8 @@ extern crate objc;
 use tauri::{
     Emitter, LogicalSize, Manager, PhysicalPosition, Position, WebviewUrl, WebviewWindowBuilder,
 };
-use tauri_plugin_window_state::StateFlags;
 use tauri_plugin_devtools::init as devtools_init;
+use tauri_plugin_window_state::StateFlags;
 
 #[tauri::command]
 fn create_main_window(app: tauri::AppHandle) -> Result<(), tauri::Error> {
@@ -53,7 +53,7 @@ fn open_devtools_for_main(app: tauri::AppHandle) -> Result<(), String> {
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
-    let  builder = tauri::Builder::default()
+    let builder = tauri::Builder::default()
         .plugin(tauri_plugin_updater::Builder::new().build())
         .plugin(tauri_plugin_shell::init())
         .plugin(tauri_plugin_os::init())
