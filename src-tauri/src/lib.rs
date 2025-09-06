@@ -62,6 +62,7 @@ pub fn run() {
         .plugin(tauri_plugin_notification::init())
         .plugin(tauri_plugin_fs::init())
         .plugin(tauri_plugin_http::init())
+        .plugin(tauri_plugin_cors_fetch::init())
         .plugin(devtools_init())
         .plugin(
             tauri_plugin_window_state::Builder::default()
