@@ -46,12 +46,13 @@ export const UpdatingModal = () => {
   }, [downloaded, totalSize]);
 
   if (!updateState.accept || !RUNNING_DESKTOP()) return null;
+  // if (false) return null;
 
   return (
     <ModalWrapper
       showCloseBtn={false}
       className={scss['updating-modal-overlay']}
-      type={scss['updating-modal-container']}>
+      type={`${scss['updating-modal-container']} update-app-modal`}>
       <div className={scss['updating-top-modal']}>
         <img src="/codefend/logo-light.svg" alt="Codefend logo" width={200} height={80} />
       </div>
