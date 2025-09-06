@@ -422,7 +422,7 @@ export const NewSignupForm = () => {
           <hr className="onboarding-separator" />
 
           <form onSubmit={nextFirstStep}>
-            <h2>Private account creation.</h2>
+            <h2>Private account creation</h2>
             <AuthInput
               placeholder="Name"
               name="lead_fname"
