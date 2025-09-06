@@ -29,6 +29,7 @@ export const UpdateAppModal = () => {
             disabledLoader
             click={() => {
               setReject(true);
+              setHas(false);
             }}
           />
           <PrimaryButton
@@ -37,6 +38,8 @@ export const UpdateAppModal = () => {
             className="btn-add codefend_main_ac limit-height"
             isDisabled={updateState.accept}
             click={() => {
+              // Hide this modal and mark as accepted; UpdatingModal will handle the flow
+              setHas(false);
               setAccept(true);
             }}
           />
