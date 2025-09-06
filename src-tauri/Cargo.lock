@@ -753,7 +753,7 @@ dependencies = [
 
 [[package]]
 name = "codefend-app"
-version = "25.0.5"
+version = "25.0.6"
 dependencies = [
  "base64 0.22.1",
  "chrono",
