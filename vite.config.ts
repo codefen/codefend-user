@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
 import path from 'path';
 import tsconfig from './tsconfig.app.json';
+import type { Syntax } from 'sass';
 
 interface TsconfigPaths {
   [key: string]: string[];
@@ -27,6 +28,21 @@ export default defineConfig(() => ({
     alias,
   },
   plugins: [react()],
+  css: {
+    preprocessorOptions: {
+      scss: {
+        syntax: 'scss' as Syntax,
+      },
+    },
+    // Use Lightning CSS for CSS transforms
+    transformer: 'lightningcss' as 'lightningcss',
+    lightningcss: {
+      drafts: {
+        nesting: true,
+        customMedia: true,
+      },
+    },
+  },
   clearScreen: false,
   server: {
     strictPort: true,
@@ -38,7 +54,8 @@ export default defineConfig(() => ({
   },
   envPrefix: ['VITE_', 'TAURI_'],
   build: {
-    cssMinify: !IS_DEBUG ? ('esbuild' as 'esbuild') : ('esbuild' as 'esbuild'),
+    // Minify CSS with Lightning CSS in production
+    cssMinify: !IS_DEBUG ? ('lightningcss' as 'lightningcss') : false,
     target: PLATFORM.startsWith('windows') ? 'chrome105' : 'safari13',
     sourcemap: !!IS_DEBUG,
     minify: !IS_DEBUG ? ('esbuild' as 'esbuild') : false,

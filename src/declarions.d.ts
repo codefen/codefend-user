@@ -12,3 +12,9 @@ declare global {
 }
 
 export {};
+
+// Add fallback declaration for React automatic JSX runtime resolution
+declare module 'react/jsx-runtime' {
+  const jsxRuntime: any;
+  export default jsxRuntime;
+}

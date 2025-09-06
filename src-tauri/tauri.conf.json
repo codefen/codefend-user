@@ -15,7 +15,8 @@
 				"visible": true,
 				"center": true,
 				"label": "main",
-				"dragDropEnabled": false
+				"dragDropEnabled": false,
+				"devtools": true
 			}
 		],
 		"security": {

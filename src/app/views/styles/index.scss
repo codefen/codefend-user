@@ -952,7 +952,7 @@ body:has(.onboarding-modal-container) {
     // scale: 1.2;
   }
 
-  #root-modal .modal-wrapper {
+  #root-modal .modal-wrapper:not(:has(.update-app-modal)) {
     background-color: transparent;
     backdrop-filter: none;
     position: absolute;
@@ -1172,7 +1172,7 @@ body:has(.onboarding-modal-container) {
   }
 }
 
-body[data-theme='light']:has(.new-signup-form),
+body[data-theme='light']:has(.new-signup-form):not(.update-app-modal),
 body[data-theme='light']:has(.new-signin-form),
 body[data-theme='light']:has(.onboarding-modal-container) {
   background: lch(97.23% 0.01 296.81);

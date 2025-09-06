@@ -11,6 +11,8 @@ export const UpdateAppModal = () => {
     <ModalTitleWrapper
       close={() => setHas(false)}
       isActive={updateState?.has && !updateState.reject && RUNNING_DESKTOP()}
+      // isActive={true}
+      type="update-app-modal"
       headerTitle="Update Available">
       <div className={scss['update-app-modal-container']}>
         {updateState?.update && (
@@ -20,9 +22,9 @@ export const UpdateAppModal = () => {
         )}
         <div className="form-buttons">
           <PrimaryButton
-            buttonStyle="black"
+            buttonStyle="gray"
             text="Cancel"
-            className="btn-cancel codefend_secondary_ac"
+            className="btn-cancel"
             isDisabled={updateState.accept}
             disabledLoader
             click={() => {
