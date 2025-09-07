@@ -546,6 +546,42 @@ jobs:
             }
           }
 
+      - name: 🔏 Generate Tauri updater .sig for final signed binaries
+        shell: pwsh
+        env:
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
+        run: |
+          Write-Host "🔏 Generando .sig del updater para binarios FINALES (post-codesigning)..."
+          $artifacts = @()
+          $artifacts += Get-ChildItem -Path ".\src-tauri\target\release\bundle\msi" -Filter "*.msi" -ErrorAction SilentlyContinue
+          $artifacts += Get-ChildItem -Path ".\src-tauri\target\release\bundle\nsis" -Filter "*.exe" -ErrorAction SilentlyContinue
+
+          if ($artifacts.Count -eq 0) {
+            Write-Error "❌ No se encontraron artefactos finales para firmar con Tauri signer"
+            exit 1
+          }
+
+          foreach ($artifact in $artifacts) {
+            Write-Host "🖊️ Generando firma Tauri para: $($artifact.Name)"
+            bunx @tauri-apps/cli@latest signer sign `
+              --private-key "$env:TAURI_SIGNING_PRIVATE_KEY" `
+              --password "$env:TAURI_SIGNING_PRIVATE_KEY_PASSWORD" `
+              --ci `
+              --input "$($artifact.FullName)" `
+              --output "$($artifact.FullName).sig"
+
+            if ($LASTEXITCODE -ne 0) {
+              Write-Error "❌ Error generando .sig para $($artifact.Name)"
+              exit 1
+            }
+            if (-not (Test-Path "$($artifact.FullName).sig")) {
+              Write-Error "❌ No se generó el archivo .sig esperado: $($artifact.FullName).sig"
+              exit 1
+            }
+            Write-Host "✅ .sig generado: $($artifact.FullName).sig"
+          }
+
       - name: 📤 Upload signed artifacts to release
         if: inputs.release_id != ''
         env:
@@ -565,6 +601,13 @@ jobs:
             if (Test-Path $artifact.FullName) {
               Write-Host "📤 Subiendo a release: $($artifact.Name)"
               gh release upload $tag "$(($artifact.FullName))" --repo $repo --clobber
+              $sigPath = "$($artifact.FullName).sig"
+              if (Test-Path $sigPath) {
+                Write-Host "📤 Subiendo .sig a release: $(Split-Path $sigPath -Leaf)"
+                gh release upload $tag "$sigPath" --repo $repo --clobber
+              } else {
+                Write-Warning "⚠️ No se encontró .sig para $($artifact.Name) en $sigPath"
+              }
             }
           }
 
@@ -575,6 +618,8 @@ jobs:
           path: |
             src-tauri/target/release/bundle/msi/*.msi
             src-tauri/target/release/bundle/nsis/*.exe
+            src-tauri/target/release/bundle/msi/*.sig
+            src-tauri/target/release/bundle/nsis/*.sig
           retention-days: 7
 
       # ============= EXTRAER SIGNATURES PARA OUTPUTS =============
@@ -592,19 +637,11 @@ jobs:
           if ($artifact) {
             $sigFile = "$($artifact.FullName).sig"
             if (-not (Test-Path $sigFile)) {
-              if ($artifact.Extension -ieq ".msi") {
-                $sigAlt = Join-Path $artifact.DirectoryName "$(Split-Path $artifact.FullName -Leaf).zip.sig" -Resolve -ErrorAction SilentlyContinue
-                if ($sigAlt) { $sigFile = $sigAlt }
-              }
+              Write-Error "❌ No se encontró archivo .sig para $($artifact.Name) en $sigFile. Asegúrate de ejecutar el paso de generación de .sig."
+              exit 1
             }
 
-            $signature = $null
-            if (Test-Path $sigFile) {
-              $signature = (Get-Content -Raw -Path $sigFile).Trim()
-            } else {
-              Write-Warning "No se encontró archivo .sig, usando SHA256 como fallback"
-              $signature = (Get-FileHash -Path $artifact.FullName -Algorithm SHA256).Hash
-            }
+            $signature = (Get-Content -Raw -Path $sigFile).Trim()
 
             echo "windows_x86_64_sig=$signature" >> $env:GITHUB_OUTPUT
             echo "windows_x86_64_name=$($artifact.Name)" >> $env:GITHUB_OUTPUT
@@ -612,7 +649,8 @@ jobs:
             Write-Host "📦 Package name: $($artifact.Name)"
             Write-Host "🖊️ Signature (trunc): $($signature.Substring(0, [Math]::Min(16, $signature.Length)))..."
           } else {
-            Write-Warning "No se encontró artefacto MSI o EXE para extraer firma"
+            Write-Error "❌ No se encontró artefacto MSI o EXE para extraer firma"
+            exit 1
           }
 
       # ============= LIMPIAR ARCHIVOS TEMPORALES =============
