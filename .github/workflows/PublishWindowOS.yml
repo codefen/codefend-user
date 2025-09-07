@@ -564,12 +564,11 @@ jobs:
 
           foreach ($artifact in $artifacts) {
             Write-Host "🖊️ Generando firma Tauri para: $($artifact.Name)"
-            bunx @tauri-apps/cli@latest signer sign `
+            bunx --yes @tauri-apps/cli@latest tauri signer sign `
               --private-key "$env:TAURI_SIGNING_PRIVATE_KEY" `
               --password "$env:TAURI_SIGNING_PRIVATE_KEY_PASSWORD" `
-              --ci `
-              --input "$($artifact.FullName)" `
-              --output "$($artifact.FullName).sig"
+              --write-to "$($artifact.FullName).sig" `
+              "$($artifact.FullName)"
 
             if ($LASTEXITCODE -ne 0) {
               Write-Error "❌ Error generando .sig para $($artifact.Name)"
