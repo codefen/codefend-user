@@ -572,7 +572,7 @@ jobs:
               "$($artifact.FullName)"
             )
 
-            $sigOutput = (& bunx signer @args) 2>&1
+            $sigOutput = (& bunx --yes @tauri-apps/cli@latest signer @args) 2>&1
 
             if ($LASTEXITCODE -ne 0) {
               Write-Host "🔎 Salida completa del signer (para debug):"
