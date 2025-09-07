@@ -435,4 +435,4 @@ const PageComponent = () => {
 
 ---
 
-_Última actualización: Enero 2025_ _Versión de la app: v25.0.8_
+_Última actualización: Enero 2025_ _Versión de la app: v25.0.9_
