@@ -564,30 +564,27 @@ jobs:
 
           foreach ($artifact in $artifacts) {
             Write-Host "🖊️ Generando firma Tauri para: $($artifact.Name)"
-            $sigOutput = (& bunx --silent --yes @tauri-apps/cli@latest signer sign `
+
+            $sigOutput = (& bunx --yes @tauri-apps/cli@latest signer sign `
               --private-key "$env:TAURI_SIGNING_PRIVATE_KEY" `
               --password "$env:TAURI_SIGNING_PRIVATE_KEY_PASSWORD" `
               "$($artifact.FullName)") 2>&1
 
             if ($LASTEXITCODE -ne 0) {
+              Write-Host "🔎 Salida completa del signer (para debug):"
+              Write-Host ($sigOutput -join "`n")
               Write-Error "❌ Error generando .sig para $($artifact.Name)"
               exit 1
             }
 
-            # Tomar la última línea no vacía como firma (debería ser base64)
-            $sig = ($sigOutput | ForEach-Object { $_.ToString().Trim() } | Where-Object { $_ -ne "" } | Select-Object -Last 1)
-            if (-not $sig -or $sig -notmatch '^[A-Za-z0-9+/=]+$') {
-              Write-Error "❌ Salida del signer no parece una firma válida para $($artifact.Name): '$sig'"
+            $expectedSig = "$($artifact.FullName).sig"
+            if (-not (Test-Path $expectedSig)) {
+              Write-Host "🔎 Salida completa del signer (para debug):"
+              Write-Host ($sigOutput -join "`n")
+              Write-Error "❌ No se generó el archivo .sig esperado: $expectedSig"
               exit 1
             }
-
-            Set-Content -Path "$($artifact.FullName).sig" -Value $sig -NoNewline -Encoding Ascii
-
-            if (-not (Test-Path "$($artifact.FullName).sig")) {
-              Write-Error "❌ No se generó el archivo .sig esperado: $($artifact.FullName).sig"
-              exit 1
-            }
-            Write-Host "✅ .sig generado: $($artifact.FullName).sig"
+            Write-Host "✅ .sig generado: $expectedSig"
           }
 
       - name: 📤 Upload signed artifacts to release
