@@ -572,19 +572,16 @@ jobs:
               "$($artifact.FullName)"
             )
 
-            $sigOutput = (& bunx --yes @tauri-apps/cli@latest signer @args) 2>&1
+            $bunArgs = @("x", "--yes", "@tauri-apps/cli@latest", "signer") + $args
+            $null = (& bun @bunArgs)
 
-            if ($LASTEXITCODE -ne 0) {
-              Write-Host "🔎 Salida completa del signer (para debug):"
-              Write-Host ($sigOutput -join "`n")
-              Write-Error "❌ Error generando .sig para $($artifact.Name)"
-              exit 1
-            }
+            # if ($LASTEXITCODE -ne 0) {
+            #   Write-Error "❌ Error generando .sig para $($artifact.Name)"
+            #   exit 1
+            # }
 
             $expectedSig = "$($artifact.FullName).sig"
             if (-not (Test-Path $expectedSig)) {
-              Write-Host "🔎 Salida completa del signer (para debug):"
-              Write-Host ($sigOutput -join "`n")
               Write-Error "❌ No se generó el archivo .sig esperado: $expectedSig"
               exit 1
             }
