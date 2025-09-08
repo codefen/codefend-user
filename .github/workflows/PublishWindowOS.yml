@@ -565,20 +565,21 @@ jobs:
           foreach ($artifact in $artifacts) {
             Write-Host "🖊️ Generando firma Tauri para: $($artifact.Name)"
 
-            $args = @(
-              "sign",
+            $filePath = "`"$($artifact.FullName)`""
+            
+            $bunArgs = @(
+              "x", "--yes", "@tauri-apps/cli@latest", "signer", "sign",
               "--private-key", "$env:TAURI_SIGNING_PRIVATE_KEY",
               "--password", "$env:TAURI_SIGNING_PRIVATE_KEY_PASSWORD",
-              "$($artifact.FullName)"
+              $filePath
             )
-
-            $bunArgs = @("x", "--yes", "@tauri-apps/cli@latest", "signer") + $args
+            
             $null = (& bun @bunArgs)
-
-            # if ($LASTEXITCODE -ne 0) {
-            #   Write-Error "❌ Error generando .sig para $($artifact.Name)"
-            #   exit 1
-            # }
+            
+            if ($LASTEXITCODE -ne 0) {
+              Write-Error "❌ Error generando .sig para $($artifact.Name)"
+              exit 1
+            }
 
             $expectedSig = "$($artifact.FullName).sig"
             if (-not (Test-Path $expectedSig)) {
