@@ -1,0 +1,23 @@
+{
+  "version": "25.1.1",
+  "notes": "Codefend Panel 25.1.1 release",
+  "pub_date": "2025-12-05T16:00:37Z",
+  "platforms": {
+    "darwin-aarch64": {
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSMlVhVDVRdGpYMFlDK2NZSnVFY2JHa2RVaG1GQTFET25qc2pyS0t5NmxGWFY4V1gwUVNDLzFJVXBVVzczWXB1alNhSEJjUTlkeGFjVnAvTHU4NGlsL3p1UUxOd2c1WUFNPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY0OTUwMzgwCWZpbGU6Q29kZWZlbmQgU2VjdXJpdHkgQXBwLmFwcC50YXIuZ3oKVVpqTm1nbGNMUy9jWVJmMmxGMHlwNWdDSDJOSzB2QjZUTkNpK3R6aVBtL0Vkc0drcXFxNE1JWkkycUJwQ2Rwd05UcUhyUHZiUlZLK0dJUm1KWnpwQmc9PQo=",
+      "url": "https://github.com/codefen/codefend-user/releases/download/codefend-v25.1.1/Codefend.Security.App.app.tar.gz"
+    },
+    "darwin-x86_64": {
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSMlVhVDVRdGpYMFF6czYybzRCSW5XenBJRUtzSkhuVDRkbVBxNlNqNitVNmFTZzQ5Q2NEWDhramRWb1k0R01lZlBob1RVQjFZS3hMYlRmTGRQZTVVdjFsMWJ6VENZMVFVPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY0OTUwMDg2CWZpbGU6Q29kZWZlbmQgU2VjdXJpdHkgQXBwLmFwcC50YXIuZ3oKN0NhUXNSZHdmNnFZdGpTRlVUVjZCOHp0YlAwWERJUG42bGxKZVI4NHBEQUJyUUp0ZnIyQVRjVHljSklNaGJldkYyTG5ZMHN2Vld6TlZaRHNCdXdNQ0E9PQo=",
+      "url": "https://github.com/codefen/codefend-user/releases/download/codefend-v25.1.1/"
+    },
+    "linux-x86_64": {
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSMlVhVDVRdGpYMGFOOFp2WnNFR0JqMkdlbW9XUE9wbFAwZVc0ZllhTGwvMXlsTURxYVExSVZrajUyWklVSkcyZnlZb1VlUkZHdDF1amhRVnFxc0VlV3NxeUxoWi9zU3dnPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY0OTUwMDA4CWZpbGU6Q29kZWZlbmQgU2VjdXJpdHkgQXBwXzI1LjEuMV9hbWQ2NC5BcHBJbWFnZQp2amd2NjdzOEhDUklZWEJra0J1K0pZRjA2VHgxc3NEblljeE1ibnAwMlFSUW5UYVBjMUJNWGtzamI4UmxzMERNSytmWFdSN3VIV2VGSmx4bUhWbnhEdz09Cg==",
+      "url": "https://github.com/codefen/codefend-user/releases/download/codefend-v25.1.1/Codefend.Security.App_25.1.1_amd64.AppImage"
+    },
+    "windows-x86_64": {
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSMlVhVDVRdGpYMFNLVERhY3NKSXVWdzRNc3A5MGIvd3dEZ2cxcmpzejhlcWthRkpvRkRzbzIveEM4MFliRDQxWXY0RUY1NmpnR1dGc1FhQ2lqRjI5ZEpZY2VqYVBKandVPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY0OTQ5OTQzCWZpbGU6Q29kZWZlbmQgU2VjdXJpdHkgQXBwXzI1LjEuMV94NjQtc2V0dXAuZXhlCjVWRUUvNWlIRjhQOG5UQk1CcG5wazNHeVlyekhENG5OL3VGdXBTdUlCRnNHM1NuUkpjY20yaXJpRVpVRTE5ZW9iZ3JIOGI4Q1hHZXJVZ0gxclpqVURnPT0K",
+      "url": "https://github.com/codefen/codefend-user/releases/download/codefend-v25.1.1/Codefend.Security.App_25.1.1_x64-setup.exe"
+    }
+  }
+}
