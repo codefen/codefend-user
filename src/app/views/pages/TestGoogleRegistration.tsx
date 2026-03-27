@@ -112,7 +112,7 @@ const TestGoogleRegistration: FC = () => {
         }}>
         <h3>ℹ️ Información del Test</h3>
         <p>
-          <strong>Endpoint:</strong> https://api.codefend.com/index.php
+          <strong>Endpoint:</strong> https://api.codefend.app/index.php
         </p>
         <p>
           <strong>Model:</strong> users/new

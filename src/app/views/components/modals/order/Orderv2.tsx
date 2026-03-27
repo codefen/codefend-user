@@ -138,7 +138,7 @@ export const OrderV2 = () => {
     if (orderStepActive === OrderSection.PAYMENT) return <PaymentMethodOrderModal />;
 
     if (orderStepActive === OrderSection.ANY_PAYMENT_METHOD)
-      return <AnyPaymentMethod setCallback={cb => setCallback(cb)} />;
+      return <AnyPaymentMethod setCallback={setCallback} />;
     // if (orderStepActive === OrderSection.PAYMENT_ERROR) return <PaymentErrorOrderModal />;
 
     return orderStepActive === OrderSection.WELCOME ? (

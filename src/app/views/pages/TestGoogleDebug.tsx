@@ -25,7 +25,7 @@ const TestGoogleDebug: FC = () => {
     setDebugResult('');
 
     try {
-      const response = await fetch('https://api.codefend.com/index.php', {
+      const response = await fetch('https://api.codefend.app/index.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
@@ -173,7 +173,7 @@ const TestGoogleDebug: FC = () => {
         }}>
         <h3>ℹ️ Información del Debug</h3>
         <p>
-          <strong>Endpoint:</strong> https://api.codefend.com/index.php
+          <strong>Endpoint:</strong> https://api.codefend.app/index.php
         </p>
         <p>
           <strong>Model:</strong> debug_google_registration

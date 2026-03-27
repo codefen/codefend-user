@@ -51,7 +51,7 @@
           "url": "https://m.stripe.com/*"
         },
         {
-          "url": "https://api.codefend.com/*"
+          "url": "https://api.codefend.app/*"
         }
       ]
     },

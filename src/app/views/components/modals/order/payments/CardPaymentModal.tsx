@@ -2,21 +2,26 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { OrderSection, UserPlanSelected, UserSmallPlanSelected } from '@interfaces/order';
 import { useOrderStore } from '@stores/orders.store';
 import { loadStripe } from '@stripe/stripe-js';
-import {
-  EmbeddedCheckoutProvider,
-  EmbeddedCheckout,
-  PaymentElement,
-} from '@stripe/react-stripe-js';
+import { EmbeddedCheckoutProvider, EmbeddedCheckout } from '@stripe/react-stripe-js';
 import { useFetcher } from '#commonHooks/useFetcher';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { useTheme } from '@/app/views/context/ThemeContext';
-import { nodeEnv, stripeKey, stripeKeyTest } from '@utils/config';
+import { fetchStripePublishableKeysFromApi, nodeEnv } from '@utils/config';
 import { useUserRole } from '#commonUserHooks/useUserRole';
 import { usePaymentTelemetry } from '@hooks/common/usePaymentTelemetry';
 import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
 
-const NODE_ENV = nodeEnv;
-const STRIPE_PUBLISHABLE_KEY = NODE_ENV == 'development' ? stripeKeyTest : stripeKey;
+/**
+ * Alineado con NetworkSettingModal: si `stripeEnv` nunca se guardó, en dev el default es test.
+ * Si está guardado como "false", se usa live. Sin el default en dev, loadStripe usa pk_live con
+ * cs_test (API) y el Embedded Checkout queda en blanco.
+ */
+const isStripeTestModeActive = (): boolean => {
+  const stripeEnv = localStorage.getItem('stripeEnv');
+  if (stripeEnv === 'true') return true;
+  if (stripeEnv === 'false') return false;
+  return nodeEnv === 'development';
+};
 
 export const CardPaymentModal = ({
   setCallback,
@@ -24,7 +29,7 @@ export const CardPaymentModal = ({
   setCallback: (callback: (() => void) | null) => void;
 }) => {
   const [fetcher] = useFetcher();
-  const { getCompany, getUserdata } = useUserData();
+  const { getCompany } = useUserData();
   const { isAdmin } = useUserRole();
   const { updateState, referenceNumber, orderId, paywallSelected, userSmallPlanSelected } = useOrderStore(state => state);
   const planPreference = useGlobalFastField('planPreference');
@@ -35,7 +40,15 @@ export const CardPaymentModal = ({
   const [hideBackButton, setHideBackButton] = useState(false);
   const { theme } = useTheme();
   const { trackPaymentStart, trackPaymentComplete, trackPaymentError } = usePaymentTelemetry();
-  const isTestMode = localStorage.getItem('stripeEnv') === 'true';
+  const isTestMode = isStripeTestModeActive();
+  const [stripeKeys, setStripeKeys] = useState<{ test: string; live: string } | null>(null);
+
+  useEffect(() => {
+    fetchStripePublishableKeysFromApi().then(setStripeKeys);
+  }, []);
+
+  const publishableKey =
+    stripeKeys === null ? undefined : isTestMode ? stripeKeys.test : stripeKeys.live;
 
   // Función para obtener el valor del plan seleccionado
   const getPlanValue = (): number => {
@@ -62,14 +75,14 @@ export const CardPaymentModal = ({
     return 0;
   };
 
-  // Memoize the Stripe promise
   const stripePromise = useMemo(
-    () => loadStripe(isTestMode ? stripeKeyTest : stripeKey),
-    [isTestMode]
+    () => (publishableKey ? loadStripe(publishableKey) : null),
+    [publishableKey]
   );
 
   const fetchClientSecret = useCallback(async () => {
     if (isInitialized.current) return;
+    if (!publishableKey) return;
 
     // Track payment start
     const planValue = getPlanValue();
@@ -107,12 +120,12 @@ export const CardPaymentModal = ({
     updateState,
     trackPaymentStart,
     trackPaymentError,
+    publishableKey,
   ]);
 
-  // Initialize Stripe when component mounts
   useEffect(() => {
     fetchClientSecret();
-  }, []); // Empty dependency array since we only want to run this once
+  }, [fetchClientSecret]);
 
   const options = useMemo(
     () => ({
@@ -151,17 +164,7 @@ export const CardPaymentModal = ({
           });
       },
     }),
-    [
-      clientSecret,
-      companyId,
-      referenceNumber,
-      orderId,
-      merchId.current,
-      theme,
-      fetcher,
-      updateState,
-      isTestMode,
-    ]
+    [clientSecret, companyId, referenceNumber, orderId, fetcher, updateState, isTestMode, trackPaymentComplete, trackPaymentError, setCallback]
   );
 
   const cleanupStripe = useCallback(() => {
@@ -189,7 +192,33 @@ export const CardPaymentModal = ({
     updateState('orderStepActive', backStepValue);
   }, [paywallSelected, updateState]);
 
-  if (!clientSecret) {
+  if (stripeKeys === null) {
+    return (
+      <div className="step-content">
+        <div className="step-header">
+          <h3>Loading payment information...</h3>
+        </div>
+      </div>
+    );
+  }
+
+  if (!publishableKey) {
+    return (
+      <div className="step-content">
+        <div className="step-header">
+          <h3>Stripe: falta la clave publicable</h3>
+          <p style={{ marginTop: 12, fontSize: 14, lineHeight: 1.5 }}>
+            Completá <code>stripe_pk_test</code> / <code>stripe_pk_live</code> en{' '}
+            <code>reservado/llaves.php</code> (endpoint <code>config/stripe_public</code>) o las variables{' '}
+            <code>VITE_STRIPE_KEY_*</code> en <code>.env</code>. La clave publishable debe ser la del mismo
+            modo (test/live) que las secret keys del servidor.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!clientSecret || !stripePromise) {
     return (
       <div className="step-content">
         <div className="step-header">
@@ -204,7 +233,10 @@ export const CardPaymentModal = ({
       <div className="step-header">
         {/* <h3>Please complete with your payment information</h3> */}
       </div>
-      <EmbeddedCheckoutProvider stripe={stripePromise} options={options}>
+      <EmbeddedCheckoutProvider
+        key={clientSecret}
+        stripe={stripePromise}
+        options={options}>
         <EmbeddedCheckout
           className="stripe-container"
           id="stripe-ex-content-checkout"

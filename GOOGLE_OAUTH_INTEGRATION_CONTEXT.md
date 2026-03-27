@@ -59,7 +59,7 @@ src/app/router/Routes.tsx           # Rutas de testing agregadas:
 
 ### **Scripts de Debug:**
 ```
-api.codefend.com/
+api.codefend.app/
 ├── test_people_api.php             # Test básico de People API
 ├── debug_google_registration.php   # Debug completo del registro
 └── index.php                       # Router principal (agregado debug_google_registration)
@@ -67,7 +67,7 @@ api.codefend.com/
 
 ### **Core de Usuarios:**
 ```
-api.codefend.com/core/users/
+api.codefend.app/core/users/
 ├── users_add.php                   # Registro de usuarios (modificado para Google)
 ├── users_google_login.php          # Login específico de Google
 ├── users_access.php                # Login manual (sin cambios)
@@ -118,10 +118,10 @@ http://localhost:5173/test-google-registration  # Test de registro completo
 http://localhost:5173/test-google-debug         # Debug paso a paso
 ```
 
-### **Backend (api.codefend.com):**
+### **Backend (api.codefend.app):**
 ```
-https://api.codefend.com/index.php?model=test_people_api
-https://api.codefend.com/index.php?model=debug_google_registration
+https://api.codefend.app/index.php?model=test_people_api
+https://api.codefend.app/index.php?model=debug_google_registration
 ```
 
 ---
@@ -176,10 +176,10 @@ Tabla: leads
 ### **Ver logs del servidor:**
 ```bash
 # Linux/Mac
-tail -f api.codefend.com/.errors
+tail -f api.codefend.app/.errors
 
 # Windows PowerShell
-Get-Content api.codefend.com/.errors -Wait
+Get-Content api.codefend.app/.errors -Wait
 ```
 
 ### **Verificar configuración:**
@@ -188,7 +188,7 @@ Get-Content api.codefend.com/.errors -Wait
 echo $VITE_GOOGLE_CLIENT_ID
 
 # Backend
-grep -r "google_client_id" api.codefend.com/
+grep -r "google_client_id" api.codefend.app/
 ```
 
 ---

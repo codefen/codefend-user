@@ -1,4 +1,4 @@
-import { type FC, type FormEvent, useState } from 'react';
+import { type FC, type FormEvent, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { EditIcon, ShieldOffIcon, ShieldOnIcon } from '@icons';
 import Show from '@/app/views/components/Show/Show';
@@ -13,6 +13,14 @@ import { ModalButtons } from '@/app/views/components/utils/ModalButtons';
 
 const NODE_ENV = nodeEnv;
 
+/** Misma lógica que CardPaymentModal: respeta `stripeEnv` guardado; si no existe, default test solo en dev. */
+function readStripeTestModeFromStorage(): boolean {
+  const v = localStorage.getItem('stripeEnv');
+  if (v === 'true') return true;
+  if (v === 'false') return false;
+  return NODE_ENV === 'development';
+}
+
 interface NetworkSettingModalProps {
   isOpen: boolean;
   close: () => void;
@@ -22,15 +30,19 @@ export const NetworkSettingModal: FC<NetworkSettingModalProps> = ({ close, isOpe
   const [insecure, setInsecure] = useState(
     localStorage.getItem('a20af8d9') == 'true' ? true : false
   );
-  const [isStripeTestModeActive, setStripeEnv] = useState(
-    localStorage.getItem('stripeEnv') == 'true' || NODE_ENV == 'development' ? true : false
-  );
+  const [isStripeTestModeActive, setStripeEnv] = useState(() => readStripeTestModeFromStorage());
   const customAPi = getCustomBaseAPi();
   const defaultApiUrl = customAPi ? customAPi : baseUrl;
   const [apiUrl, setApiUrl] = useState(defaultApiUrl);
   const [canEdit, setCanEdit] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const { logout } = useUserData();
+
+  useEffect(() => {
+    if (!isOpen) return;
+    setStripeEnv(readStripeTestModeFromStorage());
+    setInsecure(localStorage.getItem('a20af8d9') == 'true');
+  }, [isOpen]);
 
   const setDefaultUrl = (url: string) => {
     deleteCustomBaseAPi();
@@ -53,22 +65,23 @@ export const NetworkSettingModal: FC<NetworkSettingModalProps> = ({ close, isOpe
     }
     localStorage.setItem('a20af8d9', String(insecure));
     localStorage.setItem('stripeEnv', String(isStripeTestModeActive));
+    const apiChanged = apiUrl !== defaultApiUrl;
     close();
     setLoading(false);
-    if (apiUrl !== defaultApiUrl) {
+    if (apiChanged) {
       setCustomBaseAPi(apiUrl);
       toast.success(APP_MESSAGE_TOAST.SERVER_UPDATED);
       logout();
       window.location.reload();
+    } else {
+      toast.success(APP_MESSAGE_TOAST.SERVER_UPDATED);
     }
   };
 
   const handleCancel = () => {
     close();
-    setInsecure(localStorage.getItem('insecure') == 'true' ? true : false);
-    setStripeEnv(
-      localStorage.getItem('stripeEnv') == 'true' || NODE_ENV == 'development' ? true : false
-    );
+    setInsecure(localStorage.getItem('a20af8d9') == 'true');
+    setStripeEnv(readStripeTestModeFromStorage());
   };
 
   const updateInsecure = () => setInsecure(prev => !prev);
@@ -106,7 +119,7 @@ export const NetworkSettingModal: FC<NetworkSettingModalProps> = ({ close, isOpe
                       required
                     />
                     <datalist id="api-urls">
-                      <option value="https://api.codefend.com/index.php"></option>
+                      <option value="https://api.codefend.app/index.php"></option>
                     </datalist>
                     <button
                       onClick={() => setCanEdit(currentValue => !currentValue)}

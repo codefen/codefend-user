@@ -33,7 +33,7 @@
 ```
 ✅ https://codefend.com
 ✅ https://www.codefend.com
-✅ https://api.codefend.com
+✅ https://api.codefend.app
 ✅ http://localhost:5173          ← AGREGAR ESTO
 ✅ http://localhost:3000          ← AGREGAR ESTO
 ✅ http://localhost:8080          ← AGREGAR ESTO
@@ -408,10 +408,10 @@ console.log('Button container:', document.getElementById('google-signin-button')
 #### **8. Verificar logs del servidor**
 ```bash
 # Windows PowerShell
-Get-Content api.codefend.com/.errors -Wait
+Get-Content api.codefend.app/.errors -Wait
 
 # Linux/Mac
-tail -f api.codefend.com/.errors
+tail -f api.codefend.app/.errors
 ```
 
 ---

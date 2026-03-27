@@ -24,7 +24,7 @@ const TestGoogleContacts: FC = () => {
       // console.log('🔄 Probando People API...');
 
       // Llamar al endpoint de la API
-      const response = await fetch('https://api.codefend.com/index.php', {
+      const response = await fetch('https://api.codefend.app/index.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',

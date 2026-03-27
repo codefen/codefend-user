@@ -36,7 +36,7 @@ export const GoogleRegistration: FC<GoogleRegistrationProps> = ({
     try {
       // console.log('🚀 Iniciando registro con Google...');
 
-      const response = await fetch('https://api.codefend.com/index.php', {
+      const response = await fetch('https://api.codefend.app/index.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
