@@ -35,9 +35,9 @@ export const ProgressCircle = ({
         <svg className={css['progress-svg']} viewBox={`0 0 ${adjustedSize} ${adjustedSize}`}>
           <defs>
             <linearGradient id="progressGradient" gradientTransform="rotate(90)">
-              <stop offset="0%" stopColor="#ef4444" />
-              <stop offset="50%" stopColor="#f87171" />
-              <stop offset="100%" stopColor="#ef4444" />
+              <stop offset="0%" stopColor="#168cb5" />
+              <stop offset="50%" stopColor="#168cb5" />
+              <stop offset="100%" stopColor="#168cb5" />
               {!isComplete && (
                 <animateTransform
                   attributeName="gradientTransform"
@@ -86,7 +86,7 @@ export const ProgressCircle = ({
           {/* Pequeños puntos que se mueven a lo largo del círculo */}
           {!isComplete && (
             <>
-              <circle r={strokeWidth / 4} fill="#f87171" filter="url(#glow)">
+              <circle r={strokeWidth / 4} fill="#168cb5" filter="url(#glow)">
                 <animateMotion
                   path={`M ${center + radius} ${center} A ${radius} ${radius} 0 1 1 ${center - radius} ${center} A ${radius} ${radius} 0 1 1 ${center + radius} ${center}`}
                   dur="2s"
@@ -96,7 +96,7 @@ export const ProgressCircle = ({
                 />
               </circle>
 
-              <circle r={strokeWidth / 5} fill="#fecaca" filter="url(#glow)">
+              <circle r={strokeWidth / 5} fill="#d8eff6" filter="url(#glow)">
                 <animateMotion
                   path={`M ${center + radius} ${center} A ${radius} ${radius} 0 1 1 ${center - radius} ${center} A ${radius} ${radius} 0 1 1 ${center + radius} ${center}`}
                   dur="2s"

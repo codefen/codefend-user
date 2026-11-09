@@ -188,7 +188,7 @@ a {
 .codefend-checkbox {
   color: inherit !important;
   padding: 0;
-  --primary-hover-color: #c92222;
+  --primary-hover-color: #097097;
   --checkbox-diameter: 17.5px;
   --checkbox-border-radius: 5px;
   --checkbox-border-color: var(--tertiary-color-50);
@@ -199,7 +199,7 @@ a {
 
 [data-theme='dark'] {
   .codefend-radio {
-    --radio-bg: linear-gradient(to right bottom, #f07878, #9e1f1f);
+    --radio-bg: linear-gradient(to right bottom, #168cb5, #0a5473);
     --radio-bg-before: linear-gradient(to right bottom, #18191a, #505050);
   }
 }

@@ -294,16 +294,16 @@ export const WorldMap: FC<WorldMapProps> = ({
       .domain([0, maxCount])
       .interpolator(t => {
         if (t === 0) return '#e8e8e8'; // Light grey for countries with no data
-        // Interpolate from light grey through light red to #ff3939
+        // Interpolate from light grey through light red to #168cb5
         if (t < 0.3) {
           // Grey to light red transition
           const grey = d3.rgb(232, 232, 232); // #e8e8e8
-          const lightRed = d3.rgb(255, 200, 200);
+          const lightRed = d3.rgb(216, 239, 246);
           return d3.interpolateRgb(grey, lightRed)(t / 0.3);
         } else {
           // Light red to dark red transition
-          const lightRed = d3.rgb(255, 200, 200);
-          const darkRed = d3.rgb(255, 57, 57); // #ff3939
+          const lightRed = d3.rgb(216, 239, 246);
+          const darkRed = d3.rgb(22, 140, 181); // #168cb5
           return d3.interpolateRgb(lightRed, darkRed)((t - 0.3) / 0.7);
         }
       });

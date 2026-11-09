@@ -93,7 +93,7 @@ export const NetworkResourcesProvider: FC<NetworkResourcesProviderProps> = ({
     gap: CARD_GAP,
     padding: CONTAINER_PADDING,
     minColumns: MIN_COLUMNS,
-    maxColumns: MAX_COLUMNS,
+    maxColumns: 1,
   });
 
   const chunkedRendering = useChunkedRendering({

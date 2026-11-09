@@ -119,7 +119,7 @@ export const NetworkSettingModal: FC<NetworkSettingModalProps> = ({ close, isOpe
                       required
                     />
                     <datalist id="api-urls">
-                      <option value="https://api.codefend.app/index.php"></option>
+                      <option value="https://api.codefend.com/index.php"></option>
                     </datalist>
                     <button
                       onClick={() => setCanEdit(currentValue => !currentValue)}

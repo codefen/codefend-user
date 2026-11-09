@@ -283,7 +283,7 @@
               }
 
               &.not-converted {
-                color: #f44336;
+                color: #168cb5;
               }
             }
 
@@ -411,7 +411,7 @@
     padding: 0 0.5rem;
 
     .refresh-btn {
-      background: #ff3939;
+      background: #168cb5;
       color: white;
       border: none;
       padding: 0.5rem 1rem;
@@ -421,7 +421,7 @@
       transition: all 0.2s ease;
 
       &:hover {
-        background: #e63333;
+        background: #168cb5;
         transform: translateY(-1px);
       }
     }
@@ -699,7 +699,7 @@
   gap: 0.5rem;
 
   .pagination-btn {
-    background: #ff3939;
+    background: #168cb5;
     color: white;
     border: none;
     padding: 0.4rem 0.8rem;
@@ -710,7 +710,7 @@
     font-weight: 500;
 
     &:hover:not(:disabled) {
-      background: #e63333;
+      background: #168cb5;
       transform: translateY(-1px);
     }
 
@@ -745,8 +745,8 @@
 
     &:focus {
       outline: none;
-      border-color: #ff3939;
-      box-shadow: 0 0 0 2px rgba(255, 57, 57, 0.2);
+      border-color: #168cb5;
+      box-shadow: 0 0 0 2px rgba(22, 140, 181, 0.2);
     }
 
     &::placeholder {
@@ -988,7 +988,7 @@ main.user-profile {
         }
 
         &:nth-child(3) .metric-header .metric-value {
-          color: #ff6464; // Rojo claro para users
+          color: #168cb5; // Rojo claro para users
         }
       }
     }
@@ -1374,7 +1374,7 @@ main.user-profile {
       background: transparent;
       color: var(--text-color-primary);
       font-weight: 600;
-      border-bottom: 1px solid #ff3939;
+      border-bottom: 1px solid #168cb5;
     }
     
     &:disabled {
@@ -1406,7 +1406,7 @@ main.user-profile {
       background: transparent;
       color: var(--text-color-primary);
       font-weight: 600;
-      border-bottom: 1px solid #ff3939;
+      border-bottom: 1px solid #168cb5;
     }
     
     &:disabled {
@@ -1553,7 +1553,7 @@ main.user-profile {
   }
   
   &.not-converted { 
-    color: #f44336; 
+    color: #168cb5; 
   }
 }
 

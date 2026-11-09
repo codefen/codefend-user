@@ -71,7 +71,7 @@
 
     &:hover {
       background-color: #f8f9fa;
-      color: #dc3545;
+      color: #168cb5;
       transform: scale(1.1);
     }
 
@@ -172,10 +172,10 @@
         justify-content: space-between;
         align-items: center;
         padding: 16px 20px;
-        background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+        background: linear-gradient(135deg, #168cb5 0%, #097097 100%);
         border-radius: 12px;
         color: white;
-        box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+        box-shadow: 0 4px 12px rgba(22, 140, 181, 0.3);
 
         .total-label {
           font-size: 16px;
@@ -199,7 +199,7 @@
     padding-top: 16px;
 
     .accept-button {
-      background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+      background: linear-gradient(135deg, #168cb5 0%, #097097 100%);
       border: none;
       padding: 12px 32px;
       font-size: 16px;
@@ -208,12 +208,12 @@
       color: white;
       cursor: pointer;
       transition: all 0.2s ease;
-      box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+      box-shadow: 0 4px 12px rgba(22, 140, 181, 0.3);
 
       &:hover {
-        background: linear-gradient(135deg, #c82333 0%, #bd2130 100%);
+        background: linear-gradient(135deg, #097097 0%, #097097 100%);
         transform: translateY(-2px);
-        box-shadow: 0 6px 16px rgba(220, 53, 69, 0.4);
+        box-shadow: 0 6px 16px rgba(22, 140, 181, 0.4);
       }
 
       &:active {

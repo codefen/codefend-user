@@ -181,7 +181,7 @@ body[print-report] {
     @media only print {
       -webkit-print-color-adjust: exact;
       color-adjust: exact;
-      background-color: #ffeded;
+      background-color: #d8eff6;
     }
   }
 
@@ -210,7 +210,7 @@ body[print-report] {
 
     em {
       font-style: normal;
-      color: #b21c1c;
+      color: #097097;
       padding: 5px;
     }
   }
@@ -278,7 +278,7 @@ body[print-report] {
 
       .column {
         &:hover {
-          color: #ce2e2e;
+          color: #097097;
         }
       }
     }
@@ -349,7 +349,7 @@ body[print-report] {
       .empty-wrapper {
         p {
           &.first-text {
-            color: #cf4848;
+            color: #097097;
             font-weight: 700;
             font-size: 1.35rem;
           }
@@ -425,12 +425,12 @@ body[print-report] {
 
 [data-theme='dark'] {
   .issues-report {
-    --line-color: #fe4e4e;
+    --line-color: #168cb5;
     --text-color: #d2d2d2;
     --text-color-alt: #f2f2f2;
-    --text-color-alt2: #fe4e4e;
+    --text-color-alt2: #168cb5;
     --text-color-alt3: rgb(206 206 206 / 89%);
-    --code-bkg: #ffe6ee;
+    --code-bkg: #d8eff6;
 
     .card {
       background: transparent;
@@ -442,7 +442,7 @@ body[print-report] {
       border-color: var(--line-color);
 
       h3 {
-        color: #d8656f;
+        color: #168cb5;
       }
     }
 
@@ -474,7 +474,7 @@ body[print-report] {
       }
 
       code {
-        color: #990808;
+        color: #0a5473;
         background-color: var(--code-bkg);
       }
     }
@@ -589,7 +589,7 @@ body[print-report] {
         height: 2px !important;
       }
       &::-webkit-scrollbar-thumb {
-        background: #ff6c6c;
+        background: #168cb5;
         border-radius: 2px;
       }
       &::-webkit-scrollbar-track {
@@ -633,11 +633,11 @@ body[print-report] {
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #ff6c6c;
+    background: #168cb5;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: #e75e5e;
+    background: #168cb5;
   }
 
   h3 {
@@ -693,8 +693,8 @@ body[print-report] {
     white-space: pre-wrap;
     overflow: auto;
     font-size: 90%;
-    color: #990808;
-    background-color: #ffe6ee;
+    color: #0a5473;
+    background-color: #d8eff6;
     padding: 20px;
     overflow-wrap: anywhere;
     font-family: questrial;

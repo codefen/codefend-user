@@ -15,7 +15,7 @@
 
 .confirm-order-card {
   --bg-confirm-order: var(--primary-color-100);
-  --bg-active-confirm-order: #fff6f6;
+  --bg-active-confirm-order: #d8eff6;
   --border-confirm-order: var(--primary-color-400);
   --border-active-confirm-order: var(--secondary-color-200);
   --text-color: #484848;
@@ -157,10 +157,10 @@
     .btn-order-card {
       padding-inline: 2.5rem;
       margin-block-start: 4rem;
-      background-color: #ff3131 !important;
+      background-color: #168cb5 !important;
 
       &:hover {
-        background-color: #fa2727 !important;
+        background-color: #168cb5 !important;
       }
     }
   }

@@ -81,7 +81,7 @@ const AdminLanders: FC = () => {
                       const metricColors = {
                         visitas_unicas: '#999999',
                         leads: '#666666',
-                        usuarios: '#ff6464',
+                        usuarios: '#168cb5',
                       };
                       const metricLabels = {
                         visitas_unicas: 'visitas',

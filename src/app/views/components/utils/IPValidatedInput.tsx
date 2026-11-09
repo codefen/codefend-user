@@ -22,7 +22,7 @@ const CrossIcon = () => (
     height="20"
     viewBox="0 0 24 24"
     fill="none"
-    stroke="#ef4444"
+    stroke="#168cb5"
     strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round">
@@ -268,7 +268,7 @@ export const IPValidatedInput = forwardRef<HTMLInputElement, IPValidatedInputPro
             ) : (
               <>
                 <CrossIcon />
-                <span style={{ color: '#ef4444', fontSize: '12px', whiteSpace: 'nowrap' }}>
+                <span style={{ color: '#168cb5', fontSize: '12px', whiteSpace: 'nowrap' }}>
                   {validation.message}
                 </span>
               </>

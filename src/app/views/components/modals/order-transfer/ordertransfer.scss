@@ -139,13 +139,13 @@
   }
 
   .select-option {
-    border-top: 1px solid #fe4e4e55;
-    border-bottom: 1px solid #fe4e4e55;
-    background-color: #ff131305;
+    border-top: 1px solid #168cb555;
+    border-bottom: 1px solid #168cb555;
+    background-color: #168cb505;
     box-shadow: 0 0 8px #00000025;
 
     &:last-child {
-      border-bottom: 1px solid #fe4e4e55;
+      border-bottom: 1px solid #168cb555;
     }
 
     & + .option {

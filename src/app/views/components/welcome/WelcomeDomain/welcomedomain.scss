@@ -151,7 +151,7 @@
 }
 
 .btn-add {
-  background: #ff4757;
+  background: #168cb5;
   color: white;
   padding: 0.75rem 2rem;
   border: none;
@@ -162,7 +162,7 @@
   transition: all 0.2s ease;
 
   &:hover:not(:disabled) {
-    background: #ff3742;
+    background: #168cb5;
   }
 
   &:disabled {
@@ -287,14 +287,14 @@
 
     .scope-btn-small {
       &:hover:not(:disabled) {
-        background: #ff475782;
-        border-color: #fe4e4ea8;
+        background: #168cb582;
+        border-color: #168cb5a8;
         color: #ffffff;
       }
 
       &.active {
-        background: #ff4757;
-        border-color: #ff4757;
+        background: #168cb5;
+        border-color: #168cb5;
         color: white;
       }
 
@@ -324,7 +324,7 @@
     transform: translateX(-50%);
     width: 4px;
     height: 4px;
-    background: #ff3939;
+    background: #168cb5;
     border-radius: 50%;
   }
 
@@ -336,7 +336,7 @@
     transform: translateX(-50%);
     width: 4px;
     height: 4px;
-    background: #ff3939;
+    background: #168cb5;
     border-radius: 50%;
   }
 }
@@ -371,10 +371,10 @@
   }
 
   .btn-add {
-    background: #ff4757;
+    background: #168cb5;
 
     &:hover:not(:disabled) {
-      background: #ff3742;
+      background: #168cb5;
     }
   }
 
@@ -383,7 +383,7 @@
   //   background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
 
   //   &::before {
-  //     background: #ff3939;
+  //     background: #168cb5;
   //   }
   // }
 
@@ -406,11 +406,11 @@
       border-bottom: 3px solid #666 !important;
 
       &:hover:not(:disabled) {
-        border-bottom-color: #ff3939 !important;
+        border-bottom-color: #168cb5 !important;
       }
 
       &.active {
-        border-bottom: 3px solid #ff3939 !important;
+        border-bottom: 3px solid #168cb5 !important;
         color: var(--tertiary-color-100) !important;
       }
     }
@@ -429,8 +429,8 @@
       }
 
       &.active {
-        background: #ff4757;
-        border-color: #ff4757;
+        background: #168cb5;
+        border-color: #168cb5;
         color: white;
       }
     }
@@ -444,11 +444,11 @@
     border-bottom: 3px solid #666 !important;
 
     &:hover:not(:disabled) {
-      border-bottom-color: #ff3939 !important;
+      border-bottom-color: #168cb5 !important;
     }
 
     &.active {
-      border-bottom: 3px solid #ff3939 !important;
+      border-bottom: 3px solid #168cb5 !important;
       color: var(--tertiary-color-100) !important;
     }
   }
@@ -497,11 +497,11 @@
     white-space: nowrap;
 
     &:hover:not(:disabled) {
-      border-bottom-color: #ff3939 !important;
+      border-bottom-color: #168cb5 !important;
     }
 
     &.active {
-      border-bottom: 3px solid #ff3939 !important;
+      border-bottom: 3px solid #168cb5 !important;
       color: var(--tertiary-color-500) !important;
     }
 
@@ -515,7 +515,7 @@
 // Regla específica para botones activos con borde inferior
 .scope-type-buttons-inline .scope-btn-small.active,
 .scope-type-buttons-inline button.btn.scope-btn-small.active {
-  border-bottom: 3px solid #ff3939 !important;
+  border-bottom: 3px solid #168cb5 !important;
   color: var(--tertiary-color-500) !important;
 }
 
@@ -534,7 +534,7 @@
   white-space: nowrap;
 
   &:hover:not(:disabled) {
-    border-bottom-color: #ff3939 !important;
+    border-bottom-color: #168cb5 !important;
   }
 }
 
@@ -563,8 +563,8 @@
     }
 
     &.active {
-      background: #ff4757;
-      border-color: #ff4757;
+      background: #168cb5;
+      border-color: #168cb5;
       color: white;
     }
 
@@ -627,13 +627,13 @@
     transition: all 0.3s ease;
 
     &:hover:not(:disabled) {
-      color: #ff4757;
-      background: rgba(255, 71, 87, 0.05);
+      color: #168cb5;
+      background: rgba(22, 140, 181, 0.05);
     }
 
     &.active {
-      color: #ff4757;
-      border-bottom-color: #ff4757;
+      color: #168cb5;
+      border-bottom-color: #168cb5;
       background: transparent;
     }
 
@@ -654,12 +654,12 @@
       color: #ccc;
 
       &:hover:not(:disabled) {
-        color: #ff4757;
-        background: rgba(255, 71, 87, 0.1);
+        color: #168cb5;
+        background: rgba(22, 140, 181, 0.1);
       }
 
       &.active {
-        color: #ff4757;
+        color: #168cb5;
       }
 
       &:disabled {

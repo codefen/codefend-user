@@ -122,7 +122,7 @@
           transition: all 0.2s ease;
 
           &:hover {
-            stroke: #ff3939 !important;
+            stroke: #168cb5 !important;
             stroke-width: 1.2 !important;
             filter: brightness(1.15);
           }
@@ -229,7 +229,7 @@
 
             &.active {
               color: var(--secondary-color-100);
-              background: rgba(255, 57, 57, 0.15);
+              background: rgba(22, 140, 181, 0.15);
             }
           }
         }
@@ -263,7 +263,7 @@
         .country {
           .interactive-globe & {
             &:hover {
-              stroke: #ff3939 !important;
+              stroke: #168cb5 !important;
               filter: brightness(1.3);
             }
           }

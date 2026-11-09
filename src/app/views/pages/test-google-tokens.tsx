@@ -22,7 +22,7 @@ const TestGoogleTokens: FC = () => {
         formData.append('access_token', accessToken);
       }
 
-      const response = await fetch('http://localhost/api.codefend.app/debug_google_token.php', {
+      const response = await fetch('http://localhost/api.codefend.com/debug_google_token.php', {
         method: 'POST',
         body: formData,
       });
@@ -103,7 +103,7 @@ const TestGoogleTokens: FC = () => {
               style={{
                 color: 'red',
                 padding: '10px',
-                backgroundColor: '#ffe6e6',
+                backgroundColor: '#d8eff6',
                 borderRadius: '5px',
               }}>
               <strong>Error:</strong> {result.error}

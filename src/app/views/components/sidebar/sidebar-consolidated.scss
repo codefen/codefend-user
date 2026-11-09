@@ -157,7 +157,7 @@
     &:hover {
       background-color: #e1e1e1fa; // antes: #e1e1e1eb, ahora más claro
       // color: #f9f9f9e6;
-      border-bottom-color: #f76767eb;
+      border-bottom-color: #168cb5eb;
     }
 
     svg {
@@ -273,7 +273,7 @@
 
     &:hover {
       color: var(--secondary-color-400);
-      background-color: rgba(239, 68, 68, 0.05);
+      background-color: rgba(22, 140, 181, 0.05);
     }
 
     &:active {
@@ -482,7 +482,7 @@
 
             &:hover {
               transform: translateX(8px);
-              background-color: rgba(239, 68, 68, 0.09);
+              background-color: rgba(22, 140, 181, 0.09);
             }
 
             &:active {
@@ -490,7 +490,7 @@
             }
 
             &.active {
-              background-color: #d14e4e;
+              background-color: #097097;
               border-bottom-color: var(--secondary-color-50);
               color: var(--primary-color);
 
@@ -682,14 +682,14 @@
     &.active {
       background: linear-gradient(
         135deg,
-        rgba(255, 57, 57, 0.2) 0%,
-        rgba(255, 57, 57, 0.1333333333) 50%,
-        rgba(255, 57, 57, 0.2666666667) 100%
+        rgba(22, 140, 181, 0.2) 0%,
+        rgba(22, 140, 181, 0.1333333333) 50%,
+        rgba(22, 140, 181, 0.2666666667) 100%
       );
-      color: #ff6464;
+      color: #168cb5;
       border-radius: 0px;
       padding-inline: 12px;
-      box-shadow: 0 2px 8px rgba(255, 57, 57, 0.15);
+      box-shadow: 0 2px 8px rgba(22, 140, 181, 0.15);
       font-weight: 500;
       position: relative;
 
@@ -701,13 +701,13 @@
         transform: translateY(-50%);
         width: 3px;
         height: 60%;
-        background: linear-gradient(180deg, #ff6464 0%, #ff3939 100%);
+        background: linear-gradient(180deg, #168cb5 0%, #168cb5 100%);
         border-radius: 0 2px 2px 0;
       }
 
       svg {
-        fill: #ff6464;
-        color: #ff6464;
+        fill: #168cb5;
+        color: #168cb5;
       }
     }
   }
@@ -1072,7 +1072,7 @@ main.sb.sidebar-mobile-active {
   align-items: center;
   cursor: pointer;
   padding: 10px 10px 10px 20px;
-  background: #ff393911;
+  background: #168cb511;
   z-index: 10;
   .aim-logo {
     margin-bottom: 6px;

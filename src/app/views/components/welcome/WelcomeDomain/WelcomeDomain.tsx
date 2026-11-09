@@ -760,7 +760,7 @@ export const WelcomeDomain = ({
   return (
     <ModalWrapper showCloseBtn={true} type="welcome-modal-container" action={close}>
       <div className="welcome-content">
-        <img className="logose" src={`/codefend/brand-small-${theme}.png`} width={130} />
+        <img className="logose" src={`/codefend/brand-new-${theme}.svg`} width={130} />
         {/* Tabs: Explore dataleaks | Scan corporate infrastructure */}
         <div className="scope-type-buttons-full" style={{ marginTop: 10 }}>
           <button

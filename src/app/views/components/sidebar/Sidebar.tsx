@@ -10,7 +10,7 @@ import { useSwipeToOpen } from '@/app/views/components/sidebar/useSwipeToOpen';
 import './sidebar-consolidated.scss';
 
 export const verifyPath = (verifyPath: string, isRoot: boolean) => {
-  const currentPath = window.location.pathname;
+  const currentPath = '/' + window.location.pathname.slice(import.meta.env.BASE_URL.length);
 
   if (isRoot) {
     return currentPath === verifyPath;
@@ -74,6 +74,7 @@ const Sidebar = () => {
         />
       ) : (
         <SidebarMobile
+          isProviderWithAccess={isProviderWithAccess}
           isOpen={isOpen}
           closeSidebar={closeSidebar}
           email={getUserdata()?.email || 'example@gmail.com'}

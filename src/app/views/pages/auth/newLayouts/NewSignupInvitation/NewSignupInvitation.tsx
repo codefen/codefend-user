@@ -10,7 +10,7 @@ export const NewSignupInvitation = () => {
   return (
     <ModalWrapper showCloseBtn={false} type={css['newsignup']}>
       <div className={css['newsignupContent']}>
-        <img src={`/codefend/brand-small-${theme}.png`} width={220} />
+        <img src={`/codefend/brand-new-${theme}.svg`} width={220} />
         <p style={{ marginBottom: '25px' }}>
           Welcome to Codefend, you are being invited to join a company. Please provide your details
           to continue.

@@ -123,7 +123,7 @@ export const PaymentMethodOrderModal: FC = () => {
           className="option-card"
           onClick={() => handlePaymentMethodClick(OrderPaymentMethod.BANK_TRANSFER, 'bank')}>
           <img
-            src={`/codefend/brand-small-${theme}.png`}
+            src={`/codefend/brand-new-${theme}.svg`}
             alt="Bank Transfer Icon"
             style={{ width: '80px', height: '80px' }}
           />

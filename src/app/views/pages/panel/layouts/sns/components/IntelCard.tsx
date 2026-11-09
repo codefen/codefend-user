@@ -150,7 +150,7 @@ const SnsGeoMap = ({ lat, lon }: { lat: number; lon: number }) => {
         .attr('cx', x)
         .attr('cy', y)
         .attr('r', 6)
-        .attr('fill', '#ff3939')
+        .attr('fill', '#168cb5')
         .attr('stroke', '#111')
         .attr('stroke-width', 2);
     }
@@ -1263,7 +1263,7 @@ export const IntelCard: FC<IntelCardProps> = ({ intel, onOpenLeakedModal, refetc
                   padding: '8px 20px',
                   borderRadius: 6,
                   border: 'none',
-                  background: '#ff3939',
+                  background: '#168cb5',
                   color: '#fff',
                   fontWeight: 500,
                   cursor: 'pointer',

@@ -22,6 +22,9 @@ import useModalStore from '@stores/modal.store';
 import { useTheme } from '@/app/views/context/ThemeContext';
 
 function getStatusBadge(phase: string = '', finished: string | null, launched: string) {
+  if (phase === 'error' || phase === 'failed') {
+    return <div data-status="failed">Failed</div>;
+  }
   if (finished || phase === ScanStepType.Finished) {
     return <div data-status="completed">Finished</div>;
   }
@@ -104,6 +107,8 @@ export const WelcomeFinish = ({
   const leaksFoundFlash = useValueFlash(currentScan?.m_leaks_found);
   const socialLeaksFlash = useValueFlash(currentScan?.m_leaks_social_found);
 
+  const moduleSelected = (name: string) => !currentScan?.selected_modules || String(currentScan.selected_modules).split(',').includes(name);
+
   const navigateTo = (path: string, isDisabled: boolean) => {
     if (isDisabled) return;
     solved();
@@ -113,7 +118,7 @@ export const WelcomeFinish = ({
   return (
     <ModalWrapper showCloseBtn={true} type="welcome-modal-container" action={solved}>
       <div className="welcome-content welcome-content-finish">
-        <img className="logose" src={`/codefend/brand-small-${theme}.png`} width={120} />
+        <img className="logose" src={`/codefend/brand-new-${theme}.svg`} width={120} />
         <Show
           when={
             currentScan?.status === AUTO_SCAN_STATE.SCAN_LAUNCHED ||
@@ -140,7 +145,7 @@ export const WelcomeFinish = ({
             </div>
           </div>
 
-          <div className={`card card-process`}>
+          <div className={`card card-process`} style={{ display: moduleSelected('webscan') ? undefined : 'none' }}>
             <div className="over">
               <div className={'card-process-header'}>
                 <div className={'card-process-header-title'}>
@@ -149,7 +154,7 @@ export const WelcomeFinish = ({
                 </div>
                 <div className={'process-badge'}>
                   {getStatusBadge(
-                    currentScan?.phase,
+                    currentScan?.m_nllm_phase,
                     currentScan?.m_nllm_finished,
                     currentScan?.m_nllm_launched
                   )}
@@ -187,7 +192,7 @@ export const WelcomeFinish = ({
                       }}
                       onMouseEnter={e => {
                         if (currentScan?.m_nllm_issues_parsed > 0) {
-                          e.currentTarget.style.backgroundColor = 'rgba(255, 69, 58, 0.1)';
+                          e.currentTarget.style.backgroundColor = 'rgba(22, 140, 181, 0.1)';
                         }
                       }}
                       onMouseLeave={e => {
@@ -215,7 +220,7 @@ export const WelcomeFinish = ({
             </div>
           </div>
 
-          <div className={`card card-process`}>
+          <div className={`card card-process`} style={{ display: moduleSelected('subdomains') ? undefined : 'none' }}>
             <div className="over">
               <div className={'card-process-header'}>
                 <div className={'card-process-header-title'}>
@@ -254,7 +259,7 @@ export const WelcomeFinish = ({
                       }}
                       onMouseEnter={e => {
                         if (currentScan?.m_subdomains_found > 0) {
-                          e.currentTarget.style.backgroundColor = 'rgba(255, 69, 58, 0.1)';
+                          e.currentTarget.style.backgroundColor = 'rgba(22, 140, 181, 0.1)';
                         }
                       }}
                       onMouseLeave={e => {
@@ -280,7 +285,7 @@ export const WelcomeFinish = ({
                       }}
                       onMouseEnter={e => {
                         if (currentScan?.m_subdomains_found_servers > 0) {
-                          e.currentTarget.style.backgroundColor = 'rgba(255, 69, 58, 0.1)';
+                          e.currentTarget.style.backgroundColor = 'rgba(22, 140, 181, 0.1)';
                         }
                       }}
                       onMouseLeave={e => {
@@ -306,7 +311,7 @@ export const WelcomeFinish = ({
             </div>
           </div>
 
-          <div className={`card card-process`}>
+          <div className={`card card-process`} style={{ display: moduleSelected('leaks') ? undefined : 'none' }}>
             <div className="over">
               <div className={'card-process-header'}>
                 <div className={'card-process-header-title'}>
@@ -324,7 +329,11 @@ export const WelcomeFinish = ({
                   <h3>Darkweb leaks research</h3>
                 </div>
                 <div className={'process-badge'}>
-                  {getStatusBadge('', currentScan?.m_leaks_finished, currentScan?.m_leaks_launched)}
+                  {getStatusBadge(
+                    currentScan?.m_leaks_phase,
+                    currentScan?.m_leaks_finished,
+                    currentScan?.m_leaks_launched
+                  )}
                 </div>
               </div>
 
@@ -355,7 +364,7 @@ export const WelcomeFinish = ({
                       }}
                       onMouseEnter={e => {
                         if (currentScan?.m_leaks_found > 0) {
-                          e.currentTarget.style.backgroundColor = 'rgba(255, 69, 58, 0.1)';
+                          e.currentTarget.style.backgroundColor = 'rgba(22, 140, 181, 0.1)';
                         }
                       }}
                       onMouseLeave={e => {
@@ -384,7 +393,7 @@ export const WelcomeFinish = ({
                       }}
                       onMouseEnter={e => {
                         if (currentScan?.m_leaks_social_found > 0) {
-                          e.currentTarget.style.backgroundColor = 'rgba(255, 69, 58, 0.1)';
+                          e.currentTarget.style.backgroundColor = 'rgba(22, 140, 181, 0.1)';
                         }
                       }}
                       onMouseLeave={e => {

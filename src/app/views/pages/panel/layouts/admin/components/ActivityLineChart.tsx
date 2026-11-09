@@ -66,7 +66,7 @@ export const ActivityLineChart: FC<ActivityLineChartProps> = ({
   const colors = {
     visitas_unicas: '#999999', // Gris claro
     leads: '#666666', // Gris oscuro
-    usuarios: '#ff6464', // Rojo claro
+    usuarios: '#168cb5', // Rojo claro
   };
 
   // Procesar los datos - FIX: crear fecha sin zona horaria para evitar desfase

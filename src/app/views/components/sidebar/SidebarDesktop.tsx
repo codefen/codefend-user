@@ -114,6 +114,14 @@ export const SidebarDesktop = ({
       id: 'sidebar_admin',
       children: [
         {
+          title: 'Company Panel',
+          id: 'sidebar_company_panel',
+          icon: <AdminCompanyIcon />,
+          to: '/admin/company',
+          root: isAdmin(),
+          haveAccess: isAdmin() || isProviderWithAccess,
+        },
+        {
           title: 'Admin Commander',
           id: 'sidebar_commander',
           icon: <LightningIcon isVisible />,
@@ -130,7 +138,7 @@ export const SidebarDesktop = ({
           haveAccess: isAdmin(),
         },
       ],
-      haveAccess: isAdmin(),
+      haveAccess: isAdmin() || isProviderWithAccess,
     },
     {
       type: 'group',
@@ -184,14 +192,6 @@ export const SidebarDesktop = ({
           to: '/reseller/orders',
           root: false,
           haveAccess: isReseller(),
-        },
-        {
-          title: 'Company Panel',
-          id: 'sidebar_company_panel',
-          icon: <AdminCompanyIcon />,
-          to: '/admin/company',
-          root: isAdmin(),
-          haveAccess: isAdmin() || isProviderWithAccess,
         },
         {
           title: 'Dashboard',

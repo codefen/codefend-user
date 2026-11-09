@@ -65,8 +65,10 @@ export class AxiosHttpService extends HttpService {
     requestId = 'uniqueRequest',
     requireSession = true,
   }: HttpRequestOptions): Promise<T> {
-    const insecureStore = localStorage.getItem('a20af8d9') == 'true' ? true : false;
-    insecure = insecureStore ? insecureStore : insecure;
+    const insecureStore = localStorage.getItem('a20af8d9') === 'true';
+    const hasCredentialFields = Object.keys(body ?? {}).some(key => /password|mfa|token|otp/i.test(key));
+    // Keep credentials in the POST body; never expose them in query strings.
+    insecure = (insecureStore || Boolean(insecure)) && !hasCredentialFields;
     const abortController = this.getAbortController(requestId);
     let data = requireSession ? { ...body, session: this.session } : body;
     const requestConfig: AxiosRequestConfig = {

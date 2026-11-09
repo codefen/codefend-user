@@ -130,6 +130,7 @@ export const useVerifyScanListv3 = () => {
       activeMap.set(scan.id, {
         ...fixed,
         phase: scan.phase,
+        selected_modules: scan?.selected_modules,
         m_nllm_issues_found: scan?.m_nllm_issues_found,
         m_nllm_issues_parsed: scan?.m_nllm_issues_parsed,
         m_nllm_phase: scan?.m_nllm_phase,
@@ -171,8 +172,10 @@ export const useVerifyScanListv3 = () => {
       let webScanProgress = value?.webScanProgress;
       let leaksScanProgress = value?.leaksScanProgress;
       let subdomainScanProgress = value?.subdomainScanProgress;
-      if (webScanPhase === 'scanner') {
-        const now = Date.now(); //Hora actual podes sumar 1 cada 8seg que paso de la hora actual
+      if (value?.m_nllm_finished || webScanPhase === 'finished') {
+        webScanProgress = 100;
+      } else if (webScanPhase === 'scanner') {
+        const now = Date.now();
         const launchedTime = new Date(m_nllm_launched).getTime();
         const elapsedSeconds = (now - launchedTime) / 1000;
         const maxProgress = 25;
@@ -180,61 +183,37 @@ export const useVerifyScanListv3 = () => {
 
         const progress = Math.min((elapsedSeconds / estimatedDuration) * maxProgress, maxProgress);
         webScanProgress = progress;
-      } else if (webScanPhase === 'parser') {
+      } else if (webScanPhase === 'parser' || webScanPhase === 'scanning_and_parsing') {
         const m_nllm_issues_found = value?.m_nllm_issues_found;
         const m_nllm_issues_parsed = value?.m_nllm_issues_parsed;
         webScanProgress = getParserProgress(m_nllm_issues_found, m_nllm_issues_parsed);
       } else {
-        webScanProgress = 100;
+        // An absent or unrecognized API phase is not proof that the module finished.
+        webScanProgress = Math.min(Math.max(webScanProgress || 0, 0), 99);
       }
 
-      if (!m_leaks_finished) {
-        const now = Date.now();
-        const elapsedSec = Math.floor((now - m_leaks_launched) / 1000);
-        const rawProgress = Math.min(elapsedSec / LEAKS_ESTIMATED_DURATION, 1); // normalizado [0, 1]
-
-        // Ralentizar después del 85%
-        let easedProgress;
-        if (rawProgress < 0.85) {
-          easedProgress = rawProgress * 98; // Escalado lineal hasta 85% → ~83.3%
-        } else {
-          const slowdownProgress = (rawProgress - 0.85) / (1 - 0.85); // [0,1] en el rango [0.85,1]
-          const slowCurve = 1 - Math.pow(1 - slowdownProgress, 2);
-          easedProgress = 83.3 + slowCurve * (98 - 83.3);
-        }
-
-        leaksScanProgress = Math.max(leaksScanProgress || 0, Math.min(easedProgress, 98));
-      } else {
+      if (m_leaks_finished) {
         leaksScanProgress = 100;
-      }
-
-      if (!m_subdomains_finished) {
-        const now = Date.now();
-        const elapsedSec = Math.floor((now - m_subdomains_launched) / 1000);
-        const rawProgress = Math.min(elapsedSec / SUBDOMAINS_ESTIMATED_DURATION, 1); // normalizado [0, 1]
-
-        // Ralentizar después del 85%
-        let easedProgress;
-        if (rawProgress < 0.85) {
-          easedProgress = rawProgress * 98; // Escalado lineal hasta 85% → ~83.3%
-        } else {
-          // Aplicamos una curva de easing más lenta a partir de 85%
-          // Se mueve desde 83.3% hasta 98% lentamente
-          const slowdownProgress = (rawProgress - 0.85) / (1 - 0.85); // [0,1] en el rango [0.85,1]
-          const slowCurve = 1 - Math.pow(1 - slowdownProgress, 2);
-          easedProgress = 83.3 + slowCurve * (98 - 83.3);
-        }
-
-        subdomainScanProgress = Math.max(subdomainScanProgress || 0, Math.min(easedProgress, 98));
       } else {
-        subdomainScanProgress = 100;
+        const launchedAt = m_leaks_launched;
+        const elapsedSec = Number.isFinite(launchedAt) ? Math.max(0, (Date.now() - launchedAt) / 1000) : 0;
+        const estimatedProgress = Math.min((elapsedSec / LEAKS_ESTIMATED_DURATION) * 85, 85);
+        // El tiempo solo da una estimación: 100% requiere confirmación del backend.
+        leaksScanProgress = Math.min(Math.max(leaksScanProgress || 0, estimatedProgress), 85);
       }
 
-      const overallProgress = computeOverallProgress(
-        webScanProgress,
-        leaksScanProgress,
-        subdomainScanProgress
-      );
+      if (m_subdomains_finished) {
+        subdomainScanProgress = 100;
+      } else {
+        const launchedAt = m_subdomains_launched;
+        const elapsedSec = Number.isFinite(launchedAt) ? Math.max(0, (Date.now() - launchedAt) / 1000) : 0;
+        const estimatedProgress = Math.min((elapsedSec / SUBDOMAINS_ESTIMATED_DURATION) * 85, 85);
+        // El tiempo solo da una estimación: 100% requiere confirmación del backend.
+        subdomainScanProgress = Math.min(Math.max(subdomainScanProgress || 0, estimatedProgress), 85);
+      }
+      const selected = value?.selected_modules ? String(value.selected_modules).split(',') : ['webscan', 'leaks', 'subdomains'];
+      const chosenProgress = [selected.includes('webscan') ? webScanProgress : null, selected.includes('leaks') ? leaksScanProgress : null, selected.includes('subdomains') ? subdomainScanProgress : null].filter((p): p is number => p !== null && Number.isFinite(p));
+      const overallProgress = value?.phase === 'finished' ? 100 : chosenProgress.length ? chosenProgress.reduce((a, b) => a + b, 0) / chosenProgress.length : 0;
       if (value?.phase !== 'finished') {
         isAnyScanPending = true;
       }

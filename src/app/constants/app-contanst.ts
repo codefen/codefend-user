@@ -11,9 +11,9 @@ export enum ButtonStyles {
 }
 
 export const PLAN_IMAGE = {
-  small: '/codefend/plan small segunda opcion.svg',
-  medium: '/codefend/Plan medio segunda opcion.svg',
-  advanced: '/codefend/Plan premium.svg',
+  small: '/codefend/plan-small-blue.svg',
+  medium: '/codefend/plan-medium-blue.svg',
+  advanced: '/codefend/plan-advanced-blue.svg',
 };
 
 export class AppConstants {

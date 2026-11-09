@@ -71,7 +71,7 @@
         shape-rendering: geometricPrecision; // Crisp edges
         
         &:hover {
-          stroke: #ff3939 !important;
+          stroke: #168cb5 !important;
           stroke-width: 1.2 !important;
           filter: brightness(1.15);
         }
@@ -188,7 +188,7 @@
 
         .country {
           &:hover {
-            stroke: #ff3939 !important;
+            stroke: #168cb5 !important;
             filter: brightness(1.3);
           }
         }

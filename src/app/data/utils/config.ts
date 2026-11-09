@@ -1,4 +1,4 @@
-export const baseUrl = import.meta.env['VITE_API_URI'] || 'https://api.codefend.app/index.php';
+export const baseUrl = import.meta.env['VITE_API_URI'] || 'https://api.codefend.com/index.php';
 /** Publishable keys; si solo tenés `VITE_STRIPE_KEY` (legacy), se usa como respaldo en ambos modos. */
 export const stripeKey =
   import.meta.env['VITE_STRIPE_KEY_LIVE'] ?? import.meta.env['VITE_STRIPE_KEY'] ?? '';

@@ -131,7 +131,7 @@ export function RadarScanner({ notBichardos = false }: { notBichardos?: boolean 
 
   const drawGrid = useCallback((ctx: CanvasRenderingContext2D) => {
     ctx.lineWidth = 0.5;
-    ctx.strokeStyle = `rgba(255, 48, 48, ${GRID_OPACITY})`;
+    ctx.strokeStyle = `rgba(22, 140, 181, ${GRID_OPACITY})`;
 
     // Dibujar líneas verticales y horizontales en un solo loop
     ctx.beginPath();
@@ -150,19 +150,19 @@ export function RadarScanner({ notBichardos = false }: { notBichardos?: boolean 
     (ctx: CanvasRenderingContext2D) => {
       // Gradiente vertical
       const verticalGradient = ctx.createLinearGradient(centerX, 0, centerX, SIZE);
-      verticalGradient.addColorStop(0, 'rgba(255, 48, 48, 0)');
-      verticalGradient.addColorStop(0.4, 'rgba(255, 48, 48, 0.4)');
-      verticalGradient.addColorStop(0.5, 'rgba(255, 48, 48, 0.8)');
-      verticalGradient.addColorStop(0.6, 'rgba(255, 48, 48, 0.4)');
-      verticalGradient.addColorStop(1, 'rgba(255, 48, 48, 0)');
+      verticalGradient.addColorStop(0, 'rgba(22, 140, 181, 0)');
+      verticalGradient.addColorStop(0.4, 'rgba(22, 140, 181, 0.4)');
+      verticalGradient.addColorStop(0.5, 'rgba(22, 140, 181, 0.8)');
+      verticalGradient.addColorStop(0.6, 'rgba(22, 140, 181, 0.4)');
+      verticalGradient.addColorStop(1, 'rgba(22, 140, 181, 0)');
 
       // Gradiente horizontal
       const horizontalGradient = ctx.createLinearGradient(0, centerY, SIZE, centerY);
-      horizontalGradient.addColorStop(0, 'rgba(255, 48, 48, 0)');
-      horizontalGradient.addColorStop(0.4, 'rgba(255, 48, 48, 0.4)');
-      horizontalGradient.addColorStop(0.5, 'rgba(255, 48, 48, 0.8)');
-      horizontalGradient.addColorStop(0.6, 'rgba(255, 48, 48, 0.4)');
-      horizontalGradient.addColorStop(1, 'rgba(255, 48, 48, 0)');
+      horizontalGradient.addColorStop(0, 'rgba(22, 140, 181, 0)');
+      horizontalGradient.addColorStop(0.4, 'rgba(22, 140, 181, 0.4)');
+      horizontalGradient.addColorStop(0.5, 'rgba(22, 140, 181, 0.8)');
+      horizontalGradient.addColorStop(0.6, 'rgba(22, 140, 181, 0.4)');
+      horizontalGradient.addColorStop(1, 'rgba(22, 140, 181, 0)');
 
       ctx.beginPath();
       ctx.moveTo(centerX, 0);
@@ -180,12 +180,12 @@ export function RadarScanner({ notBichardos = false }: { notBichardos?: boolean 
       // Centro
       ctx.beginPath();
       ctx.arc(centerX, centerY, 4, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(255, 48, 48, 0.4)';
+      ctx.fillStyle = 'rgba(22, 140, 181, 0.4)';
       ctx.fill();
 
       ctx.beginPath();
       ctx.arc(centerX, centerY, 2, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(255, 48, 48, 0.9)';
+      ctx.fillStyle = 'rgba(22, 140, 181, 0.9)';
       ctx.fill();
     },
     [centerX, centerY]
@@ -198,11 +198,11 @@ export function RadarScanner({ notBichardos = false }: { notBichardos?: boolean 
       ctx.rotate(angle);
 
       const coneGradient = ctx.createConicGradient(-CONE_ANGLE, 0, 0);
-      coneGradient.addColorStop(0, 'rgba(255, 48, 48, 0)');
-      coneGradient.addColorStop(0.2, 'rgba(255, 48, 48, 0.8)');
-      coneGradient.addColorStop(0.5, 'rgba(255, 48, 48, 1)');
-      coneGradient.addColorStop(0.8, 'rgba(255, 48, 48, 0.8)');
-      coneGradient.addColorStop(1, 'rgba(255, 48, 48, 0)');
+      coneGradient.addColorStop(0, 'rgba(22, 140, 181, 0)');
+      coneGradient.addColorStop(0.2, 'rgba(22, 140, 181, 0.8)');
+      coneGradient.addColorStop(0.5, 'rgba(22, 140, 181, 1)');
+      coneGradient.addColorStop(0.8, 'rgba(22, 140, 181, 0.8)');
+      coneGradient.addColorStop(1, 'rgba(22, 140, 181, 0)');
 
       ctx.beginPath();
       ctx.moveTo(0, 0);
@@ -212,9 +212,9 @@ export function RadarScanner({ notBichardos = false }: { notBichardos?: boolean 
       ctx.fill();
 
       const depthGradient = ctx.createRadialGradient(0, 0, 0, 0, 0, SIZE / 2);
-      depthGradient.addColorStop(0, 'rgba(255, 48, 48, 0.8)');
-      depthGradient.addColorStop(0.2, 'rgba(255, 48, 48, 0.6)');
-      depthGradient.addColorStop(1, 'rgba(255, 48, 48, 0)');
+      depthGradient.addColorStop(0, 'rgba(22, 140, 181, 0.8)');
+      depthGradient.addColorStop(0.2, 'rgba(22, 140, 181, 0.6)');
+      depthGradient.addColorStop(1, 'rgba(22, 140, 181, 0)');
 
       ctx.beginPath();
       ctx.moveTo(0, 0);
@@ -225,8 +225,8 @@ export function RadarScanner({ notBichardos = false }: { notBichardos?: boolean 
 
       // Centro brillante
       const centerGlow = ctx.createRadialGradient(0, 0, 0, 0, 0, 30);
-      centerGlow.addColorStop(0, 'rgba(255, 48, 48, 0.4)');
-      centerGlow.addColorStop(1, 'rgba(255, 48, 48, 0)');
+      centerGlow.addColorStop(0, 'rgba(22, 140, 181, 0.4)');
+      centerGlow.addColorStop(1, 'rgba(22, 140, 181, 0)');
 
       ctx.beginPath();
       ctx.arc(0, 0, 30, 0, Math.PI * 2);
@@ -243,7 +243,7 @@ export function RadarScanner({ notBichardos = false }: { notBichardos?: boolean 
       RINGS.forEach(({ radius, opacity }) => {
         ctx.beginPath();
         ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
-        ctx.strokeStyle = `rgba(255, 60, 35, ${opacity})`;
+        ctx.strokeStyle = `rgba(22, 140, 181, ${opacity})`;
         ctx.lineWidth = 1;
         ctx.stroke();
 
@@ -255,8 +255,8 @@ export function RadarScanner({ notBichardos = false }: { notBichardos?: boolean 
           centerY,
           radius + 1
         );
-        circleGlow.addColorStop(0, `rgba(255, 60, 35, ${opacity * 0.6})`);
-        circleGlow.addColorStop(1, 'rgba(255, 60, 35, 0)');
+        circleGlow.addColorStop(0, `rgba(22, 140, 181, ${opacity * 0.6})`);
+        circleGlow.addColorStop(1, 'rgba(22, 140, 181, 0)');
 
         ctx.beginPath();
         ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
@@ -272,8 +272,8 @@ export function RadarScanner({ notBichardos = false }: { notBichardos?: boolean 
     points.forEach(point => {
       if (point.opacity > 0) {
         const pointGlow = ctx.createRadialGradient(point.x, point.y, 0, point.x, point.y, 20);
-        pointGlow.addColorStop(0, `rgba(255, 48, 48, ${point.opacity * 0.8})`);
-        pointGlow.addColorStop(1, 'rgba(255, 48, 48, 0)');
+        pointGlow.addColorStop(0, `rgba(22, 140, 181, ${point.opacity * 0.8})`);
+        pointGlow.addColorStop(1, 'rgba(22, 140, 181, 0)');
 
         ctx.beginPath();
         ctx.arc(point.x, point.y, 20, 0, Math.PI * 2);
@@ -282,12 +282,12 @@ export function RadarScanner({ notBichardos = false }: { notBichardos?: boolean 
 
         ctx.beginPath();
         ctx.arc(point.x, point.y, 6, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 48, 48, ${point.opacity * 0.9})`;
+        ctx.fillStyle = `rgba(22, 140, 181, ${point.opacity * 0.9})`;
         ctx.fill();
 
         ctx.beginPath();
         ctx.arc(point.x, point.y, 3, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 48, 48, ${point.opacity})`;
+        ctx.fillStyle = `rgba(22, 140, 181, ${point.opacity})`;
         ctx.fill();
       }
     });
@@ -314,17 +314,17 @@ export function RadarScanner({ notBichardos = false }: { notBichardos?: boolean 
       centerY,
       SIZE / 2
     );
-    outerGlow.addColorStop(0, 'rgba(255, 60, 35, 0.06)');
-    outerGlow.addColorStop(0.7, 'rgba(255, 60, 35, 0.02)');
-    outerGlow.addColorStop(1, 'rgba(255, 60, 35, 0.01)');
+    outerGlow.addColorStop(0, 'rgba(22, 140, 181, 0.06)');
+    outerGlow.addColorStop(0.7, 'rgba(22, 140, 181, 0.02)');
+    outerGlow.addColorStop(1, 'rgba(22, 140, 181, 0.01)');
     ctx.fillStyle = outerGlow;
     ctx.fillRect(0, 0, SIZE, SIZE);
 
     const innerGlow = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, SIZE * 0.35);
-    innerGlow.addColorStop(0, 'rgba(255, 60, 35, 0.5)');
-    innerGlow.addColorStop(0.5, 'rgba(255, 60, 35, 0.3)');
-    innerGlow.addColorStop(0.8, 'rgba(255, 60, 35, 0.15)');
-    innerGlow.addColorStop(1, 'rgba(255, 60, 35, 0.06)');
+    innerGlow.addColorStop(0, 'rgba(22, 140, 181, 0.5)');
+    innerGlow.addColorStop(0.5, 'rgba(22, 140, 181, 0.3)');
+    innerGlow.addColorStop(0.8, 'rgba(22, 140, 181, 0.15)');
+    innerGlow.addColorStop(1, 'rgba(22, 140, 181, 0.06)');
     ctx.fillStyle = innerGlow;
     ctx.fillRect(0, 0, SIZE, SIZE);
 

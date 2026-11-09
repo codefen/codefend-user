@@ -68,7 +68,7 @@ const webColumns: ColumnTableV3[] = [
     styles: 'item-cell-web-4',
     weight: '22%',
     render: (row: any) => (
-      <LocationItem country={row?.server_pais || ''} countryCode={row?.server_pais_code || ''} />
+      <LocationItem country={row?.server_pais || ''} countryCode={row?.server_pais_code || ''} showCountryCode />
     ),
   },
   {

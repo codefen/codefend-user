@@ -16,7 +16,7 @@ export const ActivityStats: FC<ActivityStatsProps> = ({ totals }) => {
     {
       value: totals.leads,
       label: 'LEADS',
-      color: '#ff4757' // Rojo
+      color: '#168cb5' // Rojo
     },
     {
       value: totals.usuarios,

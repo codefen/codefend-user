@@ -8,7 +8,7 @@
 .bouncing-dots-arrow .dot {
   width: 10px;
   height: 10px;
-  background: #ec2603;
+  background: #168cb5;
   border-radius: 50%;
   margin: 4px 0;
   animation: dot-bounce 1.2s infinite;
@@ -30,7 +30,7 @@
   height: 0;
   border-left: 12px solid transparent;
   border-right: 12px solid transparent;
-  border-bottom: 20px solid #ec2603;
+  border-bottom: 20px solid #168cb5;
   background: none;
   filter: none;
   margin-bottom: 2px;
@@ -39,7 +39,7 @@
 
 .bouncing-dots-arrow[style*='rotate(180deg)'] .arrow-head {
   border-bottom: none;
-  border-top: 20px solid #ec2603;
+  border-top: 20px solid #168cb5;
   border-left: 12px solid transparent;
   border-right: 12px solid transparent;
   margin-bottom: 0;

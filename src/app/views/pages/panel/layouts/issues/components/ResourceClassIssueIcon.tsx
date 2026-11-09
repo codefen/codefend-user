@@ -12,7 +12,7 @@ export const ResourceClassIssueIcon = ({ resourceClass }: { resourceClass: strin
       case 'source_code':
         return <SourceCodeIcon />;
       case 'leaks':
-        return <img src="codefend/gota.png" alt="Globe Icon" style={{ width: '0.9em' }} />;
+        return <img src={`${import.meta.env.BASE_URL}codefend/gota.png`} alt="Globe Icon" style={{ width: '0.9em' }} />;
       default:
         return <WebSolidIcon />;
     }
@@ -24,7 +24,7 @@ export const ResourceClassIssueIcon = ({ resourceClass }: { resourceClass: strin
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        color: '#e56060db',
+        color: '#168cb5db',
         padding: '3px',
         borderRadius: '6px',
         minWidth: '20px',

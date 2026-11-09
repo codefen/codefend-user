@@ -13,7 +13,6 @@ import {
 import { NetworkResourcesProvider, useNetworkResources } from './context/NetworkResourcesContext';
 
 import './optimized-cards.scss';
-import { nodeEnv } from '@utils/config.ts';
 
 // Extended interface for network resources with server location data
 interface NetworkDevice extends Device {
@@ -40,7 +39,7 @@ interface CardsResourcesWanProps {
  * Separated for cleaner architecture and better performance
  */
 const NetworkCardsContent: FC = () => {
-  const { filtering, actions, chunkedRendering, masonryLayout, infiniteScroll } =
+  const { filtering, actions, masonryLayout, infiniteScroll } =
     useNetworkResources();
 
   // Context menu actions with memoization
@@ -132,15 +131,6 @@ const NetworkCardsContent: FC = () => {
 
               {/* Infinite scroll sentinel */}
               <div ref={infiniteScroll.sentinelRef} style={{ height: '1px' }} />
-
-              {/* Performance info for debugging */}
-              {nodeEnv === 'development' && (
-                <div className="performance-debug">
-                  Columns: {masonryLayout.columnStats.itemsPerColumn.length} | Displayed:{' '}
-                  {chunkedRendering.displayedCount} | Progress:{' '}
-                  {Math.round(chunkedRendering.progress)}%
-                </div>
-              )}
             </>
           ) : (
             <div className="no-results">

@@ -9,15 +9,15 @@ interface LogoProps {
 
 const themeToImage: Record<string, LogoPath> = {
   light: {
-    path: '/codefend/logo-light.svg',
+    path: '/codefend/brand-new-light.svg',
   },
   dark: {
-    path: '/codefend/logo-dark.svg',
+    path: '/codefend/brand-new-dark.svg',
   },
   shadow: { path: '/codefend/logo-shadow.png' },
   inshadow: { path: '/codefend/logo-inshadow.png' },
   aim: { path: '/codefend/aim-light.svg' },
-  aimColor: { path: '/codefend/fav.png' },
+  aimColor: { path: '/codefend/brand-mark.svg' },
 };
 
 const Logo = ({ theme, onClick }: LogoProps) => {

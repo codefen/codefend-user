@@ -1,0 +1,255 @@
+/* Visual identity shared with the Codefend website. */
+body[data-theme='light'] {
+  --primary-color:#ffffff; --primary-color-50:#f7f9fa; --primary-color-100:#f2f5f6; --primary-color-200:#f2f4f5; --primary-color-300:#d9e2e5; --primary-color-400:#edf2f3; --primary-color-500:#e7eef0; --primary-color-600:#cbd9de;
+  --secondary-color-mask:#168cb5; --secondary-color:#168cb5; --secondary-color-50:#168cb5; --secondary-color-100:#087da4; --secondary-color-150:#08799d; --secondary-color-200:#087da4; --secondary-color-300:#086784; --secondary-color-400:#075872;
+  --tertiary-color-300:#657178; --tertiary-color-400:#46565e; --tertiary-color-450:#34454d; --tertiary-color-500:#20282d; --tertiary-color-600:#20282d; --tertiary-color-700:#17252c;
+  --codefend-color-red:#168cb5; --brd-radius:8px;
+}
+body[data-theme='dark'] {
+  --primary-color:#1d2022; --primary-color-50:#1d2022; --primary-color-100:#17191b; --primary-color-200:#17191b; --primary-color-250:#222628; --primary-color-300:#343b3e; --primary-color-400:#282e31; --primary-color-500:#242a2d; --primary-color-600:#424e53;
+  --secondary-color-mask:#72d7f5; --secondary-color:#72d7f5; --secondary-color-50:#72d7f5; --secondary-color-100:#72d7f5; --secondary-color-150:#62c7e8; --secondary-color-200:#72d7f5; --secondary-color-300:#54b9da; --secondary-color-400:#a2e5f8;
+  --tertiary-color-50:#f0f5f6; --tertiary-color-100:#e5eff1; --tertiary-color-200:#c7d4d8; --tertiary-color-300:#e5eff1; --tertiary-color-400:#b2c2c6; --tertiary-color-500:#9eafb4; --tertiary-color-600:#aabac0; --tertiary-color-700:#e5eff1;
+  --codefend-color-red:#72d7f5; --brd-radius:8px;
+}
+body, body button, body input, body select, body textarea {font-family:Urbanist,Satoshi,system-ui,sans-serif}
+body[data-theme='dark'] {background:#17191b}
+body[data-theme='light'] {background:#f2f4f5}
+body :is(input,select,textarea):focus-visible {outline:2px solid #168cb5;outline-offset:2px;border-color:#168cb5}
+body .card {border:1px solid var(--primary-color-300);box-shadow:0 8px 28px rgba(15,35,43,.035)}
+body .sidebar.desktop-active {border:1px solid var(--primary-color-300)}
+body .sidebar a.active {background:#e0f4fa!important;color:#087da4!important;border-color:#9cdae9!important;box-shadow:none!important}
+body[data-theme='dark'] .sidebar a.active {background:#152c35!important;color:#72d7f5!important;border-color:#315966!important}
+body .sidebar a:hover {background:rgba(22,140,181,.08)!important;border-color:transparent!important}
+body .btn.btn-red, body button.btn-red, body a.btn-red {background:#168cb5!important;border-color:#168cb5!important;color:#fff!important;box-shadow:none!important}
+body .btn.btn-red:hover, body button.btn-red:hover, body a.btn-red:hover {background:#08779d!important;border-color:#08779d!important}
+body[data-theme='dark'] .btn.btn-red, body[data-theme='dark'] button.btn-red, body[data-theme='dark'] a.btn-red {background:#72d7f5!important;border-color:#72d7f5!important;color:#11272e!important}
+body[data-theme='dark'] .btn.btn-red:hover, body[data-theme='dark'] button.btn-red:hover, body[data-theme='dark'] a.btn-red:hover {background:#a1e6f8!important}
+body:has(.new-signin-form),body:has(.new-signup-form),body:has(.onboarding-modal-container) {background:#f2f4f5!important}
+body[data-theme='dark']:has(.new-signin-form),body[data-theme='dark']:has(.new-signup-form),body[data-theme='dark']:has(.onboarding-modal-container) {background:#17191b!important}
+body:has(.new-signin-form)::after,body:has(.new-signup-form)::after,body:has(.onboarding-modal-container)::after {background-image:linear-gradient(90deg,transparent 99%,rgba(22,140,181,.09) 99%),linear-gradient(transparent 99%,rgba(22,140,181,.09) 99%)!important;background-size:72px 72px!important;width:100%!important;opacity:.45;transform:none!important}
+body #root-modal .modal-wrapper .modal :is(.new-auth-content,.readonly-content) {border:1px solid #d6e0e3!important;border-radius:10px!important;box-shadow:0 14px 48px rgba(32,62,74,.06)!important;background:#fff!important}
+body[data-theme='dark'] #root-modal .modal-wrapper .modal :is(.new-auth-content,.readonly-content) {border-color:#343b3e!important;background:#1d2022!important;box-shadow:0 14px 48px rgba(0,0,0,.16)!important}
+body #root-modal .modal-wrapper .modal .readonly-content .feature-icon img {filter:hue-rotate(205deg) saturate(.9)}
+body #root-modal .modal-wrapper .modal .password-recovery {color:var(--tertiary-color-400)!important}
+body #root-modal .modal-wrapper .modal .auth-link {color:var(--secondary-color-200)}
+
+body .sidebar .sidebar-logo-block {background:rgba(22,140,181,.07)!important}
+body .sidebar a.active:before {background-color:var(--secondary-color-50)!important}
+body .sidebar a.active svg {color:var(--secondary-color-50)!important;fill:none!important}
+body .card.stat:not(.stat-active) .value {color:var(--tertiary-color-400)!important}
+
+/* Continuous desktop columns and thin dividers. */
+@media (min-width: 1231px) {
+  #root {max-width:none; grid-template-columns:var(--sidebar-width) repeat(6,minmax(0,1fr))}
+  body .sidebar.desktop-active {left:0; margin:0; border:0; border-right:1px solid var(--primary-color-300); border-radius:0; box-shadow:none}
+  body #root > main:not(.auth-pages) {padding:0!important; column-gap:0!important; max-height:none}
+  body #root > main:not(.auth-pages) > .left {min-width:0; margin:0; gap:0}
+  body #root > main:not(.auth-pages) > .right {min-width:0; margin:0; border-left:1px solid var(--primary-color-300); gap:0!important}
+  body #root > main:not(.auth-pages) > .right > .card {margin:0!important; border:0!important; border-bottom:1px solid var(--primary-color-300)!important; border-radius:0!important; box-shadow:none!important}
+  body #root > main:not(.auth-pages) > .left > .card {border:0; border-radius:0; box-shadow:none}
+}
+
+/* Continuous sections for side panels and groups of metrics. */
+body main > .right > .scrollable-content > .card,
+body main > .right > .scrollable-content > .flex-box:has(> .card.stat) {
+  margin:0!important; border:0!important; border-bottom:1px solid var(--primary-color-300)!important;
+  border-radius:0!important; box-shadow:none!important;
+}
+body main .flex-box:has(> .card.stat) {
+  gap:0!important; background:var(--primary-color); border-bottom:1px solid var(--primary-color-300);
+}
+body main .flex-box > .card.stat {
+  min-width:0; min-height:120px; aspect-ratio:auto; margin:0!important;
+  border:0!important; border-right:1px solid var(--primary-color-300)!important;
+  border-radius:0!important; background:transparent!important; box-shadow:none!important;
+}
+body main .flex-box > .card.stat:last-child {border-right:0!important}
+body main .flex-box > .card.stat .value {font-size:clamp(1.45rem,2vw,1.8rem);line-height:1.15}
+body main .flex-box > .card.stat p {line-height:1.25; overflow-wrap:anywhere}
+
+/* Make the center column use the same fine dividers as the right panel. */
+body main:is(.user-profile,.dashboard,.team-members) > .left > .card.rectangle {
+  border:0!important; border-bottom:1px solid var(--primary-color-300)!important;
+  border-radius:0!important; box-shadow:none!important; margin:0!important;
+}
+body main:is(.user-profile,.dashboard,.team-members) > .left > .box-assets {
+  gap:0!important; margin:0!important; align-items:stretch;
+  background:var(--primary-color); border-bottom:1px solid var(--primary-color-300);
+}
+body main:is(.user-profile,.dashboard,.team-members) > .left > .box-assets > .card {
+  min-width:0; height:auto; margin:0!important; border:0!important;
+  border-radius:0!important; box-shadow:none!important; background:transparent;
+}
+body main:is(.user-profile,.dashboard,.team-members) > .left > .box-assets > .card + .card {
+  border-left:1px solid var(--primary-color-300)!important;
+}
+body main.team-members .team-members-two-columns {gap:0; margin:0; border-bottom:1px solid var(--primary-color-300)}
+body main.team-members .team-members-two-columns > .left-column {border-right:1px solid var(--primary-color-300)}
+body main.team-members .team-members-two-columns > :is(.left-column,.right-column) > .card {border:0;border-radius:0;box-shadow:none}
+@media(min-width:1231px){body main.user-profile{width:100%!important}}
+@container left-main (max-width:640px) {
+  body main.dashboard > .left > .box-assets > .card + .card {
+    border-left:0!important; border-top:1px solid var(--primary-color-300)!important;
+  }
+}
+@container left-main (max-width:600px) {
+  body main.user-profile > .left > .box-assets > .card + .card {
+    border-left:0!important; border-top:1px solid var(--primary-color-300)!important;
+  }
+}
+@media(max-width:1024px){body main.team-members .team-members-two-columns > .left-column {border-right:0;border-bottom:1px solid var(--primary-color-300)}}
+
+/* Keep tree lines continuous across row separators. */
+body .item-cell:has(> .sub-domain-icon-v) {overflow:visible}
+body .item-cell:has(> .sub-domain-icon-v) .sub-resource-domain {display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+body .item-cell > .sub-domain-icon-v:not(.sub-is-last) {height:calc(100% + 2px)}
+/* Legacy red illustrations adopt the panel accent. */
+body img[src*="/codefend/add-collab.png"],
+body img[src*="/codefend/add-scope.png"],
+body img[src*="/codefend/advanced-plan.png"],
+body img[src*="/codefend/alloc-1.png"],
+body img[src*="/codefend/Bichardo-1.png"],
+body img[src*="/codefend/Bichardo-2.png"],
+body img[src*="/codefend/Bichardo-3.png"],
+body img[src*="/codefend/check_email.png"],
+body img[src*="/codefend/codefend-eye2.png"],
+body img[src*="/codefend/cube.png"],
+body img[src*="/codefend/email-icon1.png"],
+body img[src*="/codefend/estrellitas.png"],
+body img[src*="/codefend/frequency-1.png"],
+body img[src*="/codefend/globo.png"],
+body img[src*="/codefend/gota.png"],
+body img[src*="/codefend/Grupo-1.png"],
+body img[src*="/codefend/IA ICON.png"],
+body img[src*="/codefend/icon-email.png"],
+body img[src*="/codefend/icon-hacker.png"],
+body img[src*="/codefend/icon-mail.png"],
+body img[src*="/codefend/icon-password.png"],
+body img[src*="/codefend/icono-bicho.png"],
+body img[src*="/codefend/icono-leaks.png"],
+body img[src*="/codefend/invasor.png"],
+body img[src*="/codefend/loader_full_size.png"],
+body img[src*="/codefend/medium-plan.png"],
+body img[src*="/codefend/password1.png"],
+body img[src*="/codefend/pentest-adversary.png"],
+body img[src*="/codefend/pentest-careful.png"],
+body img[src*="/codefend/pentest-offensive.png"],
+body img[src*="/codefend/radar.png"],
+body img[src*="/codefend/scanner_eye_fullsize.png"],
+body img[src*="/codefend/small-plan.png"],
+body img[src*="/codefend/fav.png"],
+body img[src*="/codefend/fav50.png"] {filter:hue-rotate(205deg) saturate(.9)}
+
+/* Thinner connectors between domains and subdomains. */
+body .sub-domain-icon-v {width:1px!important}
+body .sub-domain-icon-h {height:1px!important}
+
+/* Join the web-resource search and table with a single divider. */
+body main.webapp .left .table-search-bar {width:100%;margin:0!important;border-bottom:1px solid var(--primary-color-300);background:var(--primary-color)}
+body main.webapp .left .table-search-bar .form-input {width:100%}
+body main.webapp .left .table-search-bar input {width:100%;height:52px;border:0;border-radius:0;background:transparent}
+body main.webapp .left .table-search-bar + .table {border-radius:0}
+@media(min-width:1231px){body main.webapp > .right {flex-basis:31%;width:31%}}
+
+/* Recolor legacy embedded-raster artwork, including relative paths. */
+body img[src*="codefend/issues-bug-icon.svg"],
+body img[src*="codefend/chat-icon.svg"],
+body img[src*="codefend/icon-feedback.svg"],
+body img[src*="codefend/order-frequency1.svg"],
+body img[src*="codefend/order-frequency2.svg"],
+body img[src*="codefend/pentest-header-vector.svg"],
+body img[src*="codefend/people-active-icon.svg"],
+body img[src*="codefend/user-icon.svg"],
+body img[src*="codefend/gota.png"] {filter:hue-rotate(205deg) saturate(.9)}
+
+/* Match the small issue and leak icons to the blue interface accent. */
+body img[src*="codefend/issues-bug-icon.svg"], body img[src*="codefend/gota.png"] {filter:brightness(0) saturate(100%) invert(48%) sepia(80%) saturate(1380%) hue-rotate(161deg) brightness(95%) contrast(95%)}
+
+/* Consistent full-height side panels with the scrollbar beside the content. */
+@media (min-width:1231px) {
+ body #root > main:not(.auth-pages) > .right {height:100dvh;max-height:100dvh;top:0;padding-top:0!important;overflow-y:auto;direction:rtl;scrollbar-width:thin;scrollbar-color:var(--primary-color-600) transparent}
+ body #root > main:not(.auth-pages) > .right > * {direction:ltr}
+ body #root > main.issues-list > .right > .scrollable-content {overflow:visible;flex:none;min-height:0}
+}
+/* Shared dialog bounds: allow access to content without clipping it. */
+body:not(:has(main.auth-pages)) .modal-wrapper {padding:16px;box-sizing:border-box}
+body:not(:has(main.auth-pages)) .modal-wrapper .modal {box-sizing:border-box;min-width:0!important;max-width:min(880px,calc(100vw - 32px))!important;max-height:calc(100dvh - 32px);overflow:auto}
+body:not(:has(main.auth-pages)) .modal-wrapper .modal > .content {box-sizing:border-box;max-width:100%;min-width:0}
+body .modal-wrapper .modal .modal-close-btn svg {color:var(--tertiary-color-400)}
+body .modal-wrapper .modal .modal-close-btn:hover svg {color:var(--secondary-color-100)}
+/* Resource selection: responsive grid and accessible, legible controls. */
+body .modal-wrapper .modal-report-selector {width:min(880px,calc(100vw - 32px));height:auto!important;background:var(--primary-color);border:1px solid var(--primary-color-300)}
+body .modal-report-selector .header {min-height:52px;padding:14px 55px 14px 24px;font-family:Urbanist,Satoshi,sans-serif;letter-spacing:.05em}
+body .modal-report-selector .report-type-modal {width:100%;height:auto;min-width:0;padding:28px;box-sizing:border-box}
+body .modal-report-selector .report-type-modal h3 {padding:0;margin:0 0 24px;text-align:left;font-size:clamp(18px,2vw,24px);line-height:1.3;color:var(--tertiary-color-450)}
+body .modal-report-selector .report-type-container {display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;overflow:visible;padding:0;width:100%}
+body .modal-report-selector .report-type-card {box-sizing:border-box;min-width:0;max-width:none;width:100%;min-height:150px;height:auto;max-height:none;margin:0;padding:18px 10px;gap:12px;justify-content:center;border:1px solid var(--primary-color-300);border-radius:8px;background:var(--primary-color);color:var(--secondary-color-100);font-family:inherit}
+body .modal-report-selector .report-type-card:hover:not(:disabled),body .modal-report-selector .report-type-card:focus-visible {scale:1;border-color:var(--secondary-color-100);background:var(--primary-color-400);outline:2px solid transparent}
+body .modal-report-selector .report-type-card:focus-visible {outline:2px solid var(--secondary-color-100);outline-offset:2px}
+body .modal-report-selector .report-type-card svg {width:36px;height:36px;margin:0;color:var(--secondary-color-100)}
+body .modal-report-selector .report-type-card .caption-card {text-transform:none;gap:4px;align-items:center}
+body .modal-report-selector .report-type-card .resource-name {font-size:17px;font-weight:700;text-transform:capitalize;color:var(--tertiary-color-450)}
+body .modal-report-selector .report-type-card .resource-count {font-size:13px;font-weight:500;color:var(--tertiary-color-300)}
+body .modal-report-selector .report-type-card .resource-count span {color:var(--secondary-color-100);font-weight:700}
+body .modal-report-selector .type-selector-container .table {width:100%;max-width:none;margin:0;overflow-x:auto}
+body .modal-report-selector .type-selector-container .table .rows {max-height:min(50dvh,420px)}
+body .modal-report-selector .type-selector-container .app-card-container .list {width:100%;max-width:none;max-height:50dvh;overflow:auto}
+@media(max-width:700px){body .modal-report-selector .report-type-container {grid-template-columns:repeat(2,minmax(0,1fr))}body .modal-report-selector .report-type-modal {padding:22px}body .modal-report-selector .report-type-card {min-height:135px}}
+
+body .modal-wrapper .modal .btn-cancel {color:var(--tertiary-color-300)!important;background:var(--primary-color-400)!important;border:1px solid var(--primary-color-600)!important}
+body .modal-wrapper .modal .btn-cancel:hover {color:var(--secondary-color-100)!important;border-color:var(--secondary-color-100)!important}
+
+/* Keep support next to the editor and leave any spare width after it. */
+@media (min-width:1231px) {body #root > main.issue-detail {justify-content:flex-start}}
+
+/* Flat comment composer, matching the surrounding panels. */
+body main.issue-detail .sender {left:0!important;right:0!important;bottom:0!important;backdrop-filter:none}
+body main.issue-detail .sender .chatbox-container {border:0!important;border-top:1px solid var(--primary-color-300)!important;border-radius:0!important;box-shadow:none!important;background:var(--primary-color);padding:16px 20px}
+body main.issue-detail .sender .chatbox-container textarea {border:0;border-radius:0!important;background:transparent!important}
+/* Network resources as a full-width list with consistent dividers. */
+body main.lan .left > .card {height:100%;min-height:0;overflow:hidden}
+body main.lan .left > .card > .content {height:100%;min-height:0}
+body main.lan .network-layout {height:100%;max-height:none;overflow:hidden}
+body main.lan .network-layout > div:first-child {flex:none;border-bottom:1px solid var(--primary-color-300);background:var(--primary-color)}
+body main.lan .network-layout > div:first-child .form-input input {height:52px;border:0;border-radius:0;background:transparent}
+body main.lan .network-cards-container {width:100%;min-height:0;max-height:none!important;padding:0!important;border:0!important;border-radius:0!important;box-shadow:none!important;flex:1 1 auto}
+body main.lan .masonry-container,body main.lan .masonry-column {padding:0!important;gap:0!important;width:100%}
+body main.lan .network-resource-card,body main.lan .network-resource-card:hover,body main.lan .network-resource-card.actions-visible {width:100%;padding:20px 0 0;border:0;border-bottom:1px solid var(--primary-color-300);border-radius:0;box-shadow:none;background:var(--primary-color)}
+body main.lan .network-resource-card .card-header,body main.lan .network-resource-card .server-location,body main.lan .network-resource-card .found-apps .apps-title {margin-left:20px;margin-right:20px}
+body main.lan .network-resource-card .found-apps .apps-list .app-item {padding:10px 20px;border-bottom:1px solid var(--primary-color-300)}
+body main.lan .network-resource-card .found-apps .apps-list .app-item:last-child {border-bottom:0}
+body main.lan .network-resource-card .found-apps .no-apps {padding:0 20px 16px}
+body main.lan .network-resource-card .actions-menu {margin:0;padding:12px 20px;border-color:var(--primary-color-300)}
+/* Avoid horizontal overflow in the connection-error dialog. */
+body:not(:has(main.auth-pages)) .modal-wrapper .modal:has(> .error-wrapper) {width:min(40.3rem,calc(100vw - 32px));overflow:visible}
+body .modal-wrapper .error-wrapper {box-sizing:border-box;width:100%;min-width:0;max-width:100%;overflow:visible;box-shadow:none}
+body .modal-wrapper .error-wrapper :is(.error-content,.apologies-p,.error-buttons) {box-sizing:border-box;min-width:0}
+body .modal-wrapper .error-wrapper .error-buttons {gap:12px}
+body .modal-wrapper .error-wrapper .error-buttons > * {min-width:0}
+@media(max-width:600px){body .modal-wrapper .error-wrapper :is(.error-content,.apologies-p,.error-buttons){padding-inline:20px}body .modal-wrapper .error-wrapper .error-buttons{flex-wrap:wrap}}
+@media(max-height:620px){body:not(:has(main.auth-pages)) .modal-wrapper .modal:has(> .error-wrapper){overflow-y:auto}}
+
+body main.lan .left .network-layout {height:100%;max-height:none}
+
+/* Desktop sidebar: shared light and dark navigation treatment. */
+body .sidebar.desktop-active {padding:0 0 18px;background:var(--primary-color);scrollbar-width:thin;scrollbar-color:var(--primary-color-600) transparent}
+body .sidebar.desktop-active .sidebar-logo-block {min-height:68px;padding:15px 20px;margin:0 0 8px;background:transparent!important;border-bottom:1px solid var(--primary-color-300)}
+body .sidebar.desktop-active .sidebar-logo-title {font-family:Urbanist,Satoshi,sans-serif;font-size:20px;font-weight:700;letter-spacing:-.02em;color:var(--tertiary-color-500)}
+body[data-theme='dark'] .sidebar.desktop-active .sidebar-logo-title {color:#edf5f7}
+body .sidebar.desktop-active .sidebar-group {margin:0 0 15px}
+body .sidebar.desktop-active .sidebar-group-title-container {min-height:34px;margin:0 12px;padding:0 8px;border-radius:5px;background:transparent}
+body .sidebar.desktop-active .sidebar-group-title-container:hover {background:rgba(22,140,181,.07)}
+body .sidebar.desktop-active .sidebar-group-title {margin:0;padding:0;color:#657780;font-family:Urbanist,Satoshi,sans-serif;font-size:11px;font-weight:750;line-height:1.3;letter-spacing:.09em;text-transform:uppercase}
+body[data-theme='dark'] .sidebar.desktop-active .sidebar-group-title {color:#92a5ac}
+body .sidebar.desktop-active .sidebar-group-arrow {margin:0;color:#92a5ac}
+body .sidebar.desktop-active .sidebar-group-content > a,body .sidebar.desktop-active > .sidebar-group:last-child > a {width:auto;height:38px;min-height:38px;max-height:none;margin:1px 8px;padding:0 12px!important;gap:10px;border:0;border-radius:5px;color:#46565e;font-family:Urbanist,Satoshi,sans-serif;font-size:14px;font-weight:550;letter-spacing:0;text-align:left}
+body[data-theme='dark'] .sidebar.desktop-active .sidebar-group-content > a,body[data-theme='dark'] .sidebar.desktop-active > .sidebar-group:last-child > a {color:#bccbd0}
+body .sidebar.desktop-active a > svg {width:16px!important;height:16px!important;flex:0 0 16px;color:inherit}
+body .sidebar.desktop-active a.active {font-weight:700;background:#e0f4fa!important;color:#087da4!important}
+body[data-theme='dark'] .sidebar.desktop-active a.active {background:#152f39!important;color:#72d7f5!important}
+body .sidebar.desktop-active a.active::before {content:'';position:absolute;left:0;top:8px;bottom:8px;height:auto;width:2px;transform:none;background:#168cb5!important;border-radius:2px}
+body[data-theme='dark'] .sidebar.desktop-active a.active::before {background:#72d7f5!important}
+body .sidebar.desktop-active a.active svg[fill="currentColor"] {fill:currentColor!important}
+body .sidebar.desktop-active a:focus-visible {outline:2px solid var(--secondary-color-100);outline-offset:-2px}
+body .sidebar.desktop-active > hr {height:1px;flex:none;border:0;background:var(--primary-color-300);margin:6px 16px 10px}
+body .sidebar.desktop-active > hr + .sidebar-group {margin:0 0 8px}

@@ -4,8 +4,8 @@
   height: 100vh;
   position: absolute;
   z-index: 1;
-  background: #960c0c;
-  background: linear-gradient(294deg, #960c0c 70%, #d00505 90%);
+  background: #0a5473;
+  background: linear-gradient(294deg, #0a5473 70%, #097097 90%);
 
   canvas {
     width: 70vw !important;
@@ -231,7 +231,7 @@ form.signup-confirm {
     flex-direction: column;
 
     label {
-      color: #ff3939;
+      color: #168cb5;
       font-weight: 700;
       margin-bottom: 0.5rem;
       font-size: 1.1rem;

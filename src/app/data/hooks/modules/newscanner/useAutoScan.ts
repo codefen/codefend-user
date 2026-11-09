@@ -35,7 +35,8 @@ export const useAutoScan = () => {
     resourceAddress: string,
     openModel: boolean = true,
     idiom: string,
-    scopeType: 'email' | 'website' = 'website'
+    scopeType: 'email' | 'website' = 'website',
+    modules?: ('webscan' | 'subdomains' | 'leaks')[]
   ) => {
     // console.log('🚀 autoScan iniciado con:', { resourceAddress, openModel, idiom, scopeType });
 
@@ -60,6 +61,7 @@ export const useAutoScan = () => {
     const formData = new FormData();
     formData.append('model', 'neuroscans/mainwire');
     formData.append('resource_domain', cleanDomain);
+    if (scopeType !== 'email' && modules) formData.append('modules', modules.join(','));
 
     // Agregar el scope type
     if (scopeType === 'email') {

@@ -52,7 +52,7 @@ input {
 
   &:focus:not(:disabled) {
     outline: none;
-    border-color: #ff3939;
+    border-color: #168cb5;
     caret-color: var(--secondary-color-50) !important;
     color: var(--tertiary-color-700);
   }
@@ -83,7 +83,7 @@ select {
     outline: 0 solid;
     caret-color: var(--secondary-color-50) !important;
     color: var(--tertiary-color-700);
-    border-color: #ff3939;
+    border-color: #168cb5;
   }
 
   &:-internal-autofill-selected {
@@ -178,7 +178,7 @@ select {
 // input[type='text']:focus,
 // input[type='password']:focus,
 // input[type='email']:focus {
-//   border-color: #ff3939;
+//   border-color: #168cb5;
 //   outline: none;
 //   background: var(--primary-color);
 //   color: var(--tertiary-color-700);

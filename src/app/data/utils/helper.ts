@@ -692,7 +692,7 @@ export const isShallowEqual = <T extends Record<string, any>, K extends readonly
     if (debug) {
       console.warn(
         `%cisShallowEqual: objects don't have same properties ->`,
-        'color: #8B4000',
+        'color: #0a5473',
         objA,
         objB
       );
@@ -708,7 +708,7 @@ export const isShallowEqual = <T extends Record<string, any>, K extends readonly
         if (debug) {
           console.warn(
             `%cisShallowEqual: ${key} not equal ->`,
-            'color: #8B4000',
+            'color: #0a5473',
             objA?.[key],
             objB?.[key]
           );
@@ -728,7 +728,7 @@ export const isShallowEqual = <T extends Record<string, any>, K extends readonly
       : objA[key] === objB[key] || defaultIsShallowComparatorFallback(objA[key], objB[key]);
 
     if (!ret && debug) {
-      console.warn(`%cisShallowEqual: ${key} not equal ->`, 'color: #8B4000', objA[key], objB[key]);
+      console.warn(`%cisShallowEqual: ${key} not equal ->`, 'color: #0a5473', objA[key], objB[key]);
     }
     return ret;
   });

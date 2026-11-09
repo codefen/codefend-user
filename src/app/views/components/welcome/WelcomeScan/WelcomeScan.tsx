@@ -31,13 +31,13 @@ export const WelcomeScan = ({
   return (
     <ModalWrapper showCloseBtn={false} action={close} type={css['welcome-modal-container']}>
       <div className="welcome-content ojo">
-        <img className="logose" src={`/codefend/brand-small-${theme}.png`} width={130} />
+        <img className="logose" src={`/codefend/brand-new-${theme}.svg`} width={130} />
         <p className={css['welcome-text']}>
           We're going to run an automated analysis on the selected domain.
           <b>
             {' '}
             Please confirm if you want to proceed with an automated analysis of{' '}
-            <span style={{ color: '#ff3939' }}>{initialDomain}</span>.
+            <span style={{ color: '#168cb5' }}>{initialDomain}</span>.
           </b>
         </p>
         <img src="/codefend/codefend-eye2.png" alt="Eye" className={css['scan-img']} />

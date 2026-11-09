@@ -58,7 +58,7 @@ const OnboardingCard: FC = () => {
           <h2 className="table-title">onboard</h2>
         </div>
         <p>
-          Inicia el proceso de bienvenida y configuración inicial del sistema.{' '}<a href="#" onClick={handleOnboarding} style={{color:'#ff3939', fontWeight:700}}>abrir onboard</a>
+          Inicia el proceso de bienvenida y configuración inicial del sistema.{' '}<a href="#" onClick={handleOnboarding} style={{color:'#168cb5', fontWeight:700}}>abrir onboard</a>
         </p>
       </div>
     </div>

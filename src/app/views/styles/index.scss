@@ -230,8 +230,8 @@
     transition: all 0.3s ease;
 
     &.clickable-plan:hover {
-      border-color: #ff4444;
-      box-shadow: 0 4px 12px rgba(255, 68, 68, 0.15);
+      border-color: #168cb5;
+      box-shadow: 0 4px 12px rgba(22, 140, 181, 0.15);
       transform: translateY(-2px);
     }
 
@@ -240,9 +240,9 @@
     }
 
     &.selected {
-      border-color: #ff4444;
-      background: #fff8f8;
-      box-shadow: 0 4px 12px rgba(255, 68, 68, 0.15);
+      border-color: #168cb5;
+      background: #d8eff6;
+      box-shadow: 0 4px 12px rgba(22, 140, 181, 0.15);
     }
   }
 
@@ -280,7 +280,7 @@
 
   .close-button {
     &:hover {
-      color: #ff4444 !important;
+      color: #168cb5 !important;
     }
   }
 }
@@ -877,7 +877,7 @@ main.cloud {
   }
 
   .custom-btn-primary:hover {
-    background-color: #ec2603;
+    background-color: #168cb5;
   }
 
   .custom-d-flex {
@@ -987,7 +987,7 @@ body:has(.onboarding-modal-container) {
         width: clamp(160px, 18vw, 240px);
         height: 70px;
         z-index: 5;
-        background-image: url('/codefend/brand-small-dark.png');
+        background-image: url('/codefend/brand-new-dark.svg');
         background-size: contain;
         background-repeat: no-repeat;
         background-position: center;
@@ -1003,7 +1003,7 @@ body:has(.onboarding-modal-container) {
         width: clamp(160px, 18vw, 240px);
         height: 70px;
         z-index: 5;
-        background-image: url('/codefend/brand-small-light.png');
+        background-image: url('/codefend/brand-new-light.svg');
         background-size: contain;
         background-repeat: no-repeat;
         background-position: center;
@@ -2773,14 +2773,14 @@ main.mobile .left .app-card-content-body .reviews svg.half-icon {
 }
 
 .option-maximo.select-option {
-  background-color: #fff5f5;
-  border-top: 1px solid #fe4e4e55;
-  border-bottom: 1px solid #fe4e4e55;
+  background-color: #d8eff6;
+  border-top: 1px solid #168cb555;
+  border-bottom: 1px solid #168cb555;
   box-shadow: 0 0 8px #00000025;
 
   .order-snapshot {
     .top p {
-      color: #d63031;
+      color: #168cb5;
     }
 
     span {
@@ -2816,8 +2816,8 @@ main.mobile .left .app-card-content-body .reviews svg.half-icon {
       margin: 10px 30px;
 
       &:hover {
-        border-color: #ff4444;
-        box-shadow: 0 4px 12px rgba(255, 68, 68, 0.15);
+        border-color: #168cb5;
+        box-shadow: 0 4px 12px rgba(22, 140, 181, 0.15);
         transform: translateY(-2px);
       }
 
@@ -2853,7 +2853,7 @@ main.mobile .left .app-card-content-body .reviews svg.half-icon {
 
   .close-button {
     &:hover {
-      color: #ff4444 !important;
+      color: #168cb5 !important;
     }
   }
 }
@@ -2875,8 +2875,8 @@ main.mobile .left .app-card-content-body .reviews svg.half-icon {
     min-height: 130px;
 
     &:hover {
-      border-color: #ff4444;
-      box-shadow: 0 4px 12px rgba(255, 68, 68, 0.15);
+      border-color: #168cb5;
+      box-shadow: 0 4px 12px rgba(22, 140, 181, 0.15);
       transform: translateY(-2px);
     }
 
@@ -2918,7 +2918,7 @@ main.mobile .left .app-card-content-body .reviews svg.half-icon {
 
   .close-button {
     &:hover {
-      color: #ff4444 !important;
+      color: #168cb5 !important;
     }
   }
 }
@@ -2944,10 +2944,10 @@ main.mobile .left .app-card-content-body .reviews svg.half-icon {
 /* Solo en hover o seleccionada, fondo blanco y borde rojo, y aparece el box-shadow */
 .plan-card-auto:hover,
 .plan-card-auto.selected {
-  border-color: #ff7878;
+  border-color: #168cb5;
   background: #fff;
 
-  background: #fbe0e021;
+  background: #d8eff621;
 }
 
 /* Colorea la imagen en hover o seleccionada */
@@ -3187,8 +3187,8 @@ main.company {
         border-color: var(--primary-color-400);
 
         &:hover {
-          border-color: #ff6666;
-          box-shadow: 0 4px 12px rgba(255, 102, 102, 0.2);
+          border-color: #168cb5;
+          box-shadow: 0 4px 12px rgba(22, 140, 181, 0.2);
         }
 
         .order-snapshot {
@@ -3211,8 +3211,8 @@ main.company {
       border-color: var(--primary-color-400);
 
       &:hover {
-        border-color: #ff6666;
-        box-shadow: 0 4px 12px rgba(255, 102, 102, 0.2);
+        border-color: #168cb5;
+        box-shadow: 0 4px 12px rgba(22, 140, 181, 0.2);
       }
 
       .order-snapshot {
@@ -3230,7 +3230,7 @@ main.company {
       color: var(--tertiary-color-300) !important;
 
       &:hover {
-        color: #ff6666 !important;
+        color: #168cb5 !important;
       }
     }
   }
@@ -3242,14 +3242,14 @@ main.company {
       border-color: var(--primary-color-400);
 
       &.clickable-plan:hover {
-        border-color: #ff6666;
-        box-shadow: 0 4px 12px rgba(255, 102, 102, 0.2);
+        border-color: #168cb5;
+        box-shadow: 0 4px 12px rgba(22, 140, 181, 0.2);
       }
 
       &.selected {
-        border-color: #ff6666;
-        background: rgba(255, 102, 102, 0.1);
-        box-shadow: 0 4px 12px rgba(255, 102, 102, 0.2);
+        border-color: #168cb5;
+        background: rgba(22, 140, 181, 0.1);
+        box-shadow: 0 4px 12px rgba(22, 140, 181, 0.2);
       }
     }
 
@@ -3267,14 +3267,14 @@ main.company {
 
     .flex-box-row.clickable-plan:hover .pentest-type-label,
     .flex-box-row.clickable-plan.selected .pentest-type-label {
-      color: #ff6666;
+      color: #168cb5;
     }
 
     .close-button {
       color: var(--tertiary-color-300) !important;
 
       &:hover {
-        color: #ff6666 !important;
+        color: #168cb5 !important;
       }
     }
   }
@@ -3284,7 +3284,7 @@ main.company {
       color: var(--tertiary-color-300) !important;
 
       &:hover {
-        color: #ff6666 !important;
+        color: #168cb5 !important;
       }
     }
   }
@@ -3304,7 +3304,7 @@ main.company {
 .step-content.plan {
   .close-button {
     &:hover {
-      color: #ff4444 !important;
+      color: #168cb5 !important;
     }
   }
 }
@@ -3312,7 +3312,7 @@ main.company {
 .paywall-container {
   .close-button {
     &:hover {
-      color: #ff4444 !important;
+      color: #168cb5 !important;
     }
   }
 }

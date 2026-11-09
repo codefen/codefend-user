@@ -88,7 +88,7 @@ export const useBarsGraph = () => {
       .attr('y2', '100%');
 
     //Gradient, 0% light color
-    gradient.append('stop').attr('offset', '0%').attr('stop-color', '#fe4e4e');
+    gradient.append('stop').attr('offset', '0%').attr('stop-color', '#168cb5');
     //Gradient, dark color goes to 100%
     gradient.append('stop').attr('offset', '100%').attr('stop-color', '#ffc5c5');
 

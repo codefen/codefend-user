@@ -162,12 +162,12 @@
 
         .server-point {
           transition: all 0.2s ease;
-          filter: drop-shadow(0 2px 4px rgba(220, 38, 38, 0.3));
+          filter: drop-shadow(0 2px 4px rgba(22, 140, 181, 0.3));
           animation: pulse 3s infinite;
           cursor: pointer;
 
           &:hover {
-            filter: drop-shadow(0 4px 8px rgba(220, 38, 38, 0.5));
+            filter: drop-shadow(0 4px 8px rgba(22, 140, 181, 0.5));
           }
         }
 

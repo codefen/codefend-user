@@ -1,4 +1,4 @@
-import { type FC, useState } from 'react';
+import { type FC } from 'react';
 import { useFlashlight } from '../../../../context/FlashLightContext.tsx';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
 import { useUserRole } from '#commonUserHooks/useUserRole.ts';
@@ -16,19 +16,14 @@ import { useGetNetworkv2 } from '@resourcesHooks/network/useGetNetworkv2.ts';
 import { DeleteNetworkModal } from '@/app/views/pages/panel/layouts/lan/components/DeleteNetworkModal.tsx';
 import { ServerGeolocationMap } from '@/app/views/components/ServerGeolocationMap/ServerGeolocationMap.tsx';
 import { RESOURCE_CLASS } from '@/app/constants/app-texts.ts';
-import { WorldMapView } from '@/app/views/components/NetworkVisualization/WorldMapView.tsx';
 import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection.tsx';
 import { NetworkOutlineIcon } from '@icons';
 import { useMediaQuery } from 'usehooks-ts';
 import { CardsResourcesWan } from '@/app/views/pages/panel/layouts/lan/components/CardsResourcesWan.optimized.tsx';
 
-// Definir tipo para las pestañas - 3 vistas distintas
-type NetworkViewType = 'cards' | 'locations';
-
 const NetworkPage: FC = () => {
   const [showScreen] = useShowScreen();
   const isDesktop = useMediaQuery('(min-width: 1230px)');
-  const [activeTab, setActiveTab] = useState<NetworkViewType>('cards'); // Default to cards view
   const {
     networks,
     isLoading,
@@ -40,33 +35,6 @@ const NetworkPage: FC = () => {
   } = useGetNetworkv2();
   const flashlight = useFlashlight();
   const { isAdmin, isNormalUser } = useUserRole();
-
-  // Manejar cambio de vista
-  const handleViewChange = (view: NetworkViewType) => {
-    setActiveTab(view);
-  };
-
-  const renderTabContent = () => {
-    if (activeTab === 'locations') {
-      return (
-        <WorldMapView
-          networkData={networks as any}
-          width={800}
-          height={600}
-          title="Global Server Locations"
-        />
-      );
-    }
-
-    // Vista de cards por defecto
-    return (
-      <CardsResourcesWan
-        isLoading={isLoading}
-        refetchInternalNetwork={refetch}
-        internalNetwork={networks as any}
-      />
-    );
-  };
 
   return (
     <EmptyLayout
@@ -95,23 +63,9 @@ const NetworkPage: FC = () => {
 
         <div className="card">
           <SimpleSection icon={<NetworkOutlineIcon />}>
-            {/* Sistema de tabs debajo del título */}
-            <div className="tabs-container">
-              <div className="tabs-header">
-                <button
-                  className={`tab-button ${activeTab === 'cards' ? 'active' : ''}`}
-                  onClick={() => handleViewChange('cards')}>
-                  📋 cards
-                </button>
-                <button
-                  className={`tab-button ${activeTab === 'locations' ? 'active' : ''}`}
-                  onClick={() => handleViewChange('locations')}>
-                  🌍 Infra Geolocation
-                </button>
-
-              </div>
+            <div className="content">
+              <CardsResourcesWan isLoading={isLoading} refetchInternalNetwork={refetch} internalNetwork={networks as any} />
             </div>
-            <div className="content">{renderTabContent()}</div>
           </SimpleSection>
         </div>
 

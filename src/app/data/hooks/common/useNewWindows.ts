@@ -1,6 +1,6 @@
 export const useNewWindows = () => {
-  const currentUrl = window.location.href;
-  const baseUrl = currentUrl.split('/').slice(0, 3).join('/');
+  const appBase = import.meta.env.BASE_URL.replace(/\/$/, '');
+  const baseUrl = `${window.location.origin}${appBase}`;
 
   const navigateNewWindow = (path: string) => {
     const newUrl = `${baseUrl}${path}`;

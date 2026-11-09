@@ -139,10 +139,10 @@ export const NewSigninForm = () => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     const form = new FormData(e.currentTarget as HTMLFormElement);
-    const email = form.get('email') as unknown as string;
-    const password = form.get('password') as unknown as string;
-    const mfa = form.get('mfa') as unknown as string;
-    signInUser(email || '', password || '', mfa || '').then((result: any) => {
+    const email = String(form.get('email') ?? '');
+    const password = String(form.get('password') ?? '');
+    const mfa = String(form.get('mfa') ?? '');
+    signInUser(email, password, mfa).then((result: any) => {
       if (result?.mfaRequired) {
         // Evento de telemetría: el usuario requiere MFA para iniciar sesión
         sendEventToGTM({
@@ -189,7 +189,7 @@ export const NewSigninForm = () => {
   return (
     <ModalWrapper showCloseBtn={false} type={`${css['signinform']} new-signin-form`}>
       <div className={`${css['signinContent']} new-auth-content form-content`}>
-        <img src={`/codefend/brand-small-${theme}.png`} width={220} />
+        <img src={`/codefend/brand-new-${theme}.svg`} width={220} />
         {/* <ChangeAuthPages pathname={location.pathname} /> */}
 
         <p>

@@ -25,14 +25,14 @@ export const useChunkedRendering = ({
   incrementSize,
   loadDelay = 100,
 }: UseChunkedRenderingOptions): UseChunkedRenderingReturn => {
-  const [displayedCount, setDisplayedCount] = useState(initialChunkSize);
+  const [displayedCount, setDisplayedCount] = useState(() => Math.min(initialChunkSize, totalItems));
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const abortControllerRef = useRef<AbortController | null>(null);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Calculate derived state
   const hasMore = displayedCount < totalItems;
-  const progress = totalItems > 0 ? (displayedCount / totalItems) * 100 : 0;
+  const progress = totalItems > 0 ? Math.min((displayedCount / totalItems) * 100, 100) : 0;
 
   // Load more items with AbortController for proper cleanup
   const loadMore = useCallback(() => {
@@ -89,16 +89,18 @@ export const useChunkedRendering = ({
       timeoutRef.current = null;
     }
 
-    setDisplayedCount(initialChunkSize);
+    setDisplayedCount(Math.min(initialChunkSize, totalItems));
     setIsLoadingMore(false);
-  }, [initialChunkSize]);
+  }, [initialChunkSize, totalItems]);
 
   // Reset when total items change significantly
   useEffect(() => {
-    if (displayedCount > totalItems) {
-      reset();
-    }
-  }, [totalItems, displayedCount, reset]);
+    setDisplayedCount(currentCount => {
+      if (totalItems <= 0) return 0;
+      if (currentCount <= 0) return Math.min(initialChunkSize, totalItems);
+      return Math.min(currentCount, totalItems);
+    });
+  }, [totalItems, initialChunkSize]);
 
   // Cleanup on unmount
   useEffect(() => {

@@ -49,7 +49,7 @@ export const AppWrapper = ({ children }: PropsWithChildren) => {
 
   return (
     <ThemeProvider>
-      <BrowserRouter>
+      <BrowserRouter basename={import.meta.env.BASE_URL}>
         <UpdateAppModal />
         <UpdatingModal />
         <ToastContainer

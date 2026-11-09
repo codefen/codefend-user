@@ -176,7 +176,7 @@ export const CompanyWorldMap: FC<CompanyWorldMapProps> = ({
   // Configuración visual basada en el tema
   const MAP_STYLE = useMemo(() => ({
     countryNoData: theme === 'dark' ? '#374151' : '#f8f9fa',
-    countryWithData: '#dc2626',
+    countryWithData: '#168cb5',
     countryBorder: theme === 'dark' ? '#4b5563' : '#dee2e6',
     countryBorderWidth: 0.5,
     graticuleLine: theme === 'dark' ? '#4b5563' : '#e0e0e0',

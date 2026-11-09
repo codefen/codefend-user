@@ -36,7 +36,7 @@
     .company {
       width: 100%;
       cursor: pointer;
-      background: #ffe4e40d;
+      background: #d8eff60d;
       border: 1px solid rgb(222 222 222 / 70%);
       box-shadow: 4px 2px 8px 0 rgb(170 170 170 / 10%);
       border-radius: 0.4rem;
@@ -52,9 +52,9 @@
       }
 
       &.selected {
-        border: 1px solid #ff1b1b8c;
+        border: 1px solid #168cb58c;
         box-shadow: 4px 3px 8px 1px rgb(255 146 146 / 10%);
-        background: #ffe4e440;
+        background: #d8eff640;
       }
 
       .company-card {
@@ -139,8 +139,8 @@ body[data-theme='dark'] {
       border-color: #0c121866;
 
       &.selected {
-        border: 1px solid #d52b2bab;
-        box-shadow: 4px 2px 8px 0 #b1191936;
+        border: 1px solid #168cb5ab;
+        box-shadow: 4px 2px 8px 0 #09709736;
         background: #141c27;
       }
     }

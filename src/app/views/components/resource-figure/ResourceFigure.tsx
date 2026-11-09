@@ -21,23 +21,24 @@ export const ResourceFigure: FC<ResourceFigureProps> = ({
     if (click && isActive) click();
   };
   return (
-    <figure
+    <button
+      type="button"
+      disabled={!isActive}
       className={`report-type-card ${!isActive && 'report-type-disable'}`}
       onClick={handleClick}
-      aria-hidden={isActive ? 'false' : 'true'}
       title={
         isActive ? 'Figure of a resource' : 'No vulnerabilities associated with these resources'
       }>
       {icon}
 
-      <figcaption className={'caption-card'}>
-        <h4>{title}</h4>
+      <span className={'caption-card'}>
+        <span className="resource-name">{title}</span>
         <Show when={count !== undefined}>
-          <h5>
+          <span className="resource-count">
             total issues <span>{count}</span>
-          </h5>
+          </span>
         </Show>
-      </figcaption>
-    </figure>
+      </span>
+    </button>
   );
 };

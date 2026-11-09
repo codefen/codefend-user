@@ -37,13 +37,15 @@ const createSidebarData = (
   isAdmin: boolean,
   isProvider: boolean,
   isReseller: boolean,
-  isNormalUser: boolean
+  isNormalUser: boolean,
+  isProviderWithAccess: boolean
 ) => {
   const isNotProviderAndReseller = !isProvider && !isReseller;
 
   return {
     Admin: {
       items: [
+        ...(isAdmin || isProviderWithAccess ? [{ title: 'Company Panel', path: '/admin/company', root: isAdmin }] : []),
         ...(isAdmin
           ? [
               { title: 'Landers Monitor', path: '/admin/landers', root: false },
@@ -54,13 +56,6 @@ const createSidebarData = (
     },
     Main: {
       items: [
-        // Admin items
-        ...(isAdmin
-          ? [
-              { title: 'Company Panel', path: '/admin/company', root: isAdmin },
-            ]
-          : []),
-
         // Provider items
         ...(isProvider
           ? [
@@ -114,7 +109,7 @@ const createSidebarData = (
 
 // Función para determinar qué sección debe estar activa
 const getActiveSection = (sidebarData: any, isAdmin: boolean): MenuSection => {
-  const currentPath = window.location.pathname;
+  const currentPath = '/' + window.location.pathname.slice(import.meta.env.BASE_URL.length);
 
   // Buscar en cada sección si algún item está activo
   for (const [sectionName, sectionData] of Object.entries(sidebarData)) {
@@ -144,11 +139,13 @@ const getActiveItem = (
 };
 
 export const SidebarMobile = ({
+  isProviderWithAccess,
   isOpen,
   closeSidebar,
   email,
   companyName,
 }: {
+  isProviderWithAccess: boolean;
   isOpen: boolean;
   closeSidebar: () => void;
   email: string;
@@ -158,8 +155,8 @@ export const SidebarMobile = ({
 
   // Memoizar sidebarData para evitar recreación constante
   const sidebarData = useMemo(
-    () => createSidebarData(isAdmin(), isProvider(), isReseller(), isNormalUser()),
-    [isAdmin, isProvider, isReseller, isNormalUser]
+    () => createSidebarData(isAdmin(), isProvider(), isReseller(), isNormalUser(), isProviderWithAccess),
+    [isAdmin, isProvider, isReseller, isNormalUser, isProviderWithAccess]
   );
 
   const [activeSection, setActiveSection] = useState<MenuSection>('Main');

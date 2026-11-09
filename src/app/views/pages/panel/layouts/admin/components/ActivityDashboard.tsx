@@ -203,7 +203,7 @@ export const ActivityChart: FC = () => {
 
     // Colores fijos que funcionan
     const colors = {
-      leads: '#ff6b6b',
+      leads: '#168cb5',
       usuarios: '#4ecdc4', 
       visitas_unicas: '#45b7d1',
       orders: '#96ceb4'

@@ -32,8 +32,8 @@ main.sb {
     white-space: nowrap;
     
     &:hover {
-      border-color: #ff3939;
-      color: #ff3939;
+      border-color: #168cb5;
+      color: #168cb5;
     }
   }
 
@@ -49,13 +49,13 @@ main.sb {
     // Solo aplicar hover cuando NO esté dentro de una fila clickeable
     .intel-row:not(.clickable-row) & {
       &:hover {
-        background-color: #ff393915;
+        background-color: #168cb515;
         padding: 2px 4px;
         border-radius: 3px;
       }
 
       &:active {
-        background-color: #ff393925;
+        background-color: #168cb525;
       }
     }
   }
@@ -77,11 +77,11 @@ main.sb {
   }
 
   .intel-crack-failed {
-    background-color: rgba(255, 71, 87, 0.1);
+    background-color: rgba(22, 140, 181, 0.1);
     padding: 0 0 0 8px;
     border-radius: 0px;
-    border-left: 1.5px solid #ff3939;
-    box-shadow: 0 0 0 1px #ff393915;
+    border-left: 1.5px solid #168cb5;
+    box-shadow: 0 0 0 1px #168cb515;
   }
 
   .intel-geo-loading {
@@ -92,7 +92,7 @@ main.sb {
   }
 
   .intel-geo-failed {
-    background-color: rgba(255, 71, 87, 0.1);
+    background-color: rgba(22, 140, 181, 0.1);
     padding: 0 0 0 8px;
     border-radius: 0px;
     border: none;
@@ -117,7 +117,7 @@ main.sb {
     padding: 8px 20px;
     
     .intel-row-arrow {
-      color: #ff3939;
+      color: #168cb5;
       font-size: 1.1rem;
       font-weight: bold;
       font-family: 'Satoshi', sans-serif;
@@ -135,12 +135,12 @@ main.sb {
     // Efectos hover para filas clickeables
     &.clickable-row {
       &:hover {
-        background-color: #ff393915;
+        background-color: #168cb515;
         border-radius: 3px;
       }
       
       &:active {
-        background-color: #ff393925;
+        background-color: #168cb525;
       }
     }
   }
@@ -546,6 +546,6 @@ main.sb {
 }
 
 .sensitive-data {
-  border-left: 1.5px solid #ff3939;
-  background: rgba(255,57,57,0.04);
+  border-left: 1.5px solid #168cb5;
+  background: rgba(22, 140, 181,0.04);
 }

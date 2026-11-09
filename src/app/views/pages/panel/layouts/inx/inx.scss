@@ -18,7 +18,7 @@ main.issue-detail {
         max-width: 800px;
         min-width: 800px;
 
-        --preview-title: #ff6969f2;
+        --preview-title: #168cb5f2;
         --preview-sub-title: var(--tertiary-color-450);
         --preview-text: var(--tertiary-color-500);
         --preview-border-color: var(--tertiary-color-200);
@@ -70,7 +70,7 @@ main.issue-detail {
             .preview-content-title {
               font-size: 2.25rem;
               letter-spacing: 0.5px;
-              border-bottom: 1px solid #ff5e5e;
+              border-bottom: 1px solid #168cb5;
               margin-block: 1rem;
               width: 300px;
               font-weight: 700;
@@ -245,7 +245,7 @@ main.issue-detail {
           }
 
           &:hover {
-            background-color: #fff4f5;
+            background-color: #d8eff6;
             border-color: var(--secondary-color-200);
           }
         }
@@ -302,7 +302,7 @@ main.issue-detail {
   main.issues-list {
     .left {
       .modal {
-        --preview-title: #ff5e5ef2;
+        --preview-title: #168cb5f2;
         --preview-sub-title: var(--tertiary-color-100);
         --preview-text: #ededed;
         --preview-border-color: var(--primary-color-500);

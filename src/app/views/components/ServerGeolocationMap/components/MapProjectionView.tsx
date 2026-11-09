@@ -16,8 +16,8 @@ interface MapProjectionViewProps {
 // Función para obtener color de país basado en ranking
 const lightenColor = (color: string, percentage: number, theme: string) => {
   const color_rgb = d3.rgb(color);
-  const white = theme === 'light' ? d3.rgb(255, 255, 255) : d3.rgb(0, 0, 0);
-  return d3.interpolateRgb(color_rgb, white)(percentage / 100);
+  const white = theme === 'light' ? d3.rgb(255, 255, 255) : d3.rgb('#52636a');
+  return d3.interpolateRgb(color_rgb, white)(Math.min(percentage, 85) / 100);
 };
 
 const MapProjectionView = memo<MapProjectionViewProps>(

@@ -59,7 +59,7 @@ export const ToastDemo = () => {
           onClick={handleDuplicateError}
           style={{
             padding: '8px 16px',
-            backgroundColor: '#ff6b6b',
+            backgroundColor: '#168cb5',
             color: 'white',
             border: 'none',
             borderRadius: '4px',
@@ -71,7 +71,7 @@ export const ToastDemo = () => {
           onClick={handleForcedError}
           style={{
             padding: '8px 16px',
-            backgroundColor: '#e17055',
+            backgroundColor: '#168cb5',
             color: 'white',
             border: 'none',
             borderRadius: '4px',

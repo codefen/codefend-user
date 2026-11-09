@@ -21,6 +21,16 @@ import {
 } from '@icons';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 
+
+const SelectorIcon = ({ type }: { type: 'web' | 'mobile' | 'social' | 'network' }) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    {type === 'web' && <><rect x="2.5" y="4" width="19" height="15" rx="2"/><path d="M2.5 8h19M6 6h.01M9 6h.01M10 11l-2 2 2 2m4-4 2 2-2 2"/></>}
+    {type === 'mobile' && <><rect x="6.5" y="2" width="11" height="20" rx="2"/><path d="M10 5h4m-3 14h2"/></>}
+    {type === 'social' && <><circle cx="9" cy="8" r="3"/><path d="M3 20v-1a6 6 0 0 1 12 0v1M16 5a3 3 0 0 1 0 6m2 3a5 5 0 0 1 3 5v1"/></>}
+    {type === 'network' && <><rect x="2" y="3" width="20" height="7" rx="2"/><rect x="2" y="14" width="20" height="7" rx="2"/><path d="M6 6.5h.01M6 17.5h.01M10 6.5h8M10 17.5h8"/></>}
+  </svg>
+);
+
 interface SelectAnyResourceModalProps {
   issues: Issues[];
 }
@@ -133,7 +143,7 @@ export const SelectAnyResourceModal: FC<SelectAnyResourceModalProps> = ({ issues
           <h3>{title}</h3>
           <div className="report-type-container">
             <ResourceFigure
-              icon={<GlobeWebIcon />}
+              icon={<SelectorIcon type="web" />}
               title={RESOURCE_CLASS.WEB}
               count={resourceCount[RESOURCE_CLASS.WEB]}
               click={() => handleChangeView(RESOURCE_CLASS.WEB, RESOURCE_CLASS_ALIAS.WEB)}
@@ -142,7 +152,7 @@ export const SelectAnyResourceModal: FC<SelectAnyResourceModalProps> = ({ issues
               }
             />
             <ResourceFigure
-              icon={<MobileIcon />}
+              icon={<SelectorIcon type="mobile" />}
               title={RESOURCE_CLASS.MOBILE}
               count={resourceCount[RESOURCE_CLASS.MOBILE]}
               click={() => handleChangeView(RESOURCE_CLASS.MOBILE, RESOURCE_CLASS_ALIAS.MOBILE)}
@@ -172,7 +182,7 @@ export const SelectAnyResourceModal: FC<SelectAnyResourceModalProps> = ({ issues
             /> */}
 
             <ResourceFigure
-              icon={<PeopleGroupIcon />}
+              icon={<SelectorIcon type="social" />}
               title={RESOURCE_CLASS.SOCIAL}
               count={resourceCount[RESOURCE_CLASS.SOCIAL]}
               click={() => handleChangeView(RESOURCE_CLASS.SOCIAL, RESOURCE_CLASS_ALIAS.SOCIAL)}
@@ -182,7 +192,7 @@ export const SelectAnyResourceModal: FC<SelectAnyResourceModalProps> = ({ issues
             />
 
             <ResourceFigure
-              icon={<LanIcon />}
+              icon={<SelectorIcon type="network" />}
               title={RESOURCE_CLASS.NETWORK}
               count={resourceCount['lan']}
               click={() => handleChangeView(RESOURCE_CLASS.NETWORK, RESOURCE_CLASS_ALIAS.NETWORK)}

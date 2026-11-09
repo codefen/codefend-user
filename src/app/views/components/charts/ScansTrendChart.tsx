@@ -76,7 +76,7 @@ export const ScansTrendChart = ({ data }: ScansTrendChartProps) => {
         .append('path')
         .datum(processedData)
         .attr('fill', 'none')
-        .attr('stroke', '#ff3939')
+        .attr('stroke', '#168cb5')
         .attr('stroke-width', 2.5)
         .attr(
           'd',
@@ -121,7 +121,7 @@ export const ScansTrendChart = ({ data }: ScansTrendChartProps) => {
         .attr('cx', d => x((d as any).id))
         .attr('cy', d => y((d as any).m_nllm_issues_parsed))
         .attr('r', 4)
-        .attr('fill', '#ff3939')
+        .attr('fill', '#168cb5')
         .on('mouseover', (event, d) => {
           idTspan.text(`Scan ID: ${(d as any).id}`);
           foundTspan.text(`Issues Found: ${(d as any).m_nllm_issues_found}`);

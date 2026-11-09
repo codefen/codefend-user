@@ -4,29 +4,29 @@
 export const MAP_STYLE = {
   // Colores de países
   countryNoData: '#eee', // Países sin datos
-  darkCountryNoData: '#111827',
+  darkCountryNoData: '#52636a',
   countryTop: '#333', // País #1 con más servidores
-  darkCountryTop: '#111827',
+  darkCountryTop: '#bcebf6',
   countryBase: '#333', // Color base para el gradiente de países
-  darkCountryBase: '#111827',
+  darkCountryBase: '#a5dfee',
 
   // Bordes de países
   countryBorder: '#ccc',
-  darkCountryBorder: '#111827',
+  darkCountryBorder: '#74878e',
   countryBorderWidth: 0.2,
 
   // Fondo de agua (globo)
   oceanCenter: '#fff', // Centro del océano (blanco puro)
-  darkOceanCenter: '#232323d1',
+  darkOceanCenter: '#202b30',
   oceanEdge: '#fefefe', // Bordes del océano (gris muy claro)
-  darkOceanEdge: '#23232399',
+  darkOceanEdge: '#171f23',
   globeBorder: '#e5e7eb', // Borde del globo (gris claro)
-  darkGlobeBorder: '#232323bf',
+  darkGlobeBorder: '#63777e',
 
   globeBorderWidth: 1,
 
   // Grilla (meridianos/paralelos)
-  graticule3D: '#333',
+  graticule3D: '#788d95',
   graticule2D: '#e0e0e0',
   graticuleWidth3D: 0.3,
   graticuleWidth2D: 0.5,

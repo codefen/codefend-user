@@ -69,7 +69,7 @@
 //     transform: translateX(-50%);
 //     width: 4px;
 //     height: 4px;
-//     background: #ff3939;
+//     background: #168cb5;
 //     border-radius: 50%;
 //   }
 // }
@@ -115,19 +115,19 @@
       outline: none;
       border-color: var(--secondary-color-50);
       color: var(--tertiary-color-700);
-      box-shadow: 0 0 0 2px rgba(255, 57, 57, 0.1);
+      box-shadow: 0 0 0 2px rgba(22, 140, 181, 0.1);
       transform: scale(1.02);
       transition: all 0.2s ease;
     }
 
     // Estilo especial para campos con error
     &.field-error {
-      border-color: #dc3545;
+      border-color: #168cb5;
       animation: shake 0.5s ease-in-out;
 
       &:focus {
-        border-color: #dc3545;
-        box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.25);
+        border-color: #168cb5;
+        box-shadow: 0 0 0 2px rgba(22, 140, 181, 0.25);
       }
     }
 
@@ -191,7 +191,7 @@
     }
 
     input[type='checkbox']:checked + .toggle-slider {
-      background: #ff3939;
+      background: #168cb5;
 
       &::after {
         transform: translateX(22px);
@@ -234,13 +234,13 @@
     transition: all 0.2s ease;
 
     &.btn-continue {
-      background: #ff4757;
+      background: #168cb5;
       color: white;
       float: right;
       margin: 20px 0 0 0;
 
       &:hover:not(:disabled) {
-        background: #ff3742;
+        background: #168cb5;
       }
 
       &:disabled {
@@ -298,7 +298,7 @@
     background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
 
     &::before {
-      background: #ff3939;
+      background: #168cb5;
     }
   }
 

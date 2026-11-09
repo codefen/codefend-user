@@ -6,7 +6,7 @@ export const WelcomeFinishSkeleton = () => {
 
   return (
     <div className="welcome-finish-skeleton">
-      {/* <img className="logose" src={`/codefend/brand-small-${theme}.png`} width={120} /> */}
+      {/* <img className="logose" src={`/codefend/brand-new-${theme}.svg`} width={120} /> */}
 
       {/* Información del scan header */}
       <div className="scan-header-info">

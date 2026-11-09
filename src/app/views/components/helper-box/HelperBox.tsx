@@ -17,10 +17,10 @@ export const HelperBox: FC<HelperBoxProps> = ({
 }) => {
   const { position, coordX = '50%', coordY = '50%', color = '' } = arrow;
   const arrowColors = {
-    [Position.TOP]: '#f84747',
-    [Position.BOTTOM]: '#a71818',
+    [Position.TOP]: '#168cb5',
+    [Position.BOTTOM]: '#0a5473',
     [Position.LEFT]: '#561e1e',
-    [Position.RIGHT]: '#a71818',
+    [Position.RIGHT]: '#0a5473',
   };
   const defaultArrowColor = color || arrowColors[position];
 

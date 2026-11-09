@@ -23,7 +23,7 @@
       animation: enter 0.4s ease-in-out forwards;
       display: flex;
       border-radius: 18px;
-      background: #fdefef;
+      background: #d8eff6;
       align-items: center;
       justify-content: flex-start;
       align-content: center;
@@ -60,7 +60,7 @@
       }
 
       &:hover {
-        background-color: #fbdddd;
+        background-color: #d8eff6;
       }
     }
   }
@@ -97,8 +97,8 @@
 
   & .selecting-box {
     position: absolute;
-    background-color: #ffd5d54d;
-    border: 1px solid #ffa0a0;
+    background-color: #d8eff64d;
+    border: 1px solid #72cae5;
   }
 
   &.small {
@@ -162,7 +162,7 @@
       transition-duration: 300ms;
 
       &:hover {
-        color: #ef4444;
+        color: #168cb5;
       }
 
       &:hover .sort.active {
@@ -234,11 +234,11 @@
     }
 
     &.label:has(input:checked) {
-      background-color: #ffe6e6d6;
+      background-color: #d8eff6d6;
     }
 
     &.selected-item {
-      background: #ffeded;
+      background: #d8eff6;
       color: #000;
     }
 
@@ -739,7 +739,7 @@
     color: var(--column-header-color);
 
     &:hover {
-      --column-header-color: #ef4444;
+      --column-header-color: #168cb5;
     }
 
     &.sorted {

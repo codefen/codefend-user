@@ -399,7 +399,7 @@ export const OnboardingPage = () => {
   return (
     <ModalWrapper showCloseBtn={false} type="onboarding-modal-container" action={handleClose}>
       <div className="new-auth-content welcome-content">
-        <img className="logose" src={`/codefend/brand-small-${theme}.png`} width={220} />
+        <img className="logose" src={`/codefend/brand-new-${theme}.svg`} width={220} />
 
         <div className="onboarding-header">
           <b>Business information</b>

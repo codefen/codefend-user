@@ -21,13 +21,13 @@ const CrownIcon = () => (
     style={{ marginLeft: '8px', verticalAlign: 'middle' }}>
     <path
       d="M3 17h18v2H3v-2zm0-3h18l-2-8h-2l-2 3-4-6-4 6-2-3H3l-2 8h18z"
-      fill="#ff3939"
-      stroke="#cc2929"
+      fill="#168cb5"
+      stroke="#097097"
       strokeWidth="0.5"
     />
-    <circle cx="7" cy="10" r="1" fill="#cc2929" />
-    <circle cx="12" cy="8" r="1" fill="#cc2929" />
-    <circle cx="17" cy="10" r="1" fill="#cc2929" />
+    <circle cx="7" cy="10" r="1" fill="#097097" />
+    <circle cx="12" cy="8" r="1" fill="#097097" />
+    <circle cx="17" cy="10" r="1" fill="#097097" />
   </svg>
 );
 

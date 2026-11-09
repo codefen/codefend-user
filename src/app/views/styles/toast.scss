@@ -24,15 +24,15 @@
 
 /* Toast de error con fondo rojizo suave */
 .Toastify__toast--error {
-  background: #fef2f2 !important; /* Rojo muy suave, casi blanco */
-  color: #b91c1c !important; /* Rojo oscuro para el texto */
+  background: #d8eff6 !important; /* Rojo muy suave, casi blanco */
+  color: #097097 !important; /* Rojo oscuro para el texto */
 }
 
 .Toastify__toast--error .Toastify__toast-body {
-  color: #b91c1c !important;
+  color: #097097 !important;
 }
 
 /* Ícono de progreso para toasts de error */
 .Toastify__toast--error .Toastify__progress-bar {
-  background: #ef4444 !important;
+  background: #168cb5 !important;
 } 

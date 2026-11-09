@@ -286,7 +286,7 @@ main.enp {
   }
 
   .enp-compliance-failed {
-    color: #bd2c2c;
+    color: #097097;
   }
 
   .enp-compliance-success {
@@ -419,13 +419,13 @@ main.enp {
           }
 
           &.enp-report-btn {
-            background-color: #fef2f2;
-            color: #fca5a5;
-            border-color: #fca5a5;
+            background-color: #d8eff6;
+            color: #72cae5;
+            border-color: #72cae5;
 
             &:hover {
               background-color: #ecc7c7;
-              color: #f58a8a;
+              color: #72cae5;
             }
           }
         }
@@ -655,12 +655,12 @@ main.enp {
 
             &.enp-report-btn {
               background-color: #e9c4c4;
-              color: #c74040;
-              border-color: #bf4c4c;
+              color: #097097;
+              border-color: #097097;
 
               &:hover {
                 background-color: #e0adad;
-                color: #bd2c2c;
+                color: #097097;
               }
             }
           }

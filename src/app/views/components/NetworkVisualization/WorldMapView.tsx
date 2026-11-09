@@ -68,7 +68,7 @@ import './NetworkVisualization.scss';
 // 🌍 COLORES DE PAÍSES
 const MAP_COLORS = {
   // Color de países con servidores (rojo principal)
-  COUNTRIES_WITH_SERVERS: '#dc2626',
+  COUNTRIES_WITH_SERVERS: '#168cb5',
   // Color de países sin servidores (gris claro)
   COUNTRIES_WITHOUT_SERVERS: '#eee',
   // Opacidad de países con servidores (0.0 - 1.0)
@@ -100,9 +100,9 @@ const BORDER_COLORS = {
 // ⚪ CONFIGURACIÓN DE CÍRCULOS DE CIUDADES
 const CITY_CIRCLES = {
   // Color de relleno de los círculos de ciudad
-  FILL_COLOR: '#ff393933',
+  FILL_COLOR: '#168cb533',
   // Color del borde de los círculos de ciudad
-  STROKE_COLOR: '#dc2626',
+  STROKE_COLOR: '#168cb5',
   // Grosor del borde de los círculos
   STROKE_WIDTH: 0.2,
   // Radio mínimo de los círculos
@@ -116,9 +116,9 @@ const CITY_CIRCLES = {
   // Duración de la animación en milisegundos
   ANIMATION_DURATION: 200,
   // Sombra de los círculos (CSS filter)
-  DROP_SHADOW: 'drop-shadow(0 2px 4px rgba(220, 38, 38, 0.3))',
+  DROP_SHADOW: 'drop-shadow(0 2px 4px rgba(22, 140, 181, 0.3))',
   // Sombra en hover
-  DROP_SHADOW_HOVER: 'drop-shadow(0 4px 8px rgba(220, 38, 38, 0.5))',
+  DROP_SHADOW_HOVER: 'drop-shadow(0 4px 8px rgba(22, 140, 181, 0.5))',
 };
 
 // 🗺️ CONFIGURACIÓN DE LA PROYECCIÓN DEL MAPA
@@ -863,7 +863,7 @@ export const WorldMapView: FC<WorldMapViewProps> = ({
         <h3>{title}</h3>
         <div className="legend">
           <div className="legend-item">
-            <div className="legend-color" style={{ backgroundColor: '#dc2626' }}></div>
+            <div className="legend-color" style={{ backgroundColor: '#168cb5' }}></div>
             <span>Countries with Servers</span>
           </div>
           <div className="legend-item">
@@ -871,7 +871,7 @@ export const WorldMapView: FC<WorldMapViewProps> = ({
               className="legend-color"
               style={{
                 backgroundColor: '#ffffff',
-                border: '2px solid #dc2626',
+                border: '2px solid #168cb5',
                 borderRadius: '50%',
               }}></div>
             <span>Cities with Servers</span>

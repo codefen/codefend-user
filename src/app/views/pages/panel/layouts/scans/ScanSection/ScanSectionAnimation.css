@@ -24,7 +24,7 @@
   width: 60px;
   height: 8px;
   margin: 4px 0;
-  background: linear-gradient(90deg, #ff3939 0%, #ffb347 100%);
+  background: linear-gradient(90deg, #168cb5 0%, #ffb347 100%);
   border-radius: 8px;
   opacity: 0.7;
   animation: scanBarAnim 1.2s infinite cubic-bezier(0.4, 0, 0.2, 1);
@@ -44,7 +44,7 @@
 .scan-animation-text {
   margin-top: 18px;
   font-size: 1.2rem;
-  color: #ff3939;
+  color: #168cb5;
   font-weight: 600;
   letter-spacing: 0.5px;
   text-align: center;
@@ -55,18 +55,18 @@
   transition: color 0.2s, font-size 0.2s;
   color: #b0b0b0 !important;
   font-size: 1.05em;
-  background: linear-gradient(90deg, #ffe0e0 0%, #fff 100%);
+  background: linear-gradient(90deg, #d8eff6 0%, #fff 100%);
 }
 .input-anim-path {
   transition: color 0.2s, font-size 0.2s;
   color: #b0b0b0 !important;
   font-size: 1.08em;
-  background: linear-gradient(90deg, #fff6e0 0%, #fff 100%);
+  background: linear-gradient(90deg, #d8eff6 0%, #fff 100%);
 }
 .input-anim-flash {
   animation: inputFlash 0.25s linear 1;
   background: #fffbe6 !important;
-  color: #ff3939 !important;
+  color: #168cb5 !important;
   font-weight: bold;
   font-size: 1.12em;
   box-shadow: 0 0 8px 2px #ffe066;
@@ -76,3 +76,6 @@
   50% { background: #ffe066; }
   100% { background: #fffbe6; }
 } 
+.scan-module-options { display:flex; flex-wrap:wrap; gap:20px; border:0; border-bottom:1px solid var(--border-color, #d7e0e4); padding:12px 18px; }
+.scan-module-options legend { font-weight:600; }
+.scan-module-options label { display:flex; gap:6px; align-items:center; }
