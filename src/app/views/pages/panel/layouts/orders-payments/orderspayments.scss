@@ -14,7 +14,7 @@ main.orders-payments {
         flex-direction: column;
         flex: 1 1 0;
         min-width: 200px;
-        padding: 0.5rem;
+
         p {
           font-family: Satoshi, sans-serif !important;
           font-size: 0.9rem;
@@ -57,7 +57,7 @@ main.orders-payments {
 
   &.actived {
     opacity: 1;
-    width: 96%;
+    width: 100%;
     margin-left: 0;
     margin-right: auto;
     display: flex;
@@ -182,6 +182,7 @@ main.orders-payments {
       outline: 0;
       padding: 0;
       margin-bottom: 0;
+      width: calc(100% - 2 * var(--card-space));
       margin-inline: auto;
 
       .left {

@@ -1,0 +1,171 @@
+// Padding belongs to a section's outer slot. Nested text and forms never add a second inset.
+// Scope the contract to the panel so public/auth pages keep their own composition.
+#root > main:not(.auth-pages) {
+  > :is(.left, .right) {
+    min-width: 0;
+  }
+
+  .card > .over {
+    width: 100%;
+    min-width: 0;
+    padding: var(--panel-block-inset) var(--panel-inset);
+
+    > .header {
+      height: auto;
+      min-height: 0;
+      margin: 0 0 var(--content-gap);
+      padding: 0;
+      line-height: 1.4;
+    }
+
+    .table-title {
+      padding: 0;
+      margin: 0;
+    }
+
+    > p,
+    > .header-content > p {
+      padding: 0;
+      margin: 0 0 var(--content-gap);
+    }
+
+    > form {
+      padding-inline: 0;
+    }
+
+    > :last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .card.rectangle > .over > .header-content {
+    flex: 1;
+    min-width: 0;
+    gap: var(--content-gap);
+
+    > :is(h2, p) {
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  .card.title,
+  .company-info-card {
+    padding: var(--panel-block-inset) var(--panel-inset);
+
+    > .header {
+      padding: 0;
+      margin: 0 0 var(--content-gap);
+      min-height: 0;
+      height: auto;
+      line-height: 1.4;
+    }
+
+    > .content {
+      padding: 0;
+    }
+
+    > .content > p {
+      margin: 0 0 var(--content-gap);
+      padding: 0;
+    }
+  }
+
+  // Headings for edge-to-edge tables and charts share the table row inset.
+  .card > :is(.header, .simple-section-header) {
+    padding: var(--section-header-inset) var(--panel-inset);
+    min-height: 48px;
+    height: auto;
+    line-height: 1.4;
+  }
+
+  .card.title > .header,
+  .company-info-card > .header {
+    padding: 0;
+    min-height: 0;
+  }
+
+  // Padded card bodies supply the content edge for their nested tables.
+  .over .table,
+  .card.risk-chart > .content .table {
+    --table-inset: 0px;
+  }
+
+  .table :is(.columns-name, .table-header, .item) {
+    padding-inline: var(--table-inset, var(--panel-inset));
+  }
+
+  .table .item-cell:first-child {
+    padding-inline-start: 0;
+  }
+
+  .table.table-context-menu-enabled :is(.columns-name, .table-header, .item) {
+    padding-inline-end: calc(var(--table-inset, var(--panel-inset)) + 32px);
+  }
+
+  .over > .table-title {
+    margin-bottom: var(--content-gap);
+  }
+
+  .card.risk-chart > .content {
+    padding: var(--panel-block-inset) var(--panel-inset);
+    gap: var(--content-gap);
+  }
+
+  .panel-card-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: stretch;
+    gap: var(--section-gap);
+    padding: var(--page-inset);
+
+    > .card {
+      min-width: 0;
+      height: 100%;
+      margin: 0;
+    }
+  }
+
+  .quicklinks-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--content-gap);
+    list-style: none;
+    margin: var(--content-gap) 0 0;
+    padding: 0;
+
+    a {
+      display: block;
+      padding: var(--space-3) var(--space-4);
+      background: var(--primary-color-100);
+      border: 1px solid var(--primary-color-300);
+      border-radius: var(--brd-radius);
+      color: var(--tertiary-color-400);
+
+      &:hover {
+        background: var(--primary-color-400);
+        border-color: var(--secondary-color-50);
+      }
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  #root > main:not(.auth-pages) .panel-card-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+// Collapsed navigation: one outer gutter for every panel, including legacy layouts.
+@media (max-width: 1230px) {
+  #root > main:not(.auth-pages) {
+    width: 100% !important;
+    margin-inline: 0 !important;
+    padding-inline: var(--page-inset) !important;
+    column-gap: var(--section-gap);
+
+    > :is(.left, .right) {
+      margin-inline: 0;
+    }
+  }
+}

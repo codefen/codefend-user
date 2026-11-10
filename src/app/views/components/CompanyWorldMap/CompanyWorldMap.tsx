@@ -6,6 +6,7 @@ import { TABLE_KEYS } from '@/app/constants/app-texts';
 import Tablev3 from '@table/v3/Tablev3';
 import { useTheme } from '@/app/views/context/ThemeContext';
 import './CompanyWorldMap.scss';
+import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection';
 
 // Interface para los datos de compañías
 interface Company {
@@ -383,9 +384,7 @@ export const CompanyWorldMap: FC<CompanyWorldMapProps> = ({
   if (isLoading || isMapLoading) {
     return (
       <div className="card company-world-map">
-        <div className="header">
-          <h2 className="table-title">{title}</h2>
-        </div>
+        <SimpleSection header={title}>{null}</SimpleSection>
         <div className="content" ref={containerRef}>
           <div className="loading-container">
             <div className="loading-spinner"></div>
@@ -401,9 +400,7 @@ export const CompanyWorldMap: FC<CompanyWorldMapProps> = ({
 
   return (
     <div className="card company-world-map">
-      <div className="header">
-        <h2 className="table-title">{title}</h2>
-      </div>
+      <SimpleSection header={title}>{null}</SimpleSection>
       <div className="content" ref={containerRef}>
         <div className="map-container">
                     <svg ref={svgRef} width={dimensions.width} height={dimensions.height} />

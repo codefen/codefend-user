@@ -84,13 +84,13 @@
   }
 
   & .over {
-    padding: var(--card-space);
+    padding: var(--panel-block-inset) var(--panel-inset);
 
     .table-title {
       display: flex;
       align-items: center;
       gap: var(--card-space);
-      padding: var(--card-space);
+      padding: 0;
       font-size: 0.975rem;
 
       h2 {
@@ -110,16 +110,16 @@
     }
 
     p {
-      padding-inline: var(--card-space);
-      margin-block-end: var(--card-space);
+      padding-inline: 0;
+      margin-block: var(--content-gap);
       font-size: clamp(0.8rem, 3dvh, 16px);
       font-family: Questrial;
-      margin-top: 0.5lh;
+
       line-height: 1.5em;
     }
 
     form {
-      padding-inline: calc(var(--card-space) * 1.1);
+      padding-inline: 0;
     }
   }
 
@@ -161,7 +161,7 @@
   }
 
   &.title {
-    padding: 20px 25px 25px;
+    padding: 20px var(--panel-inset) 24px;
 
     p {
       margin-bottom: 15px;
@@ -957,6 +957,22 @@
     img {
       width: 5rem;
       height: 5rem;
+    }
+  }
+}
+
+/* Compact the illustration within narrow panels while retaining the text column. */
+.empty-card:not(.empty-screen) {
+  container-type: inline-size;
+}
+@container (max-width: 320px) {
+  .empty-card .empty-wrapper {
+    padding-inline: 12px;
+    column-gap: 8px;
+
+    img {
+      width: 32px;
+      height: 32px;
     }
   }
 }

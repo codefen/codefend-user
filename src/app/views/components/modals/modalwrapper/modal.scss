@@ -53,16 +53,18 @@
     position: absolute;
     top: 12px;
     right: 20px;
-    width: 24px;
-    height: 24px;
-    padding: 5px;
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    padding: 4px;
     cursor: pointer;
     z-index: 100;
 
     svg {
       color: black;
-      width: inherit !important;
-      height: inherit !important;
+      width: 24px !important;
+      height: 24px !important;
     }
 
     &:hover {
@@ -74,7 +76,13 @@
 
   &.title-wrapper {
     .modal-close-btn {
-      top: 5px;
+      top: 14px;
+      right: var(--panel-inset);
+    }
+
+    > .header {
+      min-height: 60px;
+      padding-inline-end: calc(var(--panel-inset) + 40px);
     }
   }
 
@@ -83,7 +91,7 @@
     align-items: center;
     gap: 10px;
     height: 60px;
-    padding: 0 20px;
+    padding: 0 var(--panel-inset);
     border-bottom: 1px solid var(--primary-color-300);
     color: var(--tertiary-color-400);
     font-family: Roboto;
@@ -107,7 +115,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 25px;
+    padding: var(--panel-block-inset) var(--panel-inset);
     position: relative;
     z-index: 50;
 

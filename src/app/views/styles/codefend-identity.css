@@ -26,7 +26,33 @@ body[data-theme='dark'] .btn.btn-red, body[data-theme='dark'] button.btn-red, bo
 body[data-theme='dark'] .btn.btn-red:hover, body[data-theme='dark'] button.btn-red:hover, body[data-theme='dark'] a.btn-red:hover {background:#a1e6f8!important}
 body:has(.new-signin-form),body:has(.new-signup-form),body:has(.onboarding-modal-container) {background:#f2f4f5!important}
 body[data-theme='dark']:has(.new-signin-form),body[data-theme='dark']:has(.new-signup-form),body[data-theme='dark']:has(.onboarding-modal-container) {background:#17191b!important}
-body:has(.new-signin-form)::after,body:has(.new-signup-form)::after,body:has(.onboarding-modal-container)::after {background-image:linear-gradient(90deg,transparent 99%,rgba(22,140,181,.09) 99%),linear-gradient(transparent 99%,rgba(22,140,181,.09) 99%)!important;background-size:72px 72px!important;width:100%!important;opacity:.45;transform:none!important}
+/* The fine square grid and outlined icon tiles echo the public services pages. */
+body:has(.new-signin-form, .new-signup-form, .onboarding-modal-container)::after {
+  background-image:
+    linear-gradient(to right, var(--secondary-color-50) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--secondary-color-50) 1px, transparent 1px) !important;
+  background-size: 72px 72px !important;
+  background-repeat: repeat;
+  width: 100% !important;
+  opacity: .07;
+  transform: none !important;
+}
+body main .empty-screen .empty-card-wrapper .header .image {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  margin: 0 0 12px;
+  border: 1px solid color-mix(in srgb, var(--secondary-color-50) 25%, transparent);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--secondary-color-50) 6%, transparent);
+}
+body main .empty-screen .empty-card-wrapper .header .image svg {
+  width: 36px;
+  height: 36px;
+}
+body main .empty-screen .empty-card-wrapper .header .text {text-align: center}
+
 body #root-modal .modal-wrapper .modal :is(.new-auth-content,.readonly-content) {border:1px solid #d6e0e3!important;border-radius:10px!important;box-shadow:0 14px 48px rgba(32,62,74,.06)!important;background:#fff!important}
 body[data-theme='dark'] #root-modal .modal-wrapper .modal :is(.new-auth-content,.readonly-content) {border-color:#343b3e!important;background:#1d2022!important;box-shadow:0 14px 48px rgba(0,0,0,.16)!important}
 body #root-modal .modal-wrapper .modal .readonly-content .feature-icon img {filter:hue-rotate(205deg) saturate(.9)}
@@ -204,7 +230,7 @@ body .modal-wrapper .modal .btn-cancel:hover {color:var(--secondary-color-100)!i
 
 /* Flat comment composer, matching the surrounding panels. */
 body main.issue-detail .sender {left:0!important;right:0!important;bottom:0!important;backdrop-filter:none}
-body main.issue-detail .sender .chatbox-container {border:0!important;border-top:1px solid var(--primary-color-300)!important;border-radius:0!important;box-shadow:none!important;background:var(--primary-color);padding:16px 20px}
+body main.issue-detail .sender .chatbox-container {border:0!important;border-top:1px solid var(--primary-color-300)!important;border-radius:0!important;box-shadow:none!important;background:var(--primary-color);padding:var(--space-4) var(--panel-inset)}
 body main.issue-detail .sender .chatbox-container textarea {border:0;border-radius:0!important;background:transparent!important}
 /* Network resources as a full-width list with consistent dividers. */
 body main.lan .left > .card {height:100%;min-height:0;overflow:hidden}
@@ -214,12 +240,12 @@ body main.lan .network-layout > div:first-child {flex:none;border-bottom:1px sol
 body main.lan .network-layout > div:first-child .form-input input {height:52px;border:0;border-radius:0;background:transparent}
 body main.lan .network-cards-container {width:100%;min-height:0;max-height:none!important;padding:0!important;border:0!important;border-radius:0!important;box-shadow:none!important;flex:1 1 auto}
 body main.lan .masonry-container,body main.lan .masonry-column {padding:0!important;gap:0!important;width:100%}
-body main.lan .network-resource-card,body main.lan .network-resource-card:hover,body main.lan .network-resource-card.actions-visible {width:100%;padding:20px 0 0;border:0;border-bottom:1px solid var(--primary-color-300);border-radius:0;box-shadow:none;background:var(--primary-color)}
-body main.lan .network-resource-card .card-header,body main.lan .network-resource-card .server-location,body main.lan .network-resource-card .found-apps .apps-title {margin-left:20px;margin-right:20px}
-body main.lan .network-resource-card .found-apps .apps-list .app-item {padding:10px 20px;border-bottom:1px solid var(--primary-color-300)}
+body main.lan .network-resource-card,body main.lan .network-resource-card:hover,body main.lan .network-resource-card.actions-visible {width:100%;padding:var(--panel-block-inset) 0 0;border:0;border-bottom:1px solid var(--primary-color-300);border-radius:0;box-shadow:none;background:var(--primary-color)}
+body main.lan .network-resource-card .card-header,body main.lan .network-resource-card .server-location,body main.lan .network-resource-card .found-apps .apps-title {margin-inline:var(--panel-inset)}
+body main.lan .network-resource-card .found-apps .apps-list .app-item {padding:var(--space-3) var(--panel-inset);border-bottom:1px solid var(--primary-color-300)}
 body main.lan .network-resource-card .found-apps .apps-list .app-item:last-child {border-bottom:0}
-body main.lan .network-resource-card .found-apps .no-apps {padding:0 20px 16px}
-body main.lan .network-resource-card .actions-menu {margin:0;padding:12px 20px;border-color:var(--primary-color-300)}
+body main.lan .network-resource-card .found-apps .no-apps {padding:0 var(--panel-inset) var(--space-4)}
+body main.lan .network-resource-card .actions-menu {margin:0;padding:var(--space-3) var(--panel-inset);border-color:var(--primary-color-300)}
 /* Avoid horizontal overflow in the connection-error dialog. */
 body:not(:has(main.auth-pages)) .modal-wrapper .modal:has(> .error-wrapper) {width:min(40.3rem,calc(100vw - 32px));overflow:visible}
 body .modal-wrapper .error-wrapper {box-sizing:border-box;width:100%;min-width:0;max-width:100%;overflow:visible;box-shadow:none}

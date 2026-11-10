@@ -6,8 +6,8 @@ main.dashboard {
 
     .card.rectangle {
       .over {
-        padding: 3rem;
-        gap: calc(var(--card-space) * 4);
+
+        gap: var(--space-6);
         p {
           max-width: min(660px, 85%);
           line-height: 2rem;
@@ -55,7 +55,7 @@ main.dashboard {
       > .card {
         overflow: hidden;
         min-width: 200px;
-        padding: 0.5rem;
+
 
         // height: 100%;
 
@@ -274,7 +274,7 @@ main.dashboard {
     .left {
       .card.rectangle {
         .over {
-          padding: calc(var(--card-space) * 2);
+
 
           p {
             max-width: min(660px, 100%);

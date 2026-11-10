@@ -224,7 +224,7 @@ export const NewSigninForm = () => {
             autoComplete="email"
             required
           />
-          <div className={css['password-input-wrapper']}>
+          <div className={mfaStep ? css['hide-for-mfa'] : css['password-input-wrapper']}>
             <AuthInput
               className={`${mfaStep ? css['hide-for-mfa'] : ''} ${css['password-input']}`}
               placeholder="Password"
@@ -233,19 +233,6 @@ export const NewSigninForm = () => {
               autoComplete="off"
               required
             />
-            {!mfaStep && (
-              <Link
-                to="/auth/recovery"
-                className="password-recovery"
-                style={{
-                  color: '#00000080',
-                  fontSize: '0.9rem',
-                  margin: '25px auto 0px auto',
-                  textDecoration: 'underline',
-                }}>
-                I don't remember my password
-              </Link>
-            )}
             <button
               type="button"
               className={css['toggle-password']}
@@ -255,6 +242,11 @@ export const NewSigninForm = () => {
               {showPassword ? <EyeOffIcon /> : <EyeIcon />}
             </button>
           </div>
+          {!mfaStep && (
+            <Link to="/auth/recovery" className={`password-recovery ${css.recoveryLink}`}>
+              I don't remember my password
+            </Link>
+          )}
           {mfaStep && (
             <AuthInput
               placeholder="MFA Code"

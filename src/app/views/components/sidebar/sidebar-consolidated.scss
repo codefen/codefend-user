@@ -874,6 +874,11 @@ main {
 
 // Ajustes para pantallas pequeñas
 @media only screen and (max-width: 1230px) {
+  #root:has(.sidebar.mobile-active) > main {
+    grid-column: 1 / -1;
+    min-width: 0;
+  }
+
   main {
     margin-block-start: 3rem;
     padding-inline-start: var(--card-space);

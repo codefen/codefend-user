@@ -24,7 +24,7 @@
     font-weight: 700;
     color: var(--tertiary-color-400);
 
-    // padding: 0 20px;
+    padding-inline: var(--panel-inset);
     border-bottom: 1px solid var(--primary-color-300);
     transition-property: border-image, border;
     transition-duration: 325ms;
@@ -101,7 +101,7 @@
     display: flex;
     align-items: center;
     height: 40px;
-    padding-inline: 20px;
+    padding-inline: var(--panel-inset);
     // padding-inline-end: 40px;
     border-bottom: 1px solid var(--primary-color-300);
     color: var(--tertiary-color-300);

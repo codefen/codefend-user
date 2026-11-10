@@ -31,6 +31,12 @@ main.mobile {
   }
 
   @media only screen and (max-width: 600px) {
+    &.actived {
+      display: block;
+      width: 100%;
+      overflow-y: auto;
+    }
+
     display: block;
     min-height: auto;
     height: 81dvh;

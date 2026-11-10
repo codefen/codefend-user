@@ -105,16 +105,13 @@ const AdminCommander: FC = () => {
         </div>
         
         {/* Contenedor fluido para todas las tarjetas */}
-        <div className="admin-cards-fluid">
+        <div className="panel-card-grid">
           {/* Crear nueva compañía */}
           <CreateCompany />
           
-          {/* Quick variables - arriba de eliminar neuroscans */}
-          <QuickVariablesCard />
-          
-          {/* Eliminar neuroscans - DESACTIVADO */}
           <DeleteNeuroscans />
-          
+          <QuickVariablesCard />
+
           {/* Onboarding - debajo de crear nueva compañía */}
           <OnboardingCard />
         </div>

@@ -616,7 +616,7 @@ main.cloud {
   height: 100dvh;
   overflow: hidden;
   width: 60%;
-  min-width: 1160px;
+  min-width: 0;
 
   &.empty-active {
     width: 100%;
@@ -1011,6 +1011,7 @@ body:has(.onboarding-modal-container) {
       }
 
       .new-auth-content {
+        max-width: calc(100% - 2 * var(--card-space));
         background: linear-gradient(126.81deg, #121314 16.66%, #010203 85.47%);
         border: 1px solid #252525;
         height: auto;
@@ -1021,7 +1022,7 @@ body:has(.onboarding-modal-container) {
       .readonly-content {
         width: 680px;
         padding-block: 1.75rem;
-        padding-inline: 1.5rem;
+        padding-inline: var(--panel-inset);
         flex-shrink: 0;
         height: -webkit-fill-available;
         --title-text-color-secondary: rgb(156 163 175 / 1);
@@ -1052,7 +1053,7 @@ body:has(.onboarding-modal-container) {
           color: var(--header-text-color);
           border-block-start: 1px solid var(--feature-item-border-color);
           padding-block: 1.25rem;
-          padding-inline: 2rem;
+          padding-inline: 0;
         }
 
         .features-list {
@@ -1167,6 +1168,10 @@ body:has(.onboarding-modal-container) {
     }
 
     .modal.new-signin-form {
+      .form-content {
+        padding-block: var(--panel-block-inset);
+      }
+
       min-height: clamp(300px, 90dvh, 600px);
     }
   }
@@ -1379,7 +1384,7 @@ body[data-theme='light']:has(.onboarding-modal-container) {
       .modal.new-signup-form,
       .modal.new-signin-form,
       .modal.onboarding-modal-container {
-        max-width: 96dvw;
+        max-width: calc(100% - 2 * var(--card-space));
         max-height: none; /* ensure scrolling available on small devices */
 
         .form-content,
@@ -1409,8 +1414,10 @@ body[data-theme='light']:has(.onboarding-modal-container) {
         }
 
         .new-auth-content {
-          width: calc(100dvw - 1.75rem);
-          margin-inline: 0.75rem;
+          box-sizing: border-box;
+          max-width: calc(100% - 2 * var(--card-space));
+          width: 100%;
+          margin-inline: auto;
         }
       }
     }
@@ -1438,7 +1445,7 @@ body[data-theme='light']:has(.onboarding-modal-container) {
           }
           p.header-text {
             font-size: 0.95rem;
-            padding-inline: 0.5rem;
+            padding-inline: 0;
           }
           .features-list {
             .feature-item {
@@ -1502,6 +1509,7 @@ body[data-theme='light']:has(.onboarding-modal-container) {
     #root-modal .modal-wrapper {
       .modal.new-signin-form {
         .form-content {
+          max-width: 100%;
           width: 100%;
         }
       }
@@ -1528,6 +1536,18 @@ main.auth-pages {
   max-height: none;
   max-width: none;
   grid-area: 1 / 1 / 6 / 8;
+
+  > .confirmation-form {
+    width: min(100%, 32rem);
+    padding: 3.5rem var(--panel-inset) var(--panel-inset);
+
+    .confirm-button {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+  }
 
   .theme-changer-button {
     position: fixed;
@@ -3029,16 +3049,19 @@ main .empty-screen {
     font-size: 0.875rem;
     line-height: 1.25rem;
     color: var(--tertiary-color-200);
-    position: absolute;
-    bottom: -1.85rem;
+    margin-top: -1rem;
+    text-align: center;
   }
   .empty-container {
     height: 100%;
-    width: 500px;
+    width: min(500px, 100%);
+    min-width: 0;
 
     .empty-card-wrapper {
       row-gap: 2rem;
-      position: relative;
+      width: 100%;
+      min-width: 0;
+      padding-inline: var(--panel-inset);
 
       .header {
         flex-direction: column;

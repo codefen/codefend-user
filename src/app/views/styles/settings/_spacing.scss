@@ -1,0 +1,24 @@
+// Global spacing controls. Components consume the semantic aliases below.
+:root {
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --panel-inset: var(--space-5);
+  --panel-block-inset: var(--space-5);
+  --section-header-inset: var(--space-4);
+  --section-gap: var(--space-3);
+  --content-gap: var(--space-3);
+  --page-inset: var(--space-5);
+  --card-space: var(--section-gap);
+}
+
+@media (max-width: 600px) {
+  :root {
+    --panel-inset: var(--space-4);
+    --panel-block-inset: var(--space-4);
+    --page-inset: var(--space-3);
+  }
+}
