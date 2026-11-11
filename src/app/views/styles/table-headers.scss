@@ -1,0 +1,17 @@
+// Shared appearance for current and legacy tables, including tables inside dialogs.
+body[data-theme] .table :is(.table-header, .columns-name) {
+  background: var(--primary-color-50);
+  border-image: none;
+  border-block: 1px solid var(--primary-color-300);
+  border-radius: 0;
+  box-shadow: none;
+  font-family: Satoshi, system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+
+  :is(.column-header, .column-content, .column) {
+    background: transparent;
+    font-size: inherit;
+    font-weight: inherit;
+  }
+}

@@ -6,6 +6,7 @@ import './app/views/styles/forms.scss';
 import './app/views/styles/flags/flags.scss';
 import './app/views/styles/codefend-identity.css';
 import './app/views/styles/panel-spacing.scss';
+import './app/views/styles/table-headers.scss';
 
 import { App } from './app/App';
 

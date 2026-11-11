@@ -102,6 +102,10 @@ body main:is(.user-profile,.dashboard,.team-members) > .left > .box-assets {
   gap:0!important; margin:0!important; align-items:stretch;
   background:var(--primary-color); border-bottom:1px solid var(--primary-color-300);
 }
+/* The introductory rectangle already supplies this divider on the empty dashboard. */
+body main.dashboard > .left > :not(.rectangle) + .box-assets {
+  border-top:1px solid var(--primary-color-300);
+}
 body main:is(.user-profile,.dashboard,.team-members) > .left > .box-assets > .card {
   min-width:0; height:auto; margin:0!important; border:0!important;
   border-radius:0!important; box-shadow:none!important; background:transparent;
