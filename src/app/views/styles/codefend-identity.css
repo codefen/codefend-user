@@ -24,14 +24,139 @@ body .btn.btn-red, body button.btn-red, body a.btn-red {background:#168cb5!impor
 body .btn.btn-red:hover, body button.btn-red:hover, body a.btn-red:hover {background:#08779d!important;border-color:#08779d!important}
 body[data-theme='dark'] .btn.btn-red, body[data-theme='dark'] button.btn-red, body[data-theme='dark'] a.btn-red {background:#72d7f5!important;border-color:#72d7f5!important;color:#11272e!important}
 body[data-theme='dark'] .btn.btn-red:hover, body[data-theme='dark'] button.btn-red:hover, body[data-theme='dark'] a.btn-red:hover {background:#a1e6f8!important}
-body:has(.new-signin-form),body:has(.new-signup-form),body:has(.onboarding-modal-container) {background:#f2f4f5!important}
-body[data-theme='dark']:has(.new-signin-form),body[data-theme='dark']:has(.new-signup-form),body[data-theme='dark']:has(.onboarding-modal-container) {background:#17191b!important}
-body:has(.new-signin-form)::after,body:has(.new-signup-form)::after,body:has(.onboarding-modal-container)::after {background-image:linear-gradient(90deg,transparent 99%,rgba(22,140,181,.09) 99%),linear-gradient(transparent 99%,rgba(22,140,181,.09) 99%)!important;background-size:72px 72px!important;width:100%!important;opacity:.45;transform:none!important}
+/* Auth backdrop — same language as website service-hero (scoped; panel unchanged) */
+body:has(.new-signin-form),
+body:has(.new-signup-form),
+body:has(.new-recovery-form),
+body:has(.onboarding-modal-container) {
+  --auth-hero-line: rgba(0,0,0,.08);
+  --auth-hero-grid: rgba(22,140,181,.1);
+  background:
+    radial-gradient(ellipse 48% 62% at 10% 30%, rgba(9,106,138,.07), transparent 60%),
+    radial-gradient(ellipse 55% 70% at 88% 18%, rgba(9,106,138,.1), transparent 58%),
+    #f4f7f8 !important;
+}
+body[data-theme='dark']:has(.new-signin-form),
+body[data-theme='dark']:has(.new-signup-form),
+body[data-theme='dark']:has(.new-recovery-form),
+body[data-theme='dark']:has(.onboarding-modal-container) {
+  --auth-hero-line: rgba(255,255,255,.1);
+  --auth-hero-grid: rgba(114,215,245,.1);
+  background:
+    radial-gradient(ellipse 48% 62% at 10% 30%, rgba(114,215,245,.09), transparent 60%),
+    radial-gradient(ellipse 55% 70% at 88% 18%, rgba(114,215,245,.14), transparent 58%),
+    #17191b !important;
+}
+body:has(.new-signin-form)::after,
+body:has(.new-signup-form)::after,
+body:has(.new-recovery-form)::after,
+body:has(.onboarding-modal-container)::after {
+  content: '' !important;
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 0 !important;
+  pointer-events: none !important;
+  background-image:
+    linear-gradient(90deg, var(--auth-hero-grid) 1px, transparent 1px),
+    linear-gradient(var(--auth-hero-grid) 1px, transparent 1px) !important;
+  background-size: 72px 72px !important;
+  width: auto !important;
+  height: auto !important;
+  opacity: .55 !important;
+  transform: none !important;
+  mask-image: radial-gradient(ellipse 70% 65% at 50% 40%, #000 18%, transparent 78%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 65% at 50% 40%, #000 18%, transparent 78%);
+}
+body:has(.new-signin-form)::before,
+body:has(.new-signup-form)::before,
+body:has(.new-recovery-form)::before,
+body:has(.onboarding-modal-container)::before {
+  content: '' !important;
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 0 !important;
+  pointer-events: none !important;
+  background:
+    linear-gradient(90deg, transparent 0%, rgba(114,215,245,.2) 18%, transparent 42%),
+    linear-gradient(90deg, transparent 35%, rgba(114,215,245,.14) 55%, transparent 78%),
+    linear-gradient(90deg, transparent 58%, rgba(114,215,245,.18) 78%, transparent 100%) !important;
+  background-size: 100% 1px, 100% 1px, 100% 1px !important;
+  background-repeat: no-repeat !important;
+  background-position: 0 22%, 0 48%, 0 74% !important;
+  opacity: .5;
+  width: auto !important;
+  height: auto !important;
+  transform: none !important;
+}
+body[data-theme='light']:has(.new-signin-form)::before,
+body[data-theme='light']:has(.new-signup-form)::before,
+body[data-theme='light']:has(.new-recovery-form)::before,
+body[data-theme='light']:has(.onboarding-modal-container)::before {
+  background:
+    linear-gradient(90deg, transparent 0%, rgba(8,125,164,.16) 18%, transparent 42%),
+    linear-gradient(90deg, transparent 35%, rgba(8,125,164,.11) 55%, transparent 78%),
+    linear-gradient(90deg, transparent 58%, rgba(8,125,164,.14) 78%, transparent 100%) !important;
+  background-size: 100% 1px, 100% 1px, 100% 1px !important;
+  background-repeat: no-repeat !important;
+  background-position: 0 22%, 0 48%, 0 74% !important;
+}
 body #root-modal .modal-wrapper .modal :is(.new-auth-content,.readonly-content) {border:1px solid #d6e0e3!important;border-radius:10px!important;box-shadow:0 14px 48px rgba(32,62,74,.06)!important;background:#fff!important}
 body[data-theme='dark'] #root-modal .modal-wrapper .modal :is(.new-auth-content,.readonly-content) {border-color:#343b3e!important;background:#1d2022!important;box-shadow:0 14px 48px rgba(0,0,0,.16)!important}
-body #root-modal .modal-wrapper .modal .readonly-content .feature-icon img {filter:hue-rotate(205deg) saturate(.9)}
-body #root-modal .modal-wrapper .modal .password-recovery {color:var(--tertiary-color-400)!important}
+/* Auth feature icons are pre-colored brand cyan PNGs — no CSS glow/recolor */
+body #root-modal .modal-wrapper .modal .readonly-content .feature-icon img {
+  filter:none!important;
+  width:52px!important;
+  height:52px!important;
+  object-fit:contain!important;
+  transform:none!important;
+  scale:1!important;
+}
+body #root-modal .modal-wrapper .modal .readonly-content .feature-icon {
+  width:52px!important;
+  height:52px!important;
+}
+/* Auth marketing column: use full card width (no artificial ch max-width) */
+body #root-modal .modal-wrapper .modal .readonly-content :is(h1, p.header-text) {max-width:none!important}
+body #root-modal .modal-wrapper .modal .readonly-content p.header-text {padding-inline:0!important;width:100%!important;box-sizing:border-box!important}
+body #root-modal .modal-wrapper .modal .password-recovery {color:var(--tertiary-color-400)!important;margin-top:1rem!important}
 body #root-modal .modal-wrapper .modal .auth-link {color:var(--secondary-color-200)}
+/* Same left-panel height on signin/signup — match signup’s more spaced natural height */
+body #root-modal .modal-wrapper .modal .form-content {
+  width:440px!important;
+  max-width:min(440px,92dvw)!important;
+  box-sizing:border-box!important;
+  flex:0 0 auto!important;
+  min-height:655px!important;
+}
+body #root-modal .modal-wrapper .modal .readonly-content {
+  min-height:655px!important;
+  box-sizing:border-box!important;
+}
+body .google-auth-container .google-auth-button,
+body .google-auth-container .google-auth-button span,
+body .google-auth-container .nsm7Bb-HzV7m-LgbsSe,
+body .google-auth-container .nsm7Bb-HzV7m-LgbsSe * {
+  font-family:Urbanist,Satoshi,system-ui,sans-serif!important;
+}
+
+/* Animated service-hero mesh for auth pages */
+body .auth-hero-mesh {
+  position:fixed; inset:0; z-index:0; pointer-events:none; color:#72d7f5;
+  mask-image:radial-gradient(ellipse 78% 70% at 55% 42%, #000 15%, transparent 78%);
+  -webkit-mask-image:radial-gradient(ellipse 78% 70% at 55% 42%, #000 15%, transparent 78%);
+  opacity:.9;
+}
+body[data-theme='light'] .auth-hero-mesh { color:#087090; opacity:.75; }
+body .auth-hero-mesh svg { width:100%; height:100%; display:block; }
+body .auth-hero-mesh .auth-mesh-flow {
+  stroke-dasharray:5 9;
+  animation:auth-hero-flow 16s linear infinite;
+}
+body .auth-hero-mesh .auth-mesh-pulse { animation:auth-hero-pulse 3.2s ease-in-out infinite; }
+body .auth-hero-mesh .auth-mesh-scan { animation:auth-hero-scan 8.5s linear infinite; }
+@keyframes auth-hero-flow { to { stroke-dashoffset:-280; } }
+@keyframes auth-hero-pulse { 50% { opacity:.25; } }
+@keyframes auth-hero-scan { from { transform:translateY(-8%); } to { transform:translateY(110%); } }
 
 body .sidebar .sidebar-logo-block {background:rgba(22,140,181,.07)!important}
 body .sidebar a.active:before {background-color:var(--secondary-color-50)!important}
@@ -119,14 +244,11 @@ body img[src*="/codefend/estrellitas.png"],
 body img[src*="/codefend/frequency-1.png"],
 body img[src*="/codefend/globo.png"],
 body img[src*="/codefend/gota.png"],
-body img[src*="/codefend/Grupo-1.png"],
 body img[src*="/codefend/IA ICON.png"],
 body img[src*="/codefend/icon-email.png"],
 body img[src*="/codefend/icon-hacker.png"],
 body img[src*="/codefend/icon-mail.png"],
 body img[src*="/codefend/icon-password.png"],
-body img[src*="/codefend/icono-bicho.png"],
-body img[src*="/codefend/icono-leaks.png"],
 body img[src*="/codefend/invasor.png"],
 body img[src*="/codefend/loader_full_size.png"],
 body img[src*="/codefend/medium-plan.png"],

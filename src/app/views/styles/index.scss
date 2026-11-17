@@ -929,38 +929,29 @@ main.scans {
 //////////////////////////////////
 body:has(.new-signup-form),
 body:has(.new-signin-form),
+body:has(.new-recovery-form),
 body:has(.onboarding-modal-container) {
   overflow-x: hidden;
-  overflow-y: auto;
-  min-height: 100svh; /* allow page to grow; avoid locking to 100vh on mobile */
-  background: linear-gradient(270.08deg, #000409 28.88%, #000409 55.76%, #000002 74.96%);
+  overflow-y: hidden;
+  height: 100dvh;
+  min-height: 100dvh;
+  /* Backdrop colors/mesh come from codefend-identity.css (service-hero style) */
+  background: #17191b;
   position: relative;
-
-  &::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: min(50dvw, 50rem);
-    height: 100%;
-    background-image: url('/codefend/broken-glass.png');
-    background-size: contain;
-    // transform: rotate(-90deg);
-    transform-origin: center;
-    pointer-events: none;
-    background-repeat: no-repeat;
-    // scale: 1.2;
-  }
 
   #root-modal .modal-wrapper:not(:has(.update-app-modal)) {
     background-color: transparent;
     backdrop-filter: none;
     position: absolute;
-    height: auto;
-    min-height: 100vh;
-    align-items: flex-start;
+    inset: 0;
+    height: 100dvh;
+    min-height: 0;
+    align-items: center;
+    /* Let clicks reach the theme toggle in #root; re-enable on the modal itself */
+    pointer-events: none;
 
     .modal {
+      pointer-events: auto;
       flex-direction: row;
       width: 100%;
       justify-content: center;
@@ -968,46 +959,47 @@ body:has(.onboarding-modal-container) {
       background: transparent;
       backdrop-filter: none;
       box-shadow: none;
-      min-height: fit-content;
-      max-height: none; /* let content define height; body handles scroll */
+      min-height: 0;
+      max-height: none;
       max-width: none;
-      align-items: flex-start;
-      padding: 4rem 0 1rem 0;
+      align-items: stretch;
+      margin-block: 0;
+      /* Top band for brand — wordmark is vertically centered in this pad */
+      --auth-brand-band: 4.5rem;
+      padding: var(--auth-brand-band) 1rem 1.25rem;
       container-type: inline-size;
       box-sizing: border-box;
       position: relative;
+      /* Default .modal uses overflow:hidden which clipped the brand ::before */
+      overflow: visible;
+      /* Instant swap between signin/signup — no fade/slide remount animation */
+      opacity: 1;
+      animation: none;
+      transform: none;
 
-      /* Centered logo spanning both columns at the very top using pseudo-element */
-      &.dark::before {
+      /* Website wordmark (same assets as codefend.com chrome) */
+      &.dark::before,
+      &.light::before {
         content: '';
         position: absolute;
-        top: -0.5rem;
+        top: 0;
         left: 50cqw;
         transform: translateX(-50%);
-        width: clamp(160px, 18vw, 240px);
-        height: 70px;
+        width: clamp(168px, 22vw, 240px);
+        height: var(--auth-brand-band);
         z-index: 5;
-        background-image: url('/codefend/brand-new-dark.svg');
-        background-size: contain;
+        background-size: auto 28px;
         background-repeat: no-repeat;
         background-position: center;
         pointer-events: none;
       }
 
+      &.dark::before {
+        background-image: url('/codefend/wordmark-on-dark.svg');
+      }
+
       &.light::before {
-        content: '';
-        position: absolute;
-        top: -0.5rem;
-        left: 50cqw;
-        transform: translateX(-50%);
-        width: clamp(160px, 18vw, 240px);
-        height: 70px;
-        z-index: 5;
-        background-image: url('/codefend/brand-new-light.svg');
-        background-size: contain;
-        background-repeat: no-repeat;
-        background-position: center;
-        pointer-events: none;
+        background-image: url('/codefend/wordmark-on-light.svg');
       }
 
       .new-auth-content {
@@ -1020,10 +1012,10 @@ body:has(.onboarding-modal-container) {
 
       .readonly-content {
         width: 680px;
-        padding-block: 1.75rem;
+        padding-block: 1.5rem;
         padding-inline: 1.5rem;
         flex-shrink: 0;
-        height: -webkit-fill-available;
+        height: auto;
         --title-text-color-secondary: rgb(156 163 175 / 1);
         --header-text-color: rgb(209 213 219 / 1);
         --feature-item-border-color: #434343;
@@ -1036,10 +1028,11 @@ body:has(.onboarding-modal-container) {
         }
 
         h1 {
-          font-size: clamp(1.75rem, 2dvw, 3rem);
-          line-height: 1;
+          font-size: clamp(1.45rem, 1.6dvw, 2.1rem);
+          line-height: 1.15;
           font-weight: 700;
-          margin-bottom: 2rem;
+          margin-bottom: 1rem;
+          max-width: none;
 
           span {
             color: var(--title-text-color-secondary);
@@ -1047,12 +1040,15 @@ body:has(.onboarding-modal-container) {
         }
 
         p.header-text {
-          line-height: 1.625;
-          font-size: clamp(0.9rem, 0.75dvw, 1rem);
+          line-height: 1.55;
+          font-size: clamp(0.875rem, 0.7dvw, 0.95rem);
           color: var(--header-text-color);
           border-block-start: 1px solid var(--feature-item-border-color);
-          padding-block: 1.25rem;
-          padding-inline: 2rem;
+          padding-block: 1rem;
+          padding-inline: 0;
+          width: 100%;
+          max-width: none;
+          box-sizing: border-box;
         }
 
         .features-list {
@@ -1063,46 +1059,50 @@ body:has(.onboarding-modal-container) {
           .feature-item {
             display: flex;
             align-items: flex-start;
-            gap: 1rem;
-            padding-top: 2rem;
-            padding-bottom: 2rem;
+            gap: 0.9rem;
+            padding-top: 1.1rem;
+            padding-bottom: 1.1rem;
             border-top: 1px solid var(--feature-item-border-color);
 
             &:first-child {
-              padding-top: 1.5rem;
+              padding-top: 1rem;
             }
 
             .feature-icon {
               flex-shrink: 0;
-              width: 74px;
-              height: 74px;
+              width: 52px;
+              height: 52px;
               display: flex;
               align-items: center;
               justify-content: center;
 
               img {
-                width: 60px;
-                height: 60px;
+                width: 52px;
+                height: 52px;
                 object-fit: contain;
-                scale: 2;
+                display: block;
+                filter: none;
+                transform: none;
+                scale: 1;
               }
             }
 
             .feature-content {
               flex: 1;
+              min-width: 0;
 
               h3 {
-                font-size: 1.25rem;
+                font-size: 1.05rem;
                 font-weight: 600;
                 color: var(--feature-item-title-color);
-                margin-bottom: 0.5rem;
+                margin-bottom: 0.35rem;
                 line-height: 1.3;
               }
 
               p {
-                font-size: 0.95rem;
+                font-size: 0.875rem;
                 color: var(--feature-item-text-color);
-                line-height: 1.6;
+                line-height: 1.5;
                 margin: 0;
               }
             }
@@ -1111,11 +1111,14 @@ body:has(.onboarding-modal-container) {
       }
 
       .form-content {
-        flex-shrink: 0;
-        height: -webkit-fill-available;
+        flex: 0 0 440px;
+        width: 440px;
+        max-width: min(440px, 92dvw);
+        box-sizing: border-box;
+        height: auto;
         display: flex;
         flex-direction: column;
-        padding-top: 4.5rem; /* room for centered logo */
+        padding-top: 1.25rem;
         --form-title-color: var(--tertiary-color-300);
         --form-step-text-color: var(--tertiary-color-400);
         --form-step-text-color-secondary: var(--secondary-color-200);
@@ -1167,7 +1170,25 @@ body:has(.onboarding-modal-container) {
     }
 
     .modal.new-signin-form {
-      min-height: clamp(300px, 90dvh, 600px);
+      min-height: 0;
+    }
+  }
+}
+
+/* Allow scroll only when the viewport is too short for the auth layout */
+@media (max-height: 780px), (max-width: 980px) {
+  body:has(.new-signup-form),
+  body:has(.new-signin-form),
+  body:has(.new-recovery-form),
+  body:has(.onboarding-modal-container) {
+    overflow-y: auto;
+    height: auto;
+    min-height: 100dvh;
+
+    #root-modal .modal-wrapper:not(:has(.update-app-modal)) {
+      height: auto;
+      min-height: 100dvh;
+      align-items: flex-start;
     }
   }
 }
@@ -1175,12 +1196,7 @@ body:has(.onboarding-modal-container) {
 body[data-theme='light']:has(.new-signup-form):not(.update-app-modal),
 body[data-theme='light']:has(.new-signin-form),
 body[data-theme='light']:has(.onboarding-modal-container) {
-  background: lch(97.23% 0.01 296.81);
-
-  &::after {
-    background-image: url('/codefend/clear-broken-glass.png');
-    transform: rotate(0deg);
-  }
+  /* Page backdrop handled in codefend-identity.css */
 
   #root-modal .modal-wrapper {
     .modal.new-signup-form,
@@ -1228,24 +1244,6 @@ body[data-theme='light']:has(.onboarding-modal-container) {
   }
 }
 
-@media only screen and (min-width: 2000px) {
-  body:has(.new-signup-form),
-  body:has(.new-signin-form),
-  body:has(.onboarding-modal-container) {
-    &::after {
-      transform: rotate(-90deg) translateY(20dvw) scale(1.5);
-    }
-  }
-
-  body[data-theme='light']:has(.new-signup-form),
-  body[data-theme='light']:has(.new-signin-form),
-  body[data-theme='light']:has(.onboarding-modal-container) {
-    &::after {
-      transform: translateX(0dvw) translateY(1dvw) scale(1);
-      background-size: 100% 105%;
-    }
-  }
-}
 
 /* Medium-small widths: 541px–720px */
 @media only screen and (min-width: 541px) and (max-width: 720px) {
@@ -1257,8 +1255,9 @@ body[data-theme='light']:has(.onboarding-modal-container) {
         &.dark::before,
         &.light::before {
           top: 0;
-          width: clamp(180px, 36vw, 280px);
-          height: 76px;
+          height: var(--auth-brand-band, 4.5rem);
+          background-size: auto 26px;
+          background-position: center;
         }
         .new-auth-content {
           width: min(680px, 92dvw);
@@ -1351,10 +1350,11 @@ body[data-theme='light']:has(.onboarding-modal-container) {
       .modal {
         &.light::before,
         &.dark::before {
-          top: -0.5rem;
-          width: clamp(160px, 18vw, 270px);
-          height: 90px;
-          scale: 1.25;
+          top: 0;
+          height: var(--auth-brand-band, 4.5rem);
+          background-size: auto 28px;
+          background-position: center;
+          scale: 1;
         }
       }
     }
@@ -1400,11 +1400,13 @@ body[data-theme='light']:has(.onboarding-modal-container) {
 
         &.dark::before,
         &.light::before {
-          top: -0.15rem;
+          top: 0;
           left: 50cqw;
           transform: translateX(-50%);
-          width: clamp(148px, 50vw, 220px);
-          height: 60px;
+          width: clamp(148px, 52vw, 200px);
+          height: 3.5rem;
+          background-size: auto 24px;
+          background-position: center;
           scale: 1;
         }
 
@@ -1446,12 +1448,13 @@ body[data-theme='light']:has(.onboarding-modal-container) {
               padding-top: 1rem;
               padding-bottom: 1rem;
               .feature-icon {
-                width: 48px;
-                height: 48px;
+                width: 44px;
+                height: 44px;
                 img {
-                  width: 40px;
-                  height: 40px;
-                  scale: 2;
+                  width: 44px;
+                  height: 44px;
+                  scale: 1;
+                  filter: none;
                 }
               }
               .feature-content {
@@ -1491,8 +1494,8 @@ body[data-theme='light']:has(.onboarding-modal-container) {
         .modal.new-signup-form {
           &.dark::before,
           &.light::before {
-            width: clamp(160px, 54vw, 230px);
-            height: 62px;
+            width: clamp(150px, 54vw, 200px);
+            height: 28px;
           }
         }
       }
@@ -1533,13 +1536,32 @@ main.auth-pages {
     position: fixed;
     top: 1rem;
     right: 1rem;
-    z-index: 999;
+    z-index: 10050;
     background: rgb(124 124 124 / 20%);
     border: none;
     cursor: pointer;
     padding: 0.5rem;
     border-radius: 100%;
+    pointer-events: auto;
   }
+}
+
+/* Portaled outside #root so it stays above #root-modal */
+body > .theme-changer-button.auth-theme-toggle {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 10050;
+  background: rgb(124 124 124 / 20%);
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 100%;
+  pointer-events: auto;
+}
+
+body[data-theme='light'] > .theme-changer-button.auth-theme-toggle {
+  background: #0000000a;
 }
 
 body[data-theme='light'] {

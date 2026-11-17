@@ -13,7 +13,7 @@ const SignUpLayout = () => (
           </Link>
         </div>
         <div className="extra-group text-center low-space">
-          <Link to="/auth/signin" className="link codefend-text-red link-underline">
+          <Link to="/user/access" className="link codefend-text-red link-underline">
             Already have an account? Sign in
           </Link>
         </div>

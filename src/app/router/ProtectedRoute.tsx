@@ -5,7 +5,7 @@ import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 const ProtectedRoute = ({ children, isAllowed }: { children: ReactNode; isAllowed: boolean }) => {
   const { getAccessToken, isCurrentAuthValid } = useUserRole();
   if (!getAccessToken() || !isCurrentAuthValid()) {
-    return <Navigate to="/auth/signin" replace />;
+    return <Navigate to="/user/access" replace />;
   }
   if (!isAllowed) {
     return <Navigate to="/" replace />;

@@ -71,7 +71,7 @@ const PasswordRecoveryForm: FC<{
         if (res.error != '0') throw new Error(res.info);
         toast.success(AUTH_TEXT.PASSWORD_UPDATED);
         setPhase('email');
-        navigate('/auth/signin');
+        navigate('/user/access');
       })
       .catch(err => {
         toast.error(AUTH_TEXT.FAILURE_PASSWORD_UPDATED);

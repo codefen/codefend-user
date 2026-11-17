@@ -20,7 +20,7 @@ const SignInLayout: FC = () => {
             </Link>
           </div>
           <div className="extra-group link-center link-underline low-space">
-            <Link to="/auth/signup" className="link codefend-text-red">
+            <Link to="/user/new" className="link codefend-text-red">
               Don’t have an account yet? Sign up
             </Link>
           </div>

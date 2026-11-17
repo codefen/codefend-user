@@ -26,7 +26,8 @@ import { apiErrorValidation, isEquals, passwordValidation } from '@/app/constant
 import { APP_MESSAGE_TOAST, AUTH_TEXT } from '@/app/constants/app-toast-texts';
 import { toast } from '@/app/data/utils';
 import { useRegisterPhaseTwo } from '@userHooks/auth/useRegisterPhaseTwo';
-import { Link, useLocation, useNavigate, useParams, useSearchParams } from 'react-router';
+import { useLocation, useNavigate, useParams, useSearchParams } from 'react-router';
+import { ChangeAuthPages } from '@/app/views/pages/auth/newRegister/ChangeAuthPages/ChangeAuthPages';
 import { PasswordRequirements } from '@/app/views/components/PasswordRequirements/PasswordRequirements';
 import Show from '@/app/views/components/Show/Show';
 import { PageOrbitLoader } from '@/app/views/components/loaders/Loader';
@@ -114,6 +115,10 @@ export const NewSignupForm = () => {
   const { ref } = useParams();
   const { theme } = useTheme();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (location.state?.showSignupForm) setShowMobileForm(true);
+  }, [location.state]);
 
   useEffect(() => {
     // Evento de telemetría: inicio del proceso de registro de usuario
@@ -407,6 +412,7 @@ export const NewSignupForm = () => {
     <ModalWrapper showCloseBtn={false} type={`${css['signinform']} new-signup-form ${theme}`}>
       <div
         className={`${css['signupContent']} new-auth-content form-content ${showMobileForm ? 'mobile-show-form' : ''}`}>
+        <ChangeAuthPages />
         <ProgressBar activeStep={activeStep} />
         <h2>{STEPSDATA[activeStep]?.label}</h2>
         <p className="step-text-header">{STEPSDATA[activeStep].p}</p>
@@ -450,9 +456,6 @@ export const NewSignupForm = () => {
               Continue
             </button>
           </form>
-          <Link to="/auth/signin" className="auth-link">
-            Already have an account? Login
-          </Link>
         </Show>
 
         <Show when={activeStep === SignUpSteps.STEP_TWO && !specialLoading}>
@@ -479,7 +482,7 @@ export const NewSignupForm = () => {
         {/* Tercer paso del formulario - CONFIGURACIÓN DE CONTRASEÑA */}
         <Show when={activeStep === SignUpSteps.STEP_THREE && !specialLoading}>
           <form onSubmit={nextFourStep}>
-            <CheckEmail imgSrc="/codefend/password1.png" />
+            <CheckEmail imgSrc={import.meta.env.BASE_URL + 'codefend/password1.png'} />
             <div className={css['password-input-wrapper']}>
               <AuthInput
                 type={showPasswords ? 'text' : 'password'}
@@ -558,7 +561,7 @@ export const NewSignupForm = () => {
         <div className="features-list">
           <div className="feature-item">
             <div className="feature-icon">
-              <img src="/codefend/Grupo-1.png" alt="Professional hackers" />
+              <img src={import.meta.env.BASE_URL + 'codefend/Grupo-1.png?v=3'} alt="Professional hackers" />
             </div>
             <div className="feature-content">
               <h3>Professional hackers on demand</h3>
@@ -571,7 +574,7 @@ export const NewSignupForm = () => {
 
           <div className="feature-item">
             <div className="feature-icon">
-              <img src="/codefend/icono-leaks.png" alt="Database explorer" />
+              <img src={import.meta.env.BASE_URL + 'codefend/icono-leaks.png?v=3'} alt="Database explorer" />
             </div>
             <div className="feature-content">
               <h3>Full dataleaks explorer</h3>
@@ -584,7 +587,7 @@ export const NewSignupForm = () => {
 
           <div className="feature-item">
             <div className="feature-icon">
-              <img src="/codefend/icono-bicho.png" alt="Attack surface map" />
+              <img src={import.meta.env.BASE_URL + 'codefend/icono-bicho.png?v=3'} alt="Attack surface map" />
             </div>
             <div className="feature-content">
               <h3>Automated attack surface map</h3>

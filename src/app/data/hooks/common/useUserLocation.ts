@@ -1,14 +1,15 @@
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import { useEffect } from 'react';
 
-const ALLOWED_PATHS = ['/auth/signup', '/auth/signin', '/auth/signup/invitation'];
+const ALLOWED_PATHS = ['/user/new', '/user/access', '/auth/signup/invitation'];
 
 export function useUserLocation() {
   const stored = useGlobalFastFields(['city', 'country', 'region']);
 
   useEffect(() => {
     // Validamos si estamos en una ruta habilitada
-    const currentPath = window?.location?.pathname;
+    const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+    const currentPath = window.location.pathname.replace(new RegExp(`^${base}(?=/|$)`), '') || '/';
     const isAllowedPath =
       ALLOWED_PATHS.includes(currentPath) || currentPath.startsWith('/auth/signup/invitation');
     if (!isAllowedPath) return;

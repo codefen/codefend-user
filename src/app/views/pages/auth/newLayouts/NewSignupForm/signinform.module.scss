@@ -27,10 +27,10 @@
   justify-content: flex-start;
   padding-block: 1.75rem;
   padding-inline: 2rem;
-  // padding-top: 30px;
-  box-sizing: content-box;
-  width: 420px;
+  box-sizing: border-box;
+  width: 440px;
   max-width: 100%;
+  flex: 0 0 440px;
 
   p {
     color: var(--text-color);

@@ -23,13 +23,22 @@ export const useSessionManager = () => {
     // Store login timestamp FIRST to help detect timing issues
     localStorage.setItem('last_login_timestamp', Date.now().toString());
 
-    session.set(data.session as string);
-    user.set(data?.user);
-    company.set({
+    const loginCompany = {
       ...EMPTY_COMPANY_CUSTOM,
       id: data.user.company_id || '',
       name: data.user.company_name || '',
-    });
+    };
+    // Requests may start before the state persistor runs. Publish the new session
+    // synchronously so newly mounted hooks never reload an empty or stale token.
+    try {
+      const saved = JSON.parse(localStorage.getItem('globalStore') || '{}');
+      localStorage.setItem('globalStore', JSON.stringify({ ...saved, session: data.session, user: data.user, company: loginCompany }));
+    } catch {
+      localStorage.setItem('globalStore', JSON.stringify({ session: data.session, user: data.user, company: loginCompany }));
+    }
+    session.set(data.session as string);
+    user.set(data?.user);
+    company.set(loginCompany);
 
     if (showToast) {
       toast.success(AUTH_TEXT.LOGIN_SUCCESS);
@@ -40,6 +49,7 @@ export const useSessionManager = () => {
 
     // Update axios instance with new session
     axiosHttp.updateUrlInstance();
+    axiosHttp.updateSession(data.session as string);
 
     // Robust state verification with exponential backoff
     const verifyStateWithRetry = (

@@ -184,7 +184,7 @@ export const PanelPage = () => {
     //   currentPath: location.pathname,
     //   timestamp: new Date().toISOString(),
     // });
-    return <Navigate to="/auth/signup" state={{ redirect: location.pathname }} />;
+    return <Navigate to="/user/new" state={{ redirect: location.pathname }} />;
   }
 
   // Show loading while session is not ready

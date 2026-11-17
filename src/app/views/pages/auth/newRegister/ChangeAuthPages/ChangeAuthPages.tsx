@@ -1,22 +1,9 @@
-import { Link, type Location } from 'react-router';
+import { NavLink } from 'react-router';
 import css from './changeAuth.module.scss';
 
-export const ChangeAuthPages = ({ pathname }: { pathname: string }) => {
-  return (
-    <div className={css['change-page-container']}>
-      <Link to="/auth/signin" className={pathname === '/auth/signin' ? css['active-link'] : ''}>
-        Access
-      </Link>
-      <Link
-        to="/auth/signup"
-        className={pathname.startsWith('/auth/signup') ? css['active-link'] : ''}>
-        New user
-      </Link>
-      {/* <Link
-        to="/auth/recovery"
-        className={pathname.startsWith('/auth/recovery') ? css['active-link'] : ''}>
-        Password recovery
-      </Link> */}
-    </div>
-  );
-};
+export const ChangeAuthPages = () => (
+  <nav className={css['change-page-container']} aria-label="Account access">
+    <NavLink to="/user/access" className={({ isActive }) => isActive ? css['active-link'] : ''}>User access</NavLink>
+    <NavLink to="/user/new" state={{ showSignupForm: true }} className={({ isActive }) => isActive ? css['active-link'] : ''}>New user</NavLink>
+  </nav>
+);

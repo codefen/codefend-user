@@ -273,13 +273,21 @@ export const AppRouter = () => {
       ],
     },
     {
+      path: 'user/*',
+      element: <NewAuthPage />,
+      children: [
+        { path: 'access', element: <NewSigninForm /> },
+        { path: 'new', element: <NewSignupForm /> },
+      ],
+    },
+    {
       path: 'auth/*',
       element: <NewAuthPage />,
       children: [
-        { index: true, element: <Navigate to="signin" replace /> },
-        { path: 'signup', element: <NewSignupForm /> },
+        { index: true, element: <Navigate to="/user/access" replace /> },
+        { path: 'signup', element: <Navigate to="/user/new" replace /> },
         { path: 'signup/:ref', element: <NewSignupForm /> },
-        { path: 'signin', element: <NewSigninForm /> },
+        { path: 'signin', element: <Navigate to="/user/access" replace /> },
         { path: 'signup/invitation', element: <NewSignupInvitation /> },
         { path: 'signup/invitation/:ref', element: <NewSignupInvitation /> },
         { path: 'confirmation', element: <ConfirmationSignUp /> },

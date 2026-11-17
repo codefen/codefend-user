@@ -155,7 +155,7 @@ export const OnboardingPage = () => {
       
       // Pequeño delay para evitar loops infinitos
       setTimeout(() => {
-        window.location.href = '/auth/signin';
+        window.location.href = '/user/access';
       }, 100);
       return;
     }
@@ -304,7 +304,7 @@ export const OnboardingPage = () => {
       } catch (error) {
         console.error('Error al parsear datos temporales:', error);
         toast.error('Error al procesar datos temporales. Por favor, inicia sesión nuevamente.');
-        window.location.href = '/auth/signin';
+        window.location.href = '/user/access';
         return;
       }
     } else {
@@ -314,7 +314,7 @@ export const OnboardingPage = () => {
 
       if (!currentSession || !currentUser) {
         toast.error('Sesión no válida. Por favor, inicia sesión nuevamente.');
-        window.location.href = '/auth/signin';
+        window.location.href = '/user/access';
         return;
       }
 
@@ -399,7 +399,12 @@ export const OnboardingPage = () => {
   return (
     <ModalWrapper showCloseBtn={false} type="onboarding-modal-container" action={handleClose}>
       <div className="new-auth-content welcome-content">
-        <img className="logose" src={`/codefend/brand-new-${theme}.svg`} width={220} />
+        <img
+          className="logose"
+          src={`${import.meta.env.BASE_URL}codefend/wordmark-on-${theme === 'light' ? 'light' : 'dark'}.svg`}
+          width={220}
+          alt="Codefend"
+        />
 
         <div className="onboarding-header">
           <b>Business information</b>
@@ -506,7 +511,7 @@ export const OnboardingPage = () => {
         <div className="features-list">
           <div className="feature-item">
             <div className="feature-icon">
-              <img src="/codefend/Grupo-1.png" alt="Professional hackers" />
+              <img src={import.meta.env.BASE_URL + 'codefend/Grupo-1.png?v=3'} alt="Professional hackers" />
             </div>
             <div className="feature-content">
               <h3>Professional hackers on demand</h3>
@@ -519,7 +524,7 @@ export const OnboardingPage = () => {
 
           <div className="feature-item">
             <div className="feature-icon">
-              <img src="/codefend/icono-leaks.png" alt="Database explorer" />
+              <img src={import.meta.env.BASE_URL + 'codefend/icono-leaks.png?v=3'} alt="Database explorer" />
             </div>
             <div className="feature-content">
               <h3>Full dataleaks explorer</h3>
@@ -532,7 +537,7 @@ export const OnboardingPage = () => {
 
           <div className="feature-item">
             <div className="feature-icon">
-              <img src="/codefend/icono-bicho.png" alt="Attack surface map" />
+              <img src={import.meta.env.BASE_URL + 'codefend/icono-bicho.png?v=3'} alt="Attack surface map" />
             </div>
             <div className="feature-content">
               <h3>Automated attack surface map</h3>
