@@ -616,7 +616,7 @@ main.cloud {
   height: 100dvh;
   overflow: hidden;
   width: 60%;
-  min-width: 1160px;
+  min-width: 0;
 
   &.empty-active {
     width: 100%;
@@ -929,13 +929,20 @@ main.scans {
 //////////////////////////////////
 body:has(.new-signup-form),
 body:has(.new-signin-form),
-body:has(.new-recovery-form),
 body:has(.onboarding-modal-container) {
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --panel-inset: var(--space-5);
+  --panel-block-inset: var(--space-5);
+  @media (max-width: 600px) {
+    --panel-inset: var(--space-4);
+    --panel-block-inset: var(--space-4);
+  }
   overflow-x: hidden;
   overflow-y: hidden;
   height: 100dvh;
   min-height: 100dvh;
-  /* Backdrop colors/mesh come from codefend-identity.css (service-hero style) */
   background: #17191b;
   position: relative;
 
@@ -943,15 +950,11 @@ body:has(.onboarding-modal-container) {
     background-color: transparent;
     backdrop-filter: none;
     position: absolute;
-    inset: 0;
-    height: 100dvh;
-    min-height: 0;
-    align-items: center;
-    /* Let clicks reach the theme toggle in #root; re-enable on the modal itself */
-    pointer-events: none;
+    height: auto;
+    min-height: 100vh;
+    align-items: flex-start;
 
     .modal {
-      pointer-events: auto;
       flex-direction: row;
       width: 100%;
       justify-content: center;
@@ -959,34 +962,30 @@ body:has(.onboarding-modal-container) {
       background: transparent;
       backdrop-filter: none;
       box-shadow: none;
-      min-height: 0;
-      max-height: none;
+      min-height: fit-content;
+      max-height: none; /* let content define height; body handles scroll */
       max-width: none;
-      align-items: stretch;
-      margin-block: 0;
-      /* Top band for brand — wordmark is vertically centered in this pad */
-      --auth-brand-band: 4.5rem;
-      padding: var(--auth-brand-band) 1rem 1.25rem;
+      align-items: flex-start;
+      padding: 4rem 0 1rem 0;
       container-type: inline-size;
       box-sizing: border-box;
       position: relative;
-      /* Default .modal uses overflow:hidden which clipped the brand ::before */
+
+      /* Centered logo spanning both columns at the very top using pseudo-element */
       overflow: visible;
-      /* Instant swap between signin/signup — no fade/slide remount animation */
-      opacity: 1;
       animation: none;
+      opacity: 1;
       transform: none;
 
-      /* Website wordmark (same assets as codefend.com chrome) */
       &.dark::before,
       &.light::before {
         content: '';
         position: absolute;
-        top: 0;
+        top: 0.6rem;
         left: 50cqw;
         transform: translateX(-50%);
         width: clamp(168px, 22vw, 240px);
-        height: var(--auth-brand-band);
+        height: 36px;
         z-index: 5;
         background-size: auto 28px;
         background-repeat: no-repeat;
@@ -1003,6 +1002,7 @@ body:has(.onboarding-modal-container) {
       }
 
       .new-auth-content {
+        max-width: calc(100% - 2 * var(--card-space));
         background: linear-gradient(126.81deg, #121314 16.66%, #010203 85.47%);
         border: 1px solid #252525;
         height: auto;
@@ -1016,6 +1016,7 @@ body:has(.onboarding-modal-container) {
         padding-inline: 1.5rem;
         flex-shrink: 0;
         height: auto;
+        box-sizing: border-box;
         --title-text-color-secondary: rgb(156 163 175 / 1);
         --header-text-color: rgb(209 213 219 / 1);
         --feature-item-border-color: #434343;
@@ -1059,13 +1060,13 @@ body:has(.onboarding-modal-container) {
           .feature-item {
             display: flex;
             align-items: flex-start;
-            gap: 0.9rem;
-            padding-top: 1.1rem;
-            padding-bottom: 1.1rem;
+            gap: 0.85rem;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
             border-top: 1px solid var(--feature-item-border-color);
 
             &:first-child {
-              padding-top: 1rem;
+              padding-top: 0.85rem;
             }
 
             .feature-icon {
@@ -1076,14 +1077,46 @@ body:has(.onboarding-modal-container) {
               align-items: center;
               justify-content: center;
 
-              img {
+              img,
+              svg {
                 width: 52px;
                 height: 52px;
                 object-fit: contain;
-                display: block;
-                filter: none;
                 transform: none;
                 scale: 1;
+              }
+
+              svg {
+                display: block;
+                stroke: currentColor;
+                fill: none;
+                stroke-width: 1.75;
+                stroke-linecap: round;
+                stroke-linejoin: round;
+              }
+
+              svg .icon-solid {
+                fill: currentColor;
+                stroke: none;
+              }
+
+              svg .icon-limb {
+                fill: none;
+                stroke: currentColor;
+                stroke-width: 2.35;
+                stroke-linecap: round;
+              }
+
+              svg .icon-band {
+                fill: none;
+                stroke: #fff;
+                stroke-width: 2.15;
+                stroke-linecap: round;
+              }
+
+              svg .icon-mark {
+                fill: #fff;
+                stroke: none;
               }
             }
 
@@ -1169,26 +1202,10 @@ body:has(.onboarding-modal-container) {
       }
     }
 
-    .modal.new-signin-form {
+    .modal.new-signin-form,
+    .modal.new-signup-form {
+      align-items: stretch;
       min-height: 0;
-    }
-  }
-}
-
-/* Allow scroll only when the viewport is too short for the auth layout */
-@media (max-height: 780px), (max-width: 980px) {
-  body:has(.new-signup-form),
-  body:has(.new-signin-form),
-  body:has(.new-recovery-form),
-  body:has(.onboarding-modal-container) {
-    overflow-y: auto;
-    height: auto;
-    min-height: 100dvh;
-
-    #root-modal .modal-wrapper:not(:has(.update-app-modal)) {
-      height: auto;
-      min-height: 100dvh;
-      align-items: flex-start;
     }
   }
 }
@@ -1196,7 +1213,12 @@ body:has(.onboarding-modal-container) {
 body[data-theme='light']:has(.new-signup-form):not(.update-app-modal),
 body[data-theme='light']:has(.new-signin-form),
 body[data-theme='light']:has(.onboarding-modal-container) {
-  /* Page backdrop handled in codefend-identity.css */
+  background: lch(97.23% 0.01 296.81);
+
+  &::after {
+    background-image: url('/codefend/clear-broken-glass.png');
+    transform: rotate(0deg);
+  }
 
   #root-modal .modal-wrapper {
     .modal.new-signup-form,
@@ -1244,6 +1266,24 @@ body[data-theme='light']:has(.onboarding-modal-container) {
   }
 }
 
+@media only screen and (min-width: 2000px) {
+  body:has(.new-signup-form),
+  body:has(.new-signin-form),
+  body:has(.onboarding-modal-container) {
+    &::after {
+      transform: rotate(-90deg) translateY(20dvw) scale(1.5);
+    }
+  }
+
+  body[data-theme='light']:has(.new-signup-form),
+  body[data-theme='light']:has(.new-signin-form),
+  body[data-theme='light']:has(.onboarding-modal-container) {
+    &::after {
+      transform: translateX(0dvw) translateY(1dvw) scale(1);
+      background-size: 100% 105%;
+    }
+  }
+}
 
 /* Medium-small widths: 541px–720px */
 @media only screen and (min-width: 541px) and (max-width: 720px) {
@@ -1255,9 +1295,8 @@ body[data-theme='light']:has(.onboarding-modal-container) {
         &.dark::before,
         &.light::before {
           top: 0;
-          height: var(--auth-brand-band, 4.5rem);
-          background-size: auto 26px;
-          background-position: center;
+          width: clamp(180px, 36vw, 280px);
+          height: 76px;
         }
         .new-auth-content {
           width: min(680px, 92dvw);
@@ -1350,11 +1389,10 @@ body[data-theme='light']:has(.onboarding-modal-container) {
       .modal {
         &.light::before,
         &.dark::before {
-          top: 0;
-          height: var(--auth-brand-band, 4.5rem);
-          background-size: auto 28px;
-          background-position: center;
-          scale: 1;
+          top: -0.5rem;
+          width: clamp(160px, 18vw, 270px);
+          height: 90px;
+          scale: 1.25;
         }
       }
     }
@@ -1379,7 +1417,7 @@ body[data-theme='light']:has(.onboarding-modal-container) {
       .modal.new-signup-form,
       .modal.new-signin-form,
       .modal.onboarding-modal-container {
-        max-width: 96dvw;
+        max-width: calc(100% - 2 * var(--card-space));
         max-height: none; /* ensure scrolling available on small devices */
 
         .form-content,
@@ -1400,19 +1438,19 @@ body[data-theme='light']:has(.onboarding-modal-container) {
 
         &.dark::before,
         &.light::before {
-          top: 0;
+          top: -0.15rem;
           left: 50cqw;
           transform: translateX(-50%);
-          width: clamp(148px, 52vw, 200px);
-          height: 3.5rem;
-          background-size: auto 24px;
-          background-position: center;
+          width: clamp(148px, 50vw, 220px);
+          height: 60px;
           scale: 1;
         }
 
         .new-auth-content {
-          width: calc(100dvw - 1.75rem);
-          margin-inline: 0.75rem;
+          box-sizing: border-box;
+          max-width: calc(100% - 2 * var(--card-space));
+          width: 100%;
+          margin-inline: auto;
         }
       }
     }
@@ -1440,7 +1478,7 @@ body[data-theme='light']:has(.onboarding-modal-container) {
           }
           p.header-text {
             font-size: 0.95rem;
-            padding-inline: 0.5rem;
+            padding-inline: 0;
           }
           .features-list {
             .feature-item {
@@ -1448,13 +1486,12 @@ body[data-theme='light']:has(.onboarding-modal-container) {
               padding-top: 1rem;
               padding-bottom: 1rem;
               .feature-icon {
-                width: 44px;
-                height: 44px;
+                width: 52px;
+                height: 52px;
                 img {
-                  width: 44px;
-                  height: 44px;
+                  width: 52px;
+                  height: 52px;
                   scale: 1;
-                  filter: none;
                 }
               }
               .feature-content {
@@ -1494,8 +1531,8 @@ body[data-theme='light']:has(.onboarding-modal-container) {
         .modal.new-signup-form {
           &.dark::before,
           &.light::before {
-            width: clamp(150px, 54vw, 200px);
-            height: 28px;
+            width: clamp(160px, 54vw, 230px);
+            height: 62px;
           }
         }
       }
@@ -1505,6 +1542,7 @@ body[data-theme='light']:has(.onboarding-modal-container) {
     #root-modal .modal-wrapper {
       .modal.new-signin-form {
         .form-content {
+          max-width: 100%;
           width: 100%;
         }
       }
@@ -1532,21 +1570,32 @@ main.auth-pages {
   max-width: none;
   grid-area: 1 / 1 / 6 / 8;
 
+  > .confirmation-form {
+    width: min(100%, 32rem);
+    padding: 3.5rem var(--panel-inset) var(--panel-inset);
+
+    .confirm-button {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+  }
+
   .theme-changer-button {
     position: fixed;
     top: 1rem;
     right: 1rem;
-    z-index: 10050;
+    z-index: 999;
     background: rgb(124 124 124 / 20%);
     border: none;
     cursor: pointer;
     padding: 0.5rem;
     border-radius: 100%;
-    pointer-events: auto;
   }
 }
 
-/* Portaled outside #root so it stays above #root-modal */
+/* Portaled to document.body so it stays above the auth modal */
 body > .theme-changer-button.auth-theme-toggle {
   position: fixed;
   top: 1rem;
@@ -1557,11 +1606,13 @@ body > .theme-changer-button.auth-theme-toggle {
   cursor: pointer;
   padding: 0.5rem;
   border-radius: 100%;
+  color: #e5eff1;
   pointer-events: auto;
 }
 
 body[data-theme='light'] > .theme-changer-button.auth-theme-toggle {
   background: #0000000a;
+  color: #20282d;
 }
 
 body[data-theme='light'] {
@@ -3051,16 +3102,19 @@ main .empty-screen {
     font-size: 0.875rem;
     line-height: 1.25rem;
     color: var(--tertiary-color-200);
-    position: absolute;
-    bottom: -1.85rem;
+    margin-top: -1rem;
+    text-align: center;
   }
   .empty-container {
     height: 100%;
-    width: 500px;
+    width: min(500px, 100%);
+    min-width: 0;
 
     .empty-card-wrapper {
       row-gap: 2rem;
-      position: relative;
+      width: 100%;
+      min-width: 0;
+      padding-inline: var(--panel-inset);
 
       .header {
         flex-direction: column;

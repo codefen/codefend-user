@@ -25,12 +25,12 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  padding-block: 1.75rem;
-  padding-inline: 2rem;
+  padding-block: var(--panel-block-inset);
+  padding-inline: var(--panel-inset);
+  // padding-top: 30px;
   box-sizing: border-box;
-  width: 440px;
+  width: calc(420px + 4rem + 2px);
   max-width: 100%;
-  flex: 0 0 440px;
 
   p {
     color: var(--text-color);
@@ -69,8 +69,8 @@
   position: relative;
   width: 100%;
 
-  .password-input {
-    width: 100%;
+  input {
+    padding-inline-end: 48px;
   }
 
   .toggle-password {

@@ -10,10 +10,12 @@ export enum ButtonStyles {
   DARK_BLACK = 'dark-black',
 }
 
+const codefendAsset = (file: string) => `${import.meta.env.BASE_URL}codefend/${file}`;
+
 export const PLAN_IMAGE = {
-  small: '/codefend/plan-small-blue.svg',
-  medium: '/codefend/plan-medium-blue.svg',
-  advanced: '/codefend/plan-advanced-blue.svg',
+  small: codefendAsset('plan-small-blue.svg'),
+  medium: codefendAsset('plan-medium-blue.svg'),
+  advanced: codefendAsset('plan-advanced-blue.svg'),
 };
 
 export class AppConstants {

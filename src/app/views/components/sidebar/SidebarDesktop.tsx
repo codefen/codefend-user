@@ -20,9 +20,11 @@ import {
 } from '@icons';
 import { LightningIcon } from '../icons/LightningIcon';
 import { SidebarItem } from '@/app/views/components/sidebar/SidebarItem';
+import { SidebarAccountActions } from './SidebarAccountActions';
+import { SidebarWordmark } from './SidebarWordmark';
 import { useUserRole } from '#commonUserHooks/useUserRole';
 import { verifyPath } from '@/app/views/components/sidebar/Sidebar';
-import { lazy, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { LogoutIcon, NetworkIcon, RobotFaceIcon } from '@icons';
 import Show from '@/app/views/components/Show/Show.tsx';
@@ -38,8 +40,6 @@ import { ThemeChangerButton } from '@buttons/index.ts';
 import ConfirmModal from '@modals/ConfirmModal.tsx';
 import { useTheme } from '@/app/views/context/ThemeContext';
 import { SunIcon, MoonIcon } from '@icons';
-
-const Logo = lazy(() => import('../Logo/Logo.tsx'));
 
 // Icono de flecha para colapsar
 const CollapseArrow = ({ isCollapsed }: { isCollapsed: boolean }) => (
@@ -60,10 +60,12 @@ export const SidebarDesktop = ({
   companies,
   isProviderWithAccess,
   isAuth,
+  isCompanyPage,
 }: {
   companies: any;
   isProviderWithAccess: boolean;
   isAuth: boolean;
+  isCompanyPage: boolean;
 }) => {
   const navigate = useNavigate();
   const { logout, getUserdata } = useUserData();
@@ -103,6 +105,10 @@ export const SidebarDesktop = ({
   const openGuide = () => {
     setModalId(MODAL_KEY_OPEN.USER_WELCOME);
     setIsOpen(true);
+  };
+  const confirmLogout = () => {
+    setShowModalStr(MODAL_KEY_OPEN.LOGOUT);
+    setShowModal(true);
   };
 
   const isNotProviderAndReseller = !isProvider() && !isReseller();
@@ -387,43 +393,45 @@ export const SidebarDesktop = ({
           isOpen={isOpenNetworkSetting.get}
         />
       )}
-      {/* LOGO Y TEXTO ARRIBA DE TODO */}
-      <div className="sidebar-logo-block" onClick={openGuide}>
-        <span className="aim-logo">
-          <Logo theme="aimColor" />
-        </span>
-        <span className="sidebar-logo-title">codefend</span>
-      </div>
-      {/* MENÚS */}
-      {getItems(newMenuItems)}
-      {/* HR y acciones rápidas debajo de Risk control */}
-      <hr style={{ margin: '18px 0 10px 0', border: 0, borderTop: '1px solid #e0e0e0' }} />
-      {/* Agrupo theme y logout en un sidebar-group sin título */}
-      <div className="sidebar-group">
-        <SidebarItem
-          id="sidebar_action_theme"
-          title={theme === 'light' ? 'Dark mode' : 'Light mode'}
-          icon={
-            theme === 'light' ? <MoonIcon width={1} height={1} /> : <SunIcon width={1} height={1} />
-          }
-          to="#"
-          isActive={false}
-          isAuth={isAuth}
-          onClick={changeTheme}
-        />
-        <SidebarItem
-          id="sidebar_action_logout"
-          title="Close session"
-          icon={<LogoutIcon width={1} height={1} />}
-          to="#"
-          isActive={false}
-          isAuth={isAuth}
-          onClick={() => {
-            setShowModalStr(MODAL_KEY_OPEN.LOGOUT);
-            setShowModal(true);
-          }}
-        />
-      </div>
+      {isCompanyPage ? (
+        <>
+          <button type="button" className="company-sidebar-brand" onClick={openGuide}>
+            <SidebarWordmark />
+          </button>
+          <nav className="company-sidebar-nav" aria-label="Panel navigation">
+            {getItems(newMenuItems)}
+          </nav>
+          <SidebarAccountActions onSignOut={confirmLogout} />
+        </>
+      ) : (
+        <>
+          <div className="sidebar-logo-block" onClick={openGuide}>
+            <SidebarWordmark />
+          </div>
+          {getItems(newMenuItems)}
+          <hr style={{ margin: '18px 0 10px 0', border: 0, borderTop: '1px solid #e0e0e0' }} />
+          <div className="sidebar-group">
+            <SidebarItem
+              id="sidebar_action_theme"
+              title={theme === 'light' ? 'Dark mode' : 'Light mode'}
+              icon={theme === 'light' ? <MoonIcon width={1} height={1} /> : <SunIcon width={1} height={1} />}
+              to="#"
+              isActive={false}
+              isAuth={isAuth}
+              onClick={changeTheme}
+            />
+            <SidebarItem
+              id="sidebar_action_logout"
+              title="Close session"
+              icon={<LogoutIcon width={1} height={1} />}
+              to="#"
+              isActive={false}
+              isAuth={isAuth}
+              onClick={confirmLogout}
+            />
+          </div>
+        </>
+      )}
     </>
   );
 };

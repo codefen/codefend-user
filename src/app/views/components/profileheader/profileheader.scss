@@ -40,3 +40,32 @@
     color: var(--tertiary-color-300);
   }
 }
+
+@media (max-width: 900px) {
+  .provider-header,
+  .reseller-header {
+    overflow-x: auto;
+
+    .provider-header-content,
+    .reseller-header-content {
+      position: relative;
+      width: max-content;
+      min-width: 100%;
+    }
+
+    .profile-media-container {
+      left: var(--panel-inset);
+      top: 50%;
+      bottom: auto;
+      transform: translateY(-50%);
+
+      &, .profile-media { width: 56px; }
+    }
+
+    .provider-main-info {
+      min-width: 210px;
+      max-width: none;
+      padding-inline: calc(var(--panel-inset) + 68px) var(--panel-inset);
+    }
+  }
+}

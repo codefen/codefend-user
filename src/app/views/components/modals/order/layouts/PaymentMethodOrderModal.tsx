@@ -85,7 +85,7 @@ export const PaymentMethodOrderModal: FC = () => {
           className="option-card"
           onClick={() => handlePaymentMethodClick(OrderPaymentMethod.CARD, 'stripe')}>
           <img
-            src="/codefend/credit-card.svg"
+            src={`${import.meta.env.BASE_URL}codefend/credit-card.svg`}
             alt="Credit Card Icon"
             style={{ width: '80px', height: 'auto' }}
           />
@@ -104,7 +104,7 @@ export const PaymentMethodOrderModal: FC = () => {
           className="option-card"
           onClick={() => handlePaymentMethodClick(OrderPaymentMethod.CRYPTO, 'crypto')}>
           <img
-            src="/codefend/btc.svg"
+            src={`${import.meta.env.BASE_URL}codefend/btc.svg`}
             alt="Cryptocurrency Icon"
             style={{ width: '80px', height: '80px' }}
           />
@@ -123,7 +123,7 @@ export const PaymentMethodOrderModal: FC = () => {
           className="option-card"
           onClick={() => handlePaymentMethodClick(OrderPaymentMethod.BANK_TRANSFER, 'bank')}>
           <img
-            src={`/codefend/brand-new-${theme}.svg`}
+            src={`${import.meta.env.BASE_URL}codefend/brand-new-${theme}.svg`}
             alt="Bank Transfer Icon"
             style={{ width: '80px', height: '80px' }}
           />

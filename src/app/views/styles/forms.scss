@@ -15,8 +15,10 @@
     color: var(--secondary-color-50);
     width: 15px;
     left: 13px;
-    top: 50%;
-    transform: translateY(-25%);
+    inset-block: 0;
+    display: grid;
+    place-items: center;
+    pointer-events: none;
     height: 100%;
     z-index: 2;
 
@@ -95,6 +97,17 @@ select {
   display: flex;
   gap: 10px;
   align-items: center;
+}
+
+.dialog-actions.form-buttons > button.btn {
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 44px;
+  height: auto;
+  width: auto;
+  margin-inline: 0;
+  padding: 8px 12px;
+  text-wrap: wrap;
 }
 
 .form-buttons {

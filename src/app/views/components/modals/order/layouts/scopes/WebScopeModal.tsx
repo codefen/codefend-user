@@ -57,17 +57,17 @@ export const WebScopeModal: FC = () => {
     }
   }, [globalStore.planPreference.get, globalStore.domainCount.get]);
 
-  const nextStep = () => {
-    if (acceptConditions) {
-      updateState('acceptCondition', acceptConditions);
-      sendScopeOrders(resourceType).then((res: any) => {
-        updateState('referenceNumber', res?.order.reference_number);
-      });
-      updateState('orderStepActive', OrderSection.RECOMMENDED_PLAN);
-    } else if (!acceptConditions) {
+  const nextStep = async () => {
+    if (!acceptConditions) {
       setTryClick(true);
       oneExecute();
+      return;
     }
+    updateState('acceptCondition', acceptConditions);
+    const res: any = await sendScopeOrders(resourceType);
+    if (!res?.order?.reference_number) return;
+    updateState('referenceNumber', res.order.reference_number);
+    updateState('orderStepActive', OrderSection.RECOMMENDED_PLAN);
   };
 
   const goToNavigate = () => {

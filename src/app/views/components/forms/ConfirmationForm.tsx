@@ -23,7 +23,7 @@ const ConfirmationForm: FC<{
   };
 
   return (
-    <form onSubmit={handleCompleteSignup}>
+    <form className="confirmation-form" onSubmit={handleCompleteSignup}>
       <CheckEmail
         text="we have sent you an email with a code!"
         subText="please check your inbox, copy the verification code and paste

@@ -8,7 +8,7 @@ export const IssuePanelHeader = ({ openAddIssue }: { openAddIssue: () => void })
   return (
     <div className="card title">
       <div className="header">
-        <img src={`/codefend/issues-bug-icon.svg`} alt="bug-icon" />
+        <img src={`${import.meta.env.BASE_URL}codefend/issues-bug-icon.svg`} alt="" />
         <span>Issues</span>
       </div>
       <div className="content">

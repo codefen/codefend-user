@@ -18,13 +18,14 @@ const IssuePage: FC = () => {
       return () => {};
     }
     const tinyMCE = document.createElement('script');
-    tinyMCE.src = '/editor-lib/visual/mce/tinymce.min.js';
+    tinyMCE.src = `${import.meta.env.BASE_URL}editor-lib/visual/mce/tinymce.min.js`;
     tinyMCE.async = true;
     tinyMCE.defer = true;
 
     const loadUnSub = addEventListener(tinyMCE, EVENTS.LOAD, () => {
       setScriptLoaded(true);
     });
+    tinyMCE.onerror = () => setScriptLoaded(true);
     document.head.appendChild(tinyMCE);
 
     return () => {

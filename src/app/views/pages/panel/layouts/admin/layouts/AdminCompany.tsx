@@ -31,16 +31,20 @@ const AdminCompany: FC = () => {
 
   return (
     <>
-      <main className={`company ${showScreen ? 'actived' : ''} ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
-        <section className="left">
+      <main className={`company admin-company-page ${showScreen ? 'actived' : ''} ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
+        <header className="company-page-heading">
+          <h1>Compañías</h1>
+          <a href="#company-tools" className="company-tools-link">Creación y distribución ↓</a>
+        </header>
+        <section className="left" aria-label="Directorio de compañías">
           <CompanyIndexView />
         </section>
-        <section className="right">
+        <section className="right" id="company-tools" aria-label="Creación y distribución de compañías">
           <Navbar />
-          <CreateCompany />
-          <CompanyWorldMap 
-            companies={companies || []} 
-            title="Distribución global de compañías"
+          <CreateCompany compact />
+          <CompanyWorldMap
+            companies={companies || []}
+            title="Distribución geográfica"
             isLoading={companiesLoading}
           />
         </section>

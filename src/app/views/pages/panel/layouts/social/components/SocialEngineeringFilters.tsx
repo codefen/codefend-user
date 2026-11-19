@@ -96,7 +96,7 @@ export const SocialEngineeringFilters: FC<SocialEngineeringFiltersProps> = ({
                     </div>
                   </div>
                   <div className="value">
-                    <img src="/codefend/issues-bug-icon.svg" alt="bug-icon" />
+                    <img src={`${import.meta.env.BASE_URL}codefend/issues-bug-icon.svg`} alt="" />
                     <span>{count}</span>
                   </div>
                 </label>
@@ -126,7 +126,7 @@ export const SocialEngineeringFilters: FC<SocialEngineeringFiltersProps> = ({
                 </div>
               </div>
               <div className="value">
-                <img src="/codefend/issues-bug-icon.svg" alt="bug-icon" />
+                <img src={`${import.meta.env.BASE_URL}codefend/issues-bug-icon.svg`} alt="" />
                 <span>{availableData.has_name}</span>
               </div>
             </label>
@@ -145,7 +145,7 @@ export const SocialEngineeringFilters: FC<SocialEngineeringFiltersProps> = ({
                 </div>
               </div>
               <div className="value">
-                <img src="/codefend/issues-bug-icon.svg" alt="bug-icon" />
+                <img src={`${import.meta.env.BASE_URL}codefend/issues-bug-icon.svg`} alt="" />
                 <span>{availableData.has_linkedin}</span>
               </div>
             </label>

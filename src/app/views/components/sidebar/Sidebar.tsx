@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useLocation } from 'react-router';
 import { useUserRole } from '#commonUserHooks/useUserRole.ts';
 import { useUserData } from '#commonUserHooks/useUserData';
 import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
@@ -26,6 +27,8 @@ const Sidebar = () => {
   const { isProvider } = useUserRole();
   const companies = useGlobalFastField('companies');
   const matches = useMediaQuery('(min-width: 1230px)');
+  const { pathname } = useLocation();
+  const isCompanyPage = pathname.replace(/\/$/, '') === '/admin/company';
 
   const isProviderWithAccess =
     isProvider() &&
@@ -61,7 +64,7 @@ const Sidebar = () => {
 
   return (
     <aside
-      className={`sidebar ${matches ? 'desktop-active' : 'mobile-active'} ${isOpen ? 'sidebar-open' : ''}`}>
+      className={`sidebar ${matches ? 'desktop-active' : 'mobile-active'} ${isOpen ? 'sidebar-open' : ''} ${isCompanyPage ? 'company-sidebar' : ''}`}>
       <SidebarOpenButton isOpen={isOpen} toggleSidebar={toggleSidebar} />
       <div
         className={`sidebar-blur ${isOpen ? 'blur-enter animate-overlay-in' : ''}`}
@@ -71,9 +74,11 @@ const Sidebar = () => {
           companies={companies}
           isAuth={isAuth}
           isProviderWithAccess={isProviderWithAccess}
+          isCompanyPage={isCompanyPage}
         />
       ) : (
         <SidebarMobile
+          isCompanyPage={isCompanyPage}
           isProviderWithAccess={isProviderWithAccess}
           isOpen={isOpen}
           closeSidebar={closeSidebar}

@@ -229,7 +229,7 @@ export const useOrderPlan = () => {
     chosenPrice: string,
     orderId: string
   ) => {
-    fetcher('post', {
+    return fetcher('post', {
       body: {
         phase: 'plan',
         company_id: companyID,

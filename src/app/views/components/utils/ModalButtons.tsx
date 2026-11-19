@@ -18,7 +18,7 @@ export const ModalButtons: FC<Props> = ({
 }) => {
   const text = Boolean(closeText.trim()) ? closeText : 'Cancel';
   return (
-    <div className={`form-buttons ${boxStyle}`} onClick={(e: FormEvent) => e.stopPropagation()}>
+    <div className={`form-buttons dialog-actions ${boxStyle}`} onClick={(e: FormEvent) => e.stopPropagation()}>
       <PrimaryButton
         text={text}
         click={(e: any) => close?.()}
@@ -32,7 +32,7 @@ export const ModalButtons: FC<Props> = ({
         click={() => {}}
         type="submit"
         isDisabled={isDisabled}
-        className="btn-add codefend_main_ac limit-height"
+        className="btn-add codefend_main_ac"
         buttonStyle="red"
       />
     </div>

@@ -237,8 +237,8 @@ export const IssueReport: FC<Props> = ({ issues, currentFilters, handleFilter })
                     <div className="value">
                       <Show
                         when={element.total === 0}
-                        fallback={<img src="/codefend/issues-bug-icon.svg" alt="bug-icon" />}>
-                        <img src="/codefend/issues-bug-grey.svg" alt="bug-icon" />
+                        fallback={<img src={`${import.meta.env.BASE_URL}codefend/issues-bug-icon.svg`} alt="" />}>
+                        <img src={`${import.meta.env.BASE_URL}codefend/issues-bug-grey.svg`} alt="" />
                       </Show>
                       <span>{element.total}</span>
                     </div>

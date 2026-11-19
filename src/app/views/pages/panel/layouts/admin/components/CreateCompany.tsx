@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { PageLoader } from '@/app/views/components/loaders/Loader';
 import { baseUrl } from '@/app/data/utils/config';
 
-export function CreateCompany() {
+export function CreateCompany({ compact = false }: { compact?: boolean }) {
   const [domain, setDomain] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
@@ -59,6 +59,44 @@ export function CreateCompany() {
       setIsLoading(false);
     }
   };
+
+  if (compact) {
+    return (
+      <section className="card company-create">
+        <h2>Crear compañía</h2>
+        <p id="company-create-help">Al crearla se inicia un análisis de seguridad automático.</p>
+        <form onSubmit={event => { event.preventDefault(); void handleSubmit(); }}>
+          <label htmlFor="company-create-domain">Dominio</label>
+          <div className="company-create-controls">
+            <input
+              id="company-create-domain"
+              type="text"
+              value={domain}
+              onChange={event => setDomain(event.target.value)}
+              placeholder="empresa.com"
+              autoComplete="off"
+              aria-describedby="company-create-help"
+              required
+              disabled={isLoading}
+            />
+            <PrimaryButton
+              type="submit"
+              text={isLoading ? 'Creando…' : 'Crear'}
+              buttonStyle="send"
+              isDisabled={isLoading}
+            />
+          </div>
+        </form>
+        {isLoading && <PageLoader />}
+        {result && (
+          <details className="company-create-result">
+            <summary>Ver resultado</summary>
+            <pre>{JSON.stringify(result, null, 2)}</pre>
+          </details>
+        )}
+      </section>
+    );
+  }
 
   return (
     <div className="card">

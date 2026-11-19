@@ -9,10 +9,29 @@ export type Theme = {
   changeTheme: () => void;
 };
 
+const SITE_THEME_KEY = 'codefend-theme-mode';
+
+/** Same resolution as the public site: auto follows a light color scheme, otherwise dark. */
+export function resolveSiteTheme(): 'dark' | 'light' | null {
+  let mode: string | null = null;
+  try {
+    mode = localStorage.getItem(SITE_THEME_KEY);
+  } catch {
+    return null;
+  }
+  if (mode === 'light' || mode === 'dark') return mode;
+  if (mode === 'auto') {
+    return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  }
+  return null;
+}
+
 export function getInitialTheme(): 'dark' | 'light' {
+  const fromSite = resolveSiteTheme();
+  if (fromSite) return fromSite;
   const storedTheme = localStorage.getItem('theme') as 'dark' | 'light' | null;
-  const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  return storedTheme || (prefersDarkMode ? 'dark' : 'light');
+  const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+  return storedTheme || (prefersLight ? 'light' : 'dark');
 }
 
 const initialThemeState = {
@@ -30,7 +49,13 @@ export const useTheme = () => {
   const hasUserAdmin = isAdmin() || isProvider();
 
   const toggleTheme = () => {
-    themeField.set(themeField.get === 'dark' ? 'light' : 'dark');
+    const next = themeField.get === 'dark' ? 'light' : 'dark';
+    themeField.set(next);
+    try {
+      localStorage.setItem(SITE_THEME_KEY, next);
+    } catch {
+      /* ignore private-mode storage failures */
+    }
     if (pathname?.startsWith('/issues/') && hasUserAdmin) {
       window.location.reload();
     }

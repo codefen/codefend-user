@@ -9,7 +9,7 @@
       .view-tabs {
         display: flex;
         gap: 4px;
-        
+
         button {
           padding: 4px 12px;
           border: 1px solid var(--primary-color-300);
@@ -38,7 +38,7 @@
     padding: 0;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: var(--content-gap);
   }
 
   .loading-container {
@@ -65,8 +65,9 @@
   }
 
   .map-container {
+    margin-inline: var(--panel-inset);
+    width: calc(100% - 2 * var(--panel-inset));
     position: relative;
-    width: 100%;
     background: var(--primary-color-50); // Gris claro uniforme
     border-radius: 8px;
     overflow: hidden;
@@ -124,10 +125,10 @@
   .location-table {
     .table {
       margin: 0;
-      
+
       .header {
         background: var(--primary-color-50);
-        
+
         .header-cell {
           padding: 8px 12px;
           font-size: 12px;
@@ -307,4 +308,16 @@
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
-} 
+}
+.company-world-map .map-footer-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-6);
+  padding-inline: var(--panel-inset);
+
+  .footer-item {
+    display: flex;
+    gap: var(--space-2);
+    align-items: baseline;
+  }
+}

@@ -29,10 +29,12 @@ export const RecommendedPlanOrderModal = () => {
     updateState('orderStepActive', OrderSection.ALL_PLANS);
   };
 
-  const continueWithPlan = () => {
+  const continueWithPlan = async () => {
     const selectedPlan = planPreference.get === 'advanced' ? 'full' : planPreference.get;
-    updateState('orderStepActive', OrderSection.ENVIRONMENT);
-    sendPlanTeamSize(selectedPlan, plan.price, referenceNumber, orderId);
+    const data: any = await sendPlanTeamSize(selectedPlan, plan.price, referenceNumber, orderId);
+    if (data && Number(data.error) === 0) {
+      updateState('orderStepActive', OrderSection.ENVIRONMENT);
+    }
   };
 
   const handleClose = () => {

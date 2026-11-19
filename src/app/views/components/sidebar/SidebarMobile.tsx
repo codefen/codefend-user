@@ -5,6 +5,8 @@ import { LogoutIcon } from '@icons';
 import { useEffect, useState, useMemo } from 'react';
 import { useNavigate } from 'react-router';
 import { verifyPath } from '@/app/views/components/sidebar/Sidebar';
+import { SidebarAccountActions } from './SidebarAccountActions';
+import { SidebarWordmark } from './SidebarWordmark';
 
 // Icono de flecha para colapsar (compartido con desktop)
 const CollapseArrow = ({ isCollapsed, onClick }: { isCollapsed: boolean; onClick: () => void }) => (
@@ -139,12 +141,14 @@ const getActiveItem = (
 };
 
 export const SidebarMobile = ({
+  isCompanyPage,
   isProviderWithAccess,
   isOpen,
   closeSidebar,
   email,
   companyName,
 }: {
+  isCompanyPage: boolean;
   isProviderWithAccess: boolean;
   isOpen: boolean;
   closeSidebar: () => void;
@@ -224,7 +228,7 @@ export const SidebarMobile = ({
     <div
       className={`sidebar-mobile ${isOpen ? 'sidebar-open' : ''}`}>
       <div className="sidebar-mobile-header">
-        <div className="sidebar-header-title"></div>
+        <div className="sidebar-header-title">{isCompanyPage && <SidebarWordmark />}</div>
         <div className={`sidebar-tabs ${contentVisible ? 'visible' : ''}`}>
           <div className="sidebar-tab-container">
             {Object.keys(sidebarData).map(section => (
@@ -272,13 +276,17 @@ export const SidebarMobile = ({
               <span className="user-email">{email}</span>
               <span className="user-company">{companyName}</span>
             </div>
-            <div className="sidebar-footer-actions">
-              <ThemeChangerButton className="sidebar-footer-theme-changer" text="Theme" />
-              <button className="no-border no-outline sidebar-footer-logout" onClick={logout}>
-                <LogoutIcon width={1.1} height={1.1} />
-                Logout
-              </button>
-            </div>
+            {isCompanyPage ? (
+              <SidebarAccountActions onSignOut={logout} />
+            ) : (
+              <div className="sidebar-footer-actions">
+                <ThemeChangerButton className="sidebar-footer-theme-changer" text="Theme" />
+                <button className="no-border no-outline sidebar-footer-logout" onClick={logout}>
+                  <LogoutIcon width={1.1} height={1.1} />
+                  Logout
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>

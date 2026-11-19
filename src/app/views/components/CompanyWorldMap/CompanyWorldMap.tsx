@@ -134,24 +134,27 @@ const countryCoordinates: Record<string, [number, number]> = {
 // Columnas para la tabla de ubicaciones
 const locationColumns: ColumnTableV3[] = [
   {
-    header: 'Location',
-    key: 'location',
+    header: 'Ubicación',
+    key: 'country',
     type: TABLE_KEYS.FULL_ROW,
     styles: 'item-cell-location-1',
     weight: '50%',
-    render: (resource: any) => (
-      <LocationItem country={resource?.country} countryCode={resource?.countryCode} />
-    ),
+    render: (resource: any) =>
+      resource.countryCode === 'xx' ? (
+        <span>{resource.country}</span>
+      ) : (
+        <LocationItem country={resource.country} countryCode={resource.countryCode} />
+      ),
   },
   {
-    header: 'Count',
+    header: 'Compañías',
     key: 'count',
     styles: 'item-cell-location-2',
     weight: '25%',
     render: (resource: any) => resource,
   },
   {
-    header: 'Percentage',
+    header: 'Porcentaje',
     key: 'percentage',
     styles: 'item-cell-location-3',
     weight: '25%',
@@ -175,11 +178,11 @@ export const CompanyWorldMap: FC<CompanyWorldMapProps> = ({
 
   // Configuración visual basada en el tema
   const MAP_STYLE = useMemo(() => ({
-    countryNoData: theme === 'dark' ? '#374151' : '#f8f9fa',
-    countryWithData: '#168cb5',
-    countryBorder: theme === 'dark' ? '#4b5563' : '#dee2e6',
-    countryBorderWidth: 0.5,
-    graticuleLine: theme === 'dark' ? '#4b5563' : '#e0e0e0',
+    countryNoData: theme === 'dark' ? '#313c41' : '#e6edef',
+    countryWithData: theme === 'dark' ? '#72d7f5' : '#1383a4',
+    countryBorder: theme === 'dark' ? '#53666e' : '#b9cbd1',
+    countryBorderWidth: 0.65,
+    graticuleLine: theme === 'dark' ? '#70868f' : '#c0cfd4',
     graticuleOpacity: theme === 'dark' ? 0.2 : 0.3,
   }), [theme]);
 
@@ -188,14 +191,13 @@ export const CompanyWorldMap: FC<CompanyWorldMapProps> = ({
     const counts: Record<string, number> = {};
     
     companies.forEach(company => {
-      let countryName = company.pais || company.mercado;
-      
-      // Si tenemos código de país, convertir a nombre
-      if (company.pais_code && codeToName[company.pais_code.toUpperCase()]) {
-        countryName = codeToName[company.pais_code.toUpperCase()];
-      }
-      
-      if (countryName && countryName !== 'unknown') {
+      const location = (company.pais || company.mercado || '').trim();
+      const countryName =
+        codeToName[company.pais_code?.toUpperCase() || ''] ??
+        codeToName[location.toUpperCase()] ??
+        location;
+
+      if (countryName && countryName.toLowerCase() !== 'unknown') {
         counts[countryName] = (counts[countryName] || 0) + 1;
       }
     });
@@ -397,7 +399,6 @@ export const CompanyWorldMap: FC<CompanyWorldMapProps> = ({
   }
 
   const totalCompanies = companies.length;
-  const companiesWithLocation = Object.values(countryData).reduce((sum, count) => sum + count, 0);
 
   return (
     <div className="card company-world-map">
@@ -405,20 +406,25 @@ export const CompanyWorldMap: FC<CompanyWorldMapProps> = ({
         <h2 className="table-title">{title}</h2>
       </div>
       <div className="content" ref={containerRef}>
-        <div className="map-container">
-                    <svg ref={svgRef} width={dimensions.width} height={dimensions.height} />
-        </div>
-
-        {/* Resumen debajo del mapa */}
         <div className="map-footer-summary">
           <div className="footer-item">
-            <span className="footer-label">Empresas:</span>
+            <span className="footer-label">Compañías</span>
             <span className="footer-value">{totalCompanies}</span>
           </div>
           <div className="footer-item">
-            <span className="footer-label">Países:</span>
+            <span className="footer-label">Ubicaciones</span>
             <span className="footer-value">{Object.keys(countryData).length}</span>
           </div>
+        </div>
+
+        <div className="map-container">
+          <svg
+            ref={svgRef}
+            width={dimensions.width}
+            height={dimensions.height}
+            viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}
+            aria-hidden="true"
+          />
         </div>
 
         {/* Tabla de ubicaciones */}

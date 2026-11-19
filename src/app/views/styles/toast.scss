@@ -7,19 +7,24 @@
   font-family: 'Questrial', sans-serif !important;
 }
 
-/* Toast de éxito con fondo verde suave */
-.Toastify__toast--success {
-  background: #e8f5e9 !important; /* Verde muy suave, casi blanco */
-  color: #2e7d32 !important; /* Verde oscuro para el texto */
+/* Toast de éxito: celeste de marca con texto blanco en interfaz clara */
+body[data-theme='light'] .Toastify__toast--success {
+  background: #168cb5 !important;
+  color: #fff !important;
 }
 
-.Toastify__toast--success .Toastify__toast-body {
-  color: #2e7d32 !important;
+body[data-theme='light'] .Toastify__toast--success .Toastify__toast-body,
+body[data-theme='light'] .Toastify__toast--success .Toastify__close-button {
+  color: #fff !important;
+  opacity: 1;
 }
 
-/* Ícono de progreso para toasts de éxito */
-.Toastify__toast--success .Toastify__progress-bar {
-  background: #4caf50 !important;
+body[data-theme='light'] .Toastify__toast--success .Toastify__progress-bar {
+  background: rgba(255, 255, 255, 0.72) !important;
+}
+
+body[data-theme='light'] .Toastify__toast--success .Toastify__toast-icon svg {
+  fill: #fff !important;
 }
 
 /* Toast de error con fondo rojizo suave */

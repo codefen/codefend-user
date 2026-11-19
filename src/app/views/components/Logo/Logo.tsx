@@ -7,23 +7,21 @@ interface LogoProps {
   onClick?: () => void;
 }
 
+const asset = (file: string) => `${import.meta.env.BASE_URL}codefend/${file}`;
+
 const themeToImage: Record<string, LogoPath> = {
-  light: {
-    path: '/codefend/brand-new-light.svg',
-  },
-  dark: {
-    path: '/codefend/brand-new-dark.svg',
-  },
-  shadow: { path: '/codefend/logo-shadow.png' },
-  inshadow: { path: '/codefend/logo-inshadow.png' },
-  aim: { path: '/codefend/aim-light.svg' },
-  aimColor: { path: '/codefend/brand-mark.svg' },
+  light: { path: asset('brand-new-light.svg') },
+  dark: { path: asset('brand-new-dark.svg') },
+  shadow: { path: asset('logo-shadow.png') },
+  inshadow: { path: asset('logo-inshadow.png') },
+  aim: { path: asset('aim-light.svg') },
+  aimColor: { path: asset('brand-mark.svg') },
 };
 
 const Logo = ({ theme, onClick }: LogoProps) => {
   return (
     <div id="brand" className="brand-img" onClick={onClick}>
-      <img src={themeToImage[theme].path} alt="Codefend Logo" decoding="async" loading="lazy" />
+      <img src={themeToImage[theme].path} alt="Codefend" decoding="async" />
     </div>
   );
 };

@@ -38,6 +38,7 @@ import { sendEventToGTM } from '@utils/gtm';
 import { GoogleAuthButton } from '@/app/views/components/GoogleAuthButton/GoogleAuthButton';
 import { useGoogleAuth } from '@/app/data/hooks/users/auth/useGoogleAuth';
 import { usePageTracking } from '@/app/data/hooks/tracking/usePageTracking';
+import { HackersIcon, LeaksIcon, SurfaceIcon } from '@/app/views/pages/auth/AuthFeatureIcons';
 import { SignUpSteps } from '@/app/constants/newSignupText';
 import { useTheme } from '@/app/views/context/ThemeContext';
 
@@ -561,7 +562,7 @@ export const NewSignupForm = () => {
         <div className="features-list">
           <div className="feature-item">
             <div className="feature-icon">
-              <img src={import.meta.env.BASE_URL + 'codefend/Grupo-1.png?v=3'} alt="Professional hackers" />
+              <HackersIcon />
             </div>
             <div className="feature-content">
               <h3>Professional hackers on demand</h3>
@@ -574,7 +575,7 @@ export const NewSignupForm = () => {
 
           <div className="feature-item">
             <div className="feature-icon">
-              <img src={import.meta.env.BASE_URL + 'codefend/icono-leaks.png?v=3'} alt="Database explorer" />
+              <LeaksIcon />
             </div>
             <div className="feature-content">
               <h3>Full dataleaks explorer</h3>
@@ -587,7 +588,7 @@ export const NewSignupForm = () => {
 
           <div className="feature-item">
             <div className="feature-icon">
-              <img src={import.meta.env.BASE_URL + 'codefend/icono-bicho.png?v=3'} alt="Attack surface map" />
+              <SurfaceIcon />
             </div>
             <div className="feature-content">
               <h3>Automated attack surface map</h3>

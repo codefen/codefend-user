@@ -38,8 +38,8 @@ export const OffensiveOrderModal: FC = () => {
           <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
             <div style={{ marginRight: '16px', flexShrink: 0, maxWidth: '60px' }}>
               <img
-                src="/codefend/pentest-careful.png"
-                alt="careful-pentest-icon"
+                src={`${import.meta.env.BASE_URL}codefend/pentest-careful.png`}
+                alt=""
                 className="environment-icon"
                 style={{ maxWidth: '100%', height: 'auto' }}
               />
@@ -61,8 +61,8 @@ export const OffensiveOrderModal: FC = () => {
           <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
             <div style={{ marginRight: '16px', flexShrink: 0, maxWidth: '60px' }}>
               <img
-                src="/codefend/pentest-offensive.png"
-                alt="offensive-pentest-icon"
+                src={`${import.meta.env.BASE_URL}codefend/pentest-offensive.png`}
+                alt=""
                 className="environment-icon"
                 style={{ maxWidth: '100%', height: 'auto' }}
               />
@@ -84,8 +84,8 @@ export const OffensiveOrderModal: FC = () => {
           <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
             <div style={{ marginRight: '16px', flexShrink: 0, maxWidth: '60px' }}>
               <img
-                src="/codefend/pentest-adversary.png"
-                alt="adversary-pentest-icon"
+                src={`${import.meta.env.BASE_URL}codefend/pentest-adversary.png`}
+                alt=""
                 className="environment-icon"
                 style={{ maxWidth: '100%', height: 'auto' }}
               />

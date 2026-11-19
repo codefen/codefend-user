@@ -100,6 +100,21 @@ body[data-theme='light']:has(.onboarding-modal-container)::before {
   background-repeat: no-repeat !important;
   background-position: 0 22%, 0 48%, 0 74% !important;
 }
+body main .empty-screen .empty-card-wrapper .header .image {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  margin: 0 0 12px;
+  border: 1px solid color-mix(in srgb, var(--secondary-color-50) 25%, transparent);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--secondary-color-50) 6%, transparent);
+}
+body main .empty-screen .empty-card-wrapper .header .image svg {
+  width: 36px;
+  height: 36px;
+}
+body main .empty-screen .empty-card-wrapper .header .text {text-align: center}
 body #root-modal .modal-wrapper .modal :is(.new-auth-content,.readonly-content) {border:1px solid #d6e0e3!important;border-radius:10px!important;box-shadow:0 14px 48px rgba(32,62,74,.06)!important;background:#fff!important}
 body[data-theme='dark'] #root-modal .modal-wrapper .modal :is(.new-auth-content,.readonly-content) {border-color:#343b3e!important;background:#1d2022!important;box-shadow:0 14px 48px rgba(0,0,0,.16)!important}
 /* Auth feature icons are pre-colored brand cyan PNGs — no CSS glow/recolor */
@@ -114,6 +129,40 @@ body #root-modal .modal-wrapper .modal .readonly-content .feature-icon img {
 body #root-modal .modal-wrapper .modal .readonly-content .feature-icon {
   width:52px!important;
   height:52px!important;
+  color:#72d7f5;
+}
+body[data-theme='light'] #root-modal .modal-wrapper .modal .readonly-content .feature-icon {color:#087da4}
+body #root-modal .modal-wrapper .modal .readonly-content .feature-icon svg {
+  width:52px!important;
+  height:52px!important;
+  display:block;
+  stroke:currentColor;
+  fill:none;
+  stroke-width:1.75;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  transform:none!important;
+  scale:1!important;
+}
+body #root-modal .modal-wrapper .modal .readonly-content .feature-icon svg .icon-solid {
+  fill:currentColor;
+  stroke:none;
+}
+body #root-modal .modal-wrapper .modal .readonly-content .feature-icon svg .icon-limb {
+  fill:none;
+  stroke:currentColor;
+  stroke-width:2.35;
+  stroke-linecap:round;
+}
+body #root-modal .modal-wrapper .modal .readonly-content .feature-icon svg .icon-band {
+  fill:none;
+  stroke:#fff;
+  stroke-width:2.15;
+  stroke-linecap:round;
+}
+body #root-modal .modal-wrapper .modal .readonly-content .feature-icon svg .icon-mark {
+  fill:#fff;
+  stroke:none;
 }
 /* Auth marketing column: use full card width (no artificial ch max-width) */
 body #root-modal .modal-wrapper .modal .readonly-content :is(h1, p.header-text) {max-width:none!important}
@@ -201,6 +250,10 @@ body main:is(.user-profile,.dashboard,.team-members) > .left > .box-assets {
   gap:0!important; margin:0!important; align-items:stretch;
   background:var(--primary-color); border-bottom:1px solid var(--primary-color-300);
 }
+/* The introductory rectangle already supplies this divider on the empty dashboard. */
+body main.dashboard > .left > :not(.rectangle) + .box-assets {
+  border-top:1px solid var(--primary-color-300);
+}
 body main:is(.user-profile,.dashboard,.team-members) > .left > .box-assets > .card {
   min-width:0; height:auto; margin:0!important; border:0!important;
   border-radius:0!important; box-shadow:none!important; background:transparent;
@@ -271,7 +324,7 @@ body main.webapp .left .table-search-bar {width:100%;margin:0!important;border-b
 body main.webapp .left .table-search-bar .form-input {width:100%}
 body main.webapp .left .table-search-bar input {width:100%;height:52px;border:0;border-radius:0;background:transparent}
 body main.webapp .left .table-search-bar + .table {border-radius:0}
-@media(min-width:1231px){body main.webapp > .right {flex-basis:31%;width:31%}}
+@media(min-width:1231px){body main.webapp > .right {flex:0 0 380px;width:380px;max-width:40vw}}
 
 /* Recolor legacy embedded-raster artwork, including relative paths. */
 body img[src*="codefend/issues-bug-icon.svg"],
@@ -326,7 +379,7 @@ body .modal-wrapper .modal .btn-cancel:hover {color:var(--secondary-color-100)!i
 
 /* Flat comment composer, matching the surrounding panels. */
 body main.issue-detail .sender {left:0!important;right:0!important;bottom:0!important;backdrop-filter:none}
-body main.issue-detail .sender .chatbox-container {border:0!important;border-top:1px solid var(--primary-color-300)!important;border-radius:0!important;box-shadow:none!important;background:var(--primary-color);padding:16px 20px}
+body main.issue-detail .sender .chatbox-container {border:0!important;border-top:1px solid var(--primary-color-300)!important;border-radius:0!important;box-shadow:none!important;background:var(--primary-color);padding:var(--space-4) var(--panel-inset)}
 body main.issue-detail .sender .chatbox-container textarea {border:0;border-radius:0!important;background:transparent!important}
 /* Network resources as a full-width list with consistent dividers. */
 body main.lan .left > .card {height:100%;min-height:0;overflow:hidden}
@@ -336,12 +389,12 @@ body main.lan .network-layout > div:first-child {flex:none;border-bottom:1px sol
 body main.lan .network-layout > div:first-child .form-input input {height:52px;border:0;border-radius:0;background:transparent}
 body main.lan .network-cards-container {width:100%;min-height:0;max-height:none!important;padding:0!important;border:0!important;border-radius:0!important;box-shadow:none!important;flex:1 1 auto}
 body main.lan .masonry-container,body main.lan .masonry-column {padding:0!important;gap:0!important;width:100%}
-body main.lan .network-resource-card,body main.lan .network-resource-card:hover,body main.lan .network-resource-card.actions-visible {width:100%;padding:20px 0 0;border:0;border-bottom:1px solid var(--primary-color-300);border-radius:0;box-shadow:none;background:var(--primary-color)}
-body main.lan .network-resource-card .card-header,body main.lan .network-resource-card .server-location,body main.lan .network-resource-card .found-apps .apps-title {margin-left:20px;margin-right:20px}
-body main.lan .network-resource-card .found-apps .apps-list .app-item {padding:10px 20px;border-bottom:1px solid var(--primary-color-300)}
+body main.lan .network-resource-card,body main.lan .network-resource-card:hover,body main.lan .network-resource-card.actions-visible {width:100%;padding:var(--panel-block-inset) 0 0;border:0;border-bottom:1px solid var(--primary-color-300);border-radius:0;box-shadow:none;background:var(--primary-color)}
+body main.lan .network-resource-card .card-header,body main.lan .network-resource-card .server-location,body main.lan .network-resource-card .found-apps .apps-title {margin-inline:var(--panel-inset)}
+body main.lan .network-resource-card .found-apps .apps-list .app-item {padding:var(--space-3) var(--panel-inset);border-bottom:1px solid var(--primary-color-300)}
 body main.lan .network-resource-card .found-apps .apps-list .app-item:last-child {border-bottom:0}
-body main.lan .network-resource-card .found-apps .no-apps {padding:0 20px 16px}
-body main.lan .network-resource-card .actions-menu {margin:0;padding:12px 20px;border-color:var(--primary-color-300)}
+body main.lan .network-resource-card .found-apps .no-apps {padding:0 var(--panel-inset) var(--space-4)}
+body main.lan .network-resource-card .actions-menu {margin:0;padding:var(--space-3) var(--panel-inset);border-color:var(--primary-color-300)}
 /* Avoid horizontal overflow in the connection-error dialog. */
 body:not(:has(main.auth-pages)) .modal-wrapper .modal:has(> .error-wrapper) {width:min(40.3rem,calc(100vw - 32px));overflow:visible}
 body .modal-wrapper .error-wrapper {box-sizing:border-box;width:100%;min-width:0;max-width:100%;overflow:visible;box-shadow:none}

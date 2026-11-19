@@ -35,7 +35,7 @@ main.user-profile {
       .card {
         overflow: hidden;
         min-width: 200px;
-        padding: 0.5rem;
+
         flex: 1 1 50%;
         height: fit-content;
       }
@@ -193,6 +193,7 @@ main.user-profile {
       padding-block-start: 10px;
       flex: 1;
       overflow-y: visible; // Usar scroll natural del documento
+      container-type: inline-size;
       height: auto; // Altura automática para flujo natural
       padding-bottom: 2rem;
     }
@@ -203,9 +204,6 @@ main.user-profile {
       flex: 0 0 auto;
     }
 
-    .admin-cards-fluid {
-      column-count: 1;
-    }
   }
 }
 @media only screen and (max-width: 1000px) {
@@ -255,8 +253,7 @@ main.user-profile .box-assets .card .over {
   display: flex;
   flex-direction: column;
   height: fit-content;
-  padding: 0.2rem;
-  gap: 0rem;
+  gap: 0;
 
   .form-button {
     width: 100%;
@@ -267,31 +264,8 @@ main.user-profile .box-assets .card .over {
   }
 }
 
-.card .over p {
-  padding-inline: var(--card-space);
-  margin-block-end: var(--card-space);
-  font-size: 16px;
-  font-family: Questrial;
-  margin-top: 10px;
-  line-height: 1.5em;
-}
-
 // Estilos para el layout de Admin Commander
 main.user-profile {
-  // Contenedor fluido para las tarjetas administrativas (estilo SNS)
-  // Contenedor fluido estilo SNS (column masonry)
-  .admin-cards-fluid {
-    column-count: 2;
-    column-gap: var(--card-space);
-    margin-top: var(--card-space);
-
-    .card {
-      break-inside: avoid;
-      width: 100%;
-      margin-bottom: var(--card-space);
-    }
-  }
-
   .right {
     flex: 0 0 30%;
     display: flex;
@@ -302,36 +276,4 @@ main.user-profile {
       margin-bottom: var(--card-space);
     }
   }
-
-  // Estilos para la lista de quicklinks
-  .quicklinks-list {
-    list-style: none;
-    padding: 0;
-    margin: 1rem 0 0 0;
-
-    li {
-      margin-bottom: 0.75rem;
-      
-      a {
-        display: block;
-        padding: 0.75rem 1rem;
-        background: var(--primary-color-100);
-        border: 1px solid var(--primary-color-200);
-        border-radius: 6px;
-        color: var(--text-color-primary);
-        text-decoration: none;
-        font-weight: 500;
-        transition: all 0.2s ease;
-        
-        &:hover {
-          background: var(--primary-color-200);
-          border-color: var(--primary-color-300);
-          transform: translateY(-1px);
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-      }
-    }
-  }
 }
-
-

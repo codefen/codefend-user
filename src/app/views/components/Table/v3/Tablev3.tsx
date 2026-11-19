@@ -44,6 +44,7 @@ const Tablev3: FC<Tablev3Props<any>> = ({
   isActiveDisable = false,
   isNeedMultipleCheck = false,
   isNeedSearchBar = false,
+  searchPlaceholder = 'Search resource. . .',
   limit = 0,
   isNeedSort = true,
   action,
@@ -216,7 +217,7 @@ const Tablev3: FC<Tablev3Props<any>> = ({
           <ModalInput
             icon={<MagnifyingGlassIcon />}
             setValue={(val: string) => setTerm(val)}
-            placeholder="Search resource. . ."
+            placeholder={searchPlaceholder}
           />
         </div>
       </Show>

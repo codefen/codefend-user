@@ -25,6 +25,7 @@ export interface Tablev3Props<T = any> {
   isActiveDisable?: boolean;
   isNeedMultipleCheck?: boolean;
   isNeedSearchBar?: boolean;
+  searchPlaceholder?: string;
   isNeedSort?: boolean;
   limit?: number;
   action?: (val?: any) => void;

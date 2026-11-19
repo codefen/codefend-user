@@ -170,9 +170,8 @@ export const OrderV2 = () => {
           <header className="order-header">
             <div className="order-header-title">
               <img
-                src="/codefend/pentest-header-vector.svg"
-                alt="codefend-icon"
-                aria-label="codefend-icon"
+                src={`${import.meta.env.BASE_URL}codefend/pentest-header-vector.svg`}
+                alt=""
               />
               <h2>
                 <span>Execute a </span>new pentest
