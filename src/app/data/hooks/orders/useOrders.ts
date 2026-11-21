@@ -162,7 +162,7 @@ export const useOrderScope = () => {
       },
     })
       .then(({ data }: any) => {
-        if (Number(data.error) === 1) {
+        if (Number(data?.error) === 1 || !data?.order?.id) {
           throw new Error(ORDER_PHASES_TEXT.ORDER_NEST_ERROR);
         }
         updateState('orderId', data.order.id);

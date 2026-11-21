@@ -68,8 +68,15 @@
   }
 
   .stripe-container {
-    overflow-y: auto;
-    margin-block-end: 2rem;
+    overflow: hidden;
+    width: min(100%, 460px);
+    margin: 0 auto;
+  }
+
+  .step-content.card-pay {
+    overflow: hidden;
+    padding: 8px 2.5rem 12px;
+    box-sizing: border-box;
   }
 
   .stripe-back-btn {
@@ -245,9 +252,15 @@
       flex: 1;
       padding: 20px 0;
       overflow-y: auto;
+      overflow-x: hidden;
       height: fit-content;
       display: flex;
       flex-direction: column;
+
+      &.card-pay {
+        overflow: hidden;
+        padding: 4px 2.5rem 8px;
+      }
 
       .next-btns {
         margin-top: auto;

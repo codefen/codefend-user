@@ -142,13 +142,13 @@ button::-moz-focus-inner {
 	border-color: rgba(254, 78, 78, 0.4);
 }
 .tox .tox-dialog__body-content .accessibility-issue--info .tox-form__group h2 {
-	color: #fe4e4e;
+	color: #168cb5;
 }
 .tox .tox-dialog__body-content .accessibility-issue--info .tox-icon svg {
-	fill: #fe4e4e;
+	fill: #168cb5;
 }
 .tox .tox-dialog__body-content .accessibility-issue--info a .tox-icon {
-	color: #fe4e4e;
+	color: #168cb5;
 }
 .tox
 	.tox-dialog__body-content
@@ -218,13 +218,13 @@ button::-moz-focus-inner {
 	.accessibility-issue--success
 	.tox-form__group
 	h2 {
-	color: #fe4e4e;
+	color: #168cb5;
 }
 .tox .tox-dialog__body-content .accessibility-issue--success .tox-icon svg {
-	fill: #fe4e4e;
+	fill: #168cb5;
 }
 .tox .tox-dialog__body-content .accessibility-issue--success a .tox-icon {
-	color: #fe4e4e;
+	color: #168cb5;
 }
 .tox .tox-dialog__body-content .accessibility-issue__header h1,
 .tox
@@ -289,11 +289,11 @@ button::-moz-focus-inner {
 	flex: 0 0 auto;
 }
 .tox .tox-button {
-	background-color: #fe4e4e;
+	background-color: #168cb5;
 	background-image: none;
 	background-position: 0 0;
 	background-repeat: repeat;
-	border-color: #fe4e4e;
+	border-color: #168cb5;
 	border-radius: 3px;
 	border-style: solid;
 	border-width: 1px;
@@ -317,9 +317,9 @@ button::-moz-focus-inner {
 	white-space: nowrap;
 }
 .tox .tox-button[disabled] {
-	background-color: #fe4e4e;
+	background-color: #168cb5;
 	background-image: none;
-	border-color: #fe4e4e;
+	border-color: #168cb5;
 	box-shadow: none;
 	color: rgba(255, 255, 255, 0.5);
 	cursor: not-allowed;
@@ -496,11 +496,11 @@ button::-moz-focus-inner {
 }
 .tox .tox-checkbox__icons .tox-checkbox-icon__indeterminate svg {
 	display: none;
-	fill: #fe4e4e;
+	fill: #168cb5;
 }
 .tox .tox-checkbox__icons .tox-checkbox-icon__checked svg {
 	display: none;
-	fill: #fe4e4e;
+	fill: #168cb5;
 }
 .tox .tox-checkbox--disabled {
 	color: rgba(34, 47, 62, 0.5);
@@ -557,7 +557,7 @@ button::-moz-focus-inner {
 }
 .tox input.tox-checkbox__input:focus + .tox-checkbox__icons {
 	border-radius: 3px;
-	box-shadow: inset 0 0 0 1px #fe4e4e;
+	box-shadow: inset 0 0 0 1px #168cb5;
 	padding: calc(3.5px - 1px);
 }
 .tox:not([dir='rtl']) .tox-checkbox__label {
@@ -1399,8 +1399,8 @@ button::-moz-focus-inner {
 	background-color: rgba(254, 78, 78, 0.1);
 }
 .tox .tox-dialog__body-nav-item--active {
-	border-bottom: 2px solid #fe4e4e;
-	color: #fe4e4e;
+	border-bottom: 2px solid #168cb5;
+	color: #168cb5;
 }
 .tox .tox-dialog__body-content {
 	box-sizing: border-box;
@@ -1428,7 +1428,7 @@ button::-moz-focus-inner {
 	margin-top: 0;
 }
 .tox .tox-dialog__body-content a {
-	color: #fe4e4e;
+	color: #168cb5;
 	cursor: pointer;
 	text-decoration: none;
 }
@@ -1788,7 +1788,7 @@ body.tox-dialog__disable-scroll {
 }
 .tox .tox-color-input span:hover:not([aria-disabled='true']),
 .tox .tox-color-input span:focus:not([aria-disabled='true']) {
-	border-color: #fe4e4e;
+	border-color: #168cb5;
 	cursor: pointer;
 }
 .tox .tox-color-input span::before {
@@ -1963,7 +1963,7 @@ body.tox-dialog__disable-scroll {
 .tox .tox-listboxfield .tox-listbox--select:focus,
 .tox .tox-textarea:focus {
 	background-color: var(--primary-color);
-	border-color: #fe4e4e;
+	border-color: #168cb5;
 	box-shadow: none;
 	outline: none;
 }
@@ -1978,7 +1978,7 @@ body.tox-dialog__disable-scroll {
 	border: 0;
 	border-color: transparent;
 	box-shadow: unset;
-	color: #fe4e4e;
+	color: #168cb5;
 	cursor: pointer;
 	display: block;
 	margin: 0;
@@ -2063,7 +2063,7 @@ body.tox-dialog__disable-scroll {
 }
 .tox .tox-selectfield select:focus {
 	background-color: #fff;
-	border-color: #fe4e4e;
+	border-color: #168cb5;
 	box-shadow: none;
 	outline: none;
 }
@@ -2731,7 +2731,7 @@ body.tox-dialog__disable-scroll {
 	width: 100%;
 }
 .tox .tox-slider__handle {
-	background-color: #fe4e4e;
+	background-color: #168cb5;
 	border: 2px solid #fe1b1b;
 	border-radius: 3px;
 	box-shadow: none;
@@ -3038,7 +3038,7 @@ body.tox-dialog__disable-scroll {
 .tox .tox-split-button:focus {
 	background: #dee0e2;
 	box-shadow: none;
-	color: #fe4e4e;
+	color: #168cb5;
 }
 .tox .tox-split-button > * {
 	border-radius: 0;

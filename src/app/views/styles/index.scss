@@ -220,6 +220,93 @@
     padding: 1rem 0;
   }
 
+  .env-options {
+    gap: 12px;
+    overflow: visible;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 2.5rem 12px;
+  }
+
+  button.env-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    width: 100%;
+    margin: 0;
+    box-sizing: border-box;
+    padding: 16px 18px;
+    border: 1px solid #999;
+    border-radius: 5px;
+    background: #fff;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    transform: none;
+
+    &:hover,
+    &:active,
+    &.selected {
+      transform: none;
+      border-color: #168cb5;
+      background: #d8eff6;
+      box-shadow: 0 4px 12px rgba(22, 140, 181, 0.15);
+    }
+  }
+
+  .env-icon {
+    flex: 0 0 28px;
+    width: 28px;
+    height: 28px;
+    margin-top: 1px;
+    color: #168cb5;
+
+    svg {
+      display: block;
+      width: 28px;
+      height: 28px;
+      fill: currentColor;
+    }
+
+    svg.stroke {
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.7;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  }
+
+  .env-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+    flex: 1;
+  }
+
+  .env-title {
+    font-family: Satoshi, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #1a1a1a;
+  }
+
+  .env-lead,
+  .env-body {
+    font-family: Questrial, sans-serif;
+    font-size: 15px;
+    line-height: 1.35;
+    color: #4a4a4a;
+  }
+
+  .env-lead {
+    font-weight: 600;
+  }
+
   .flex-box-row {
     border: 1px solid #999;
     border-radius: 5px;
@@ -2933,35 +3020,55 @@ main.mobile .left .app-card-content-body .reviews svg.half-icon {
 
 // Estilos para modal de métodos de pago
 .step-content.payment {
+  overflow-x: hidden;
+
+  .pay-methods {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 2.5rem 12px;
+    overflow: hidden;
+  }
+
   .option-card {
     border: 1px solid #999;
     border-radius: 8px;
-    padding: 30px;
+    padding: 16px 18px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
     display: flex;
-    align-items: center;
-    gap: 25px;
+    align-items: flex-start;
+    gap: 16px;
     background: white;
-    width: 95%;
-    margin: 15px 25px;
-    min-height: 130px;
+    width: 100%;
+    margin: 0;
+    min-height: 0;
+    box-sizing: border-box;
 
     &:hover {
       border-color: #168cb5;
       box-shadow: 0 4px 12px rgba(22, 140, 181, 0.15);
-      transform: translateY(-2px);
     }
 
-    &:active {
-      transform: translateY(0);
-    }
+    .pay-method-icon {
+      flex: 0 0 32px;
+      width: 32px;
+      height: 32px;
+      margin-top: 2px;
+      color: #168cb5;
 
-    img {
-      width: 80px;
-      height: 80px;
-      object-fit: contain;
-      flex-shrink: 0;
+      svg {
+        display: block;
+        width: 32px;
+        height: 32px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.7;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
     }
 
     .order-snapshot {
@@ -3313,6 +3420,27 @@ main.company {
 
   // Tema oscuro para el plan recomendado
   .step-content.plan {
+    button.env-card {
+      background: var(--primary-color-50);
+      border-color: var(--primary-color-400);
+      color: var(--tertiary-color-100);
+
+      &.selected,
+      &:hover {
+        background: rgba(22, 140, 181, 0.1);
+        border-color: #168cb5;
+      }
+    }
+
+    .env-title {
+      color: var(--tertiary-color-50);
+    }
+
+    .env-lead,
+    .env-body {
+      color: var(--tertiary-color-200);
+    }
+
     .flex-box-row {
       background: var(--primary-color-50);
       border-color: var(--primary-color-400);

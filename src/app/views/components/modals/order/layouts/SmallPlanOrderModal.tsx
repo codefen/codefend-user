@@ -145,8 +145,8 @@ export const SmallPlanOrderModal = () => {
             width: '100%',
           }}>
           <img
-            src="/codefend/estrellitas.png"
-            alt="estrellas"
+            src={`${import.meta.env.BASE_URL}codefend/estrellitas.png`}
+            alt=""
             style={{ width: '50px', height: 'auto', margin: '0.5rem', display: 'block' }}
           />
           <h3 style={{ margin: 0 }}>Automated Plan for Small Businesses</h3>

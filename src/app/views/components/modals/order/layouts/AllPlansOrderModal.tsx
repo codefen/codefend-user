@@ -75,8 +75,8 @@ export const AllPlansOrderModal = () => {
             width: '100%',
           }}>
           <img
-            src="/codefend/estrellitas.png"
-            alt="estrellas"
+            src={`${import.meta.env.BASE_URL}codefend/estrellitas.png`}
+            alt=""
             style={{ height: '35px', width: 'auto', display: 'block' }}
           />
           <h3 style={{ margin: 0 }}>Professional hackers & Pentest on demand</h3>

@@ -5,7 +5,6 @@ import { useOrderStore } from '@stores/orders.store';
 import { userOrderFinancialResource } from '@hooks/orders/useOrders';
 import { usePaymentTelemetry } from '@hooks/common/usePaymentTelemetry';
 import { useGlobalFastField } from '@/app/views/context/AppContextProvider';
-import { useTheme } from '@/app/views/context/ThemeContext';
 
 export const PaymentMethodOrderModal: FC = () => {
   const { updateState, referenceNumber, orderId, userSmallPlanSelected } = useOrderStore(
@@ -14,8 +13,6 @@ export const PaymentMethodOrderModal: FC = () => {
   const planPreference = useGlobalFastField('planPreference');
   const { sendOrderFinancial } = userOrderFinancialResource();
   const { trackPaymentMethodSelection } = usePaymentTelemetry();
-  const { theme } = useTheme();
-
   const backStep = () => updateState('orderStepActive', OrderSection.ADDITIONAL_INFO);
 
   // Función para obtener el valor del plan seleccionado
@@ -80,15 +77,16 @@ export const PaymentMethodOrderModal: FC = () => {
         <h3>Great! Please select your payment method:</h3>
       </div>
 
-      <div className="step-content">
+      <div className="pay-methods">
         <div
           className="option-card"
           onClick={() => handlePaymentMethodClick(OrderPaymentMethod.CARD, 'stripe')}>
-          <img
-            src={`${import.meta.env.BASE_URL}codefend/credit-card.svg`}
-            alt="Credit Card Icon"
-            style={{ width: '80px', height: 'auto' }}
-          />
+          <span className="pay-method-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <rect x="2.5" y="5" width="19" height="14" rx="2" />
+              <path d="M2.5 9.5h19" />
+            </svg>
+          </span>
           <div className="order-snapshot">
             <div className="top">
               <p>Credit and debit card payment:</p>
@@ -103,11 +101,12 @@ export const PaymentMethodOrderModal: FC = () => {
         <div
           className="option-card"
           onClick={() => handlePaymentMethodClick(OrderPaymentMethod.CRYPTO, 'crypto')}>
-          <img
-            src={`${import.meta.env.BASE_URL}codefend/btc.svg`}
-            alt="Cryptocurrency Icon"
-            style={{ width: '80px', height: '80px' }}
-          />
+          <span className="pay-method-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="8.5" />
+              <path d="M10 8.2h3.2a1.8 1.8 0 0 1 0 3.6H10zM10 11.8h3.6a1.8 1.8 0 0 1 0 3.6H10zM11.2 6.8v10.4M13.2 6.8v10.4" />
+            </svg>
+          </span>
           <div className="order-snapshot">
             <div className="top">
               <p>Cryptocurrency payment:</p>
@@ -122,11 +121,13 @@ export const PaymentMethodOrderModal: FC = () => {
         <div
           className="option-card"
           onClick={() => handlePaymentMethodClick(OrderPaymentMethod.BANK_TRANSFER, 'bank')}>
-          <img
-            src={`${import.meta.env.BASE_URL}codefend/brand-new-${theme}.svg`}
-            alt="Bank Transfer Icon"
-            style={{ width: '80px', height: '80px' }}
-          />
+          <span className="pay-method-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <path d="M4 10.5 12 5l8 5.5" />
+              <path d="M6 10.5V18M10 10.5V18M14 10.5V18M18 10.5V18" />
+              <path d="M4 18h16" />
+            </svg>
+          </span>
           <div className="order-snapshot">
             <div className="top">
               <p>Bank transfer / bank wire:</p>
