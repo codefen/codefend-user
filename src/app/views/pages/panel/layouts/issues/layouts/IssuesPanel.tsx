@@ -1,3 +1,4 @@
+import { PanelInterior } from '@/app/views/pages/panel/layouts/PanelInterior';
 import { type FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { useIssues } from '@panelHooks/issues/useIssues.ts';
 import { APP_EVENT_TYPE, USER_LOGGING_STATE, type Issues } from '@interfaces/panel.ts';
@@ -47,8 +48,10 @@ const IssuesPanel: FC = () => {
 
   return (
     <SectionTracker sectionName="issues">
-      <main
-        className={`issues-list ${showScreen ? 'actived' : ''} ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
+      <PanelInterior
+        title="Detected issues"
+        ready={showScreen}
+        className={`issues-list ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
         <SelectAnyResourceModal issues={displayIssues} />
         {/* <div className="brightness variant-1"></div> */}
         <section className="left">
@@ -119,7 +122,7 @@ const IssuesPanel: FC = () => {
             />
           </div>
         </section>
-      </main>
+      </PanelInterior>
     </SectionTracker>
   );
 };

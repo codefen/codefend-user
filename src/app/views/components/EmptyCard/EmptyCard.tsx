@@ -18,7 +18,7 @@ class EmptyCard extends PureComponent<EmptyCardProps> {
                 icon
               ) : (
                 <img
-                  src="/codefend/not-allowed.svg"
+                  src={`${import.meta.env.BASE_URL}codefend/not-allowed.svg`}
                   alt="Not allowed icon"
                   decoding="async"
                   loading="lazy"

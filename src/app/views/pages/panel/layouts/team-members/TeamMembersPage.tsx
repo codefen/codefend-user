@@ -1,8 +1,9 @@
+import { PanelInterior } from '@/app/views/pages/panel/layouts/PanelInterior';
 import { useShowScreen } from '#commonHooks/useShowScreen';
 import { useDashboard } from '@panelHooks/index';
 import { VulnerabilitiesStatus } from '@/app/views/components/VulnerabilitiesStatus/VulnerabilitiesStatus';
 import { VulnerabilityRisk } from '@/app/views/components/VulnerabilityRisk/VulnerabilityRisk';
-import { TeamMemberPageHeader } from './components/TeamMemberPageHeader';
+import { AddCollaboratorAction } from './components/TeamMemberPageHeader';
 import { DashboardAddCollaborators } from '../dashboard/components/DashboardAddCollaborators/DashboardAddCollaborators';
 import { DashboardScanStart } from '@/app/views/components/DashboardScanStart/DashboardScanStart';
 import './teammembers.scss';
@@ -196,17 +197,12 @@ export const TeamMembersPage = () => {
   }, []);
   // console.log(data, company.get);
   return (
-    <main
-      className={
-        `team-members ${showScreen ? 'actived' : ''}` +
-        `${!isDesktop ? ' sidebar-mobile-active' : ''}`
-      }>
+    <PanelInterior
+      title="Team members"
+      ready={showScreen}
+      actions={<AddCollaboratorAction />}
+      className={`team-members` + `${!isDesktop ? ' sidebar-mobile-active' : ''}`}>
       <section className="left">
-        {/* Header arriba ocupando todo el ancho */}
-        <div className="box-assets">
-          <TeamMemberPageHeader />
-        </div>
-
         <div className="team-members-two-columns">
           <div className="left-column">
             <div className="card company-info-card">
@@ -298,6 +294,6 @@ export const TeamMembersPage = () => {
         />
         <VulnerabilityRisk vulnerabilityByRisk={data?.issues_share || {}} isLoading={isLoading} />
       </section>
-    </main>
+    </PanelInterior>
   );
 };

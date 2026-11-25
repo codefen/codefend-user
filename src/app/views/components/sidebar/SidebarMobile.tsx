@@ -1,7 +1,5 @@
 import { useUserData } from '#commonUserHooks/useUserData';
 import { useUserRole } from '#commonUserHooks/useUserRole';
-import { ThemeChangerButton } from '@buttons/index';
-import { LogoutIcon } from '@icons';
 import { useEffect, useState, useMemo } from 'react';
 import { useNavigate } from 'react-router';
 import { verifyPath } from '@/app/views/components/sidebar/Sidebar';
@@ -10,22 +8,13 @@ import { SidebarWordmark } from './SidebarWordmark';
 
 // Icono de flecha para colapsar (compartido con desktop)
 const CollapseArrow = ({ isCollapsed, onClick }: { isCollapsed: boolean; onClick: () => void }) => (
-  <div 
-    className={`sidebar-group-arrow ${isCollapsed ? 'collapsed' : ''}`}
-    onClick={onClick}
-  >
-    <svg 
-      width="12" 
-      height="12" 
-      viewBox="0 0 24 24" 
-      fill="none" 
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path 
-        d="M6 9L12 15L18 9" 
-        stroke="currentColor" 
-        strokeWidth="2" 
-        strokeLinecap="round" 
+  <div className={`sidebar-group-arrow ${isCollapsed ? 'collapsed' : ''}`} onClick={onClick}>
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M6 9L12 15L18 9"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
         strokeLinejoin="round"
       />
     </svg>
@@ -47,7 +36,9 @@ const createSidebarData = (
   return {
     Admin: {
       items: [
-        ...(isAdmin || isProviderWithAccess ? [{ title: 'Company Panel', path: '/admin/company', root: isAdmin }] : []),
+        ...(isAdmin || isProviderWithAccess
+          ? [{ title: 'Company Panel', path: '/admin/company', root: isAdmin }]
+          : []),
         ...(isAdmin
           ? [
               { title: 'Landers Monitor', path: '/admin/landers', root: false },
@@ -141,14 +132,12 @@ const getActiveItem = (
 };
 
 export const SidebarMobile = ({
-  isCompanyPage,
   isProviderWithAccess,
   isOpen,
   closeSidebar,
   email,
   companyName,
 }: {
-  isCompanyPage: boolean;
   isProviderWithAccess: boolean;
   isOpen: boolean;
   closeSidebar: () => void;
@@ -159,7 +148,14 @@ export const SidebarMobile = ({
 
   // Memoizar sidebarData para evitar recreación constante
   const sidebarData = useMemo(
-    () => createSidebarData(isAdmin(), isProvider(), isReseller(), isNormalUser(), isProviderWithAccess),
+    () =>
+      createSidebarData(
+        isAdmin(),
+        isProvider(),
+        isReseller(),
+        isNormalUser(),
+        isProviderWithAccess
+      ),
     [isAdmin, isProvider, isReseller, isNormalUser, isProviderWithAccess]
   );
 
@@ -225,10 +221,11 @@ export const SidebarMobile = ({
   const currentSectionItems = sidebarData[activeSection]?.items || [];
 
   return (
-    <div
-      className={`sidebar-mobile ${isOpen ? 'sidebar-open' : ''}`}>
+    <div className={`sidebar-mobile ${isOpen ? 'sidebar-open' : ''}`}>
       <div className="sidebar-mobile-header">
-        <div className="sidebar-header-title">{isCompanyPage && <SidebarWordmark />}</div>
+        <div className="sidebar-header-title">
+          <SidebarWordmark />
+        </div>
         <div className={`sidebar-tabs ${contentVisible ? 'visible' : ''}`}>
           <div className="sidebar-tab-container">
             {Object.keys(sidebarData).map(section => (
@@ -247,12 +244,13 @@ export const SidebarMobile = ({
         <div className={`sidebar-content-container ${contentVisible ? 'visible' : ''}`}>
           <div className="sidebar-group-title-container">
             <h3>{activeSection}</h3>
-            <CollapseArrow 
+            <CollapseArrow
               isCollapsed={collapsedSections.has(activeSection)}
               onClick={() => toggleSectionCollapse(activeSection)}
             />
           </div>
-          <div className={`sidebar-content-items ${collapsedSections.has(activeSection) ? 'collapsed' : ''}`}>
+          <div
+            className={`sidebar-content-items ${collapsedSections.has(activeSection) ? 'collapsed' : ''}`}>
             {currentSectionItems.map(item => (
               <button
                 key={`${activeSection}-${item.title}`}
@@ -276,17 +274,7 @@ export const SidebarMobile = ({
               <span className="user-email">{email}</span>
               <span className="user-company">{companyName}</span>
             </div>
-            {isCompanyPage ? (
-              <SidebarAccountActions onSignOut={logout} />
-            ) : (
-              <div className="sidebar-footer-actions">
-                <ThemeChangerButton className="sidebar-footer-theme-changer" text="Theme" />
-                <button className="no-border no-outline sidebar-footer-logout" onClick={logout}>
-                  <LogoutIcon width={1.1} height={1.1} />
-                  Logout
-                </button>
-              </div>
-            )}
+            <SidebarAccountActions onSignOut={logout} />
           </div>
         </div>
       </div>

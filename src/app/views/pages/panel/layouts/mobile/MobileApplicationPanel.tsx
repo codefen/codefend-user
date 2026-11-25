@@ -50,6 +50,7 @@ const MobileApplicationPanel: FC = () => {
   };
   return (
     <EmptyLayout
+      title="Mobile apps"
       className={`mobile ${!Boolean(data.length) && 'empty-active'}`}
       fallback={mobileEmptyScreen}
       event={refresh}

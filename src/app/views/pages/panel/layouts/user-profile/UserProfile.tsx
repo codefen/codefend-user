@@ -1,3 +1,4 @@
+import { PanelInterior } from '@/app/views/pages/panel/layouts/PanelInterior';
 import { useShowScreen } from '#commonHooks/useShowScreen';
 import { UserPassword } from './component/UserPassword';
 import { UserQr } from './component/UserQr';
@@ -28,20 +29,12 @@ export const UserProfilePage = () => {
   }, []);
 
   return (
-    <main
-      className={`user-profile ${showScreen ? 'actived' : ''} ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
+    <PanelInterior
+      title="User profile"
+      ready={showScreen}
+      description="Manage your password and two-factor authentication."
+      className={`user-profile ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
       <section className="left">
-        <div className="card rectangle">
-          <div className="over">
-            <div className="header-content">
-              <h2>User profile</h2>
-              <p>
-                Here you can update your password. We recommend storing it with KeePass. You can
-                also enable two-factor authentication to improve your account security.
-              </p>
-            </div>
-          </div>
-        </div>
         <div className="box-assets">
           <UserPassword />
           <UserQr />
@@ -55,6 +48,6 @@ export const UserProfilePage = () => {
         />
         <VulnerabilityRisk vulnerabilityByRisk={data?.issues_share || {}} isLoading={isLoading} />
       </section>
-    </main>
+    </PanelInterior>
   );
 };

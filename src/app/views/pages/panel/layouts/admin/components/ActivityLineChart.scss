@@ -641,29 +641,6 @@
 // Tema oscuro
 [data-theme='dark'] {
   .activity-chart-container {
-    background: var(--primary-color-dark);
-    border-color: var(--primary-color-300-dark);
-
-    // .chart-controls { // Eliminado
-    //   .chart-toggle-btn {
-    //     background: var(--primary-color-dark);
-    //     border-color: var(--primary-color-300-dark);
-    //     color: var(--tertiary-color-100);
-
-    //     &:hover {
-    //       background: var(--primary-color-50-dark);
-    //       border-color: var(--primary-color-400-dark);
-    //       color: var(--tertiary-color-50);
-    //     }
-
-    //     &.active {
-    //       background: var(--secondary-color-50);
-    //       border-color: var(--secondary-color-50);
-    //       color: var(--primary-color-dark);
-    //     }
-    //   }
-    // }
-
     .chart-placeholder {
       color: var(--tertiary-color-300);
     }

@@ -26,7 +26,7 @@ import { useUserRole } from '#commonUserHooks/useUserRole';
 import { verifyPath } from '@/app/views/components/sidebar/Sidebar';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { LogoutIcon, NetworkIcon, RobotFaceIcon } from '@icons';
+import { NetworkIcon, RobotFaceIcon } from '@icons';
 import Show from '@/app/views/components/Show/Show.tsx';
 import ModalWrapper from '@modals/modalwrapper/ModalWrapper.tsx';
 import { NetworkSettingModal } from '@modals/network-modal/NetworkSettingModal.tsx';
@@ -36,10 +36,7 @@ import { MODAL_KEY_OPEN } from '@/app/constants/app-texts.ts';
 import useModalStore from '@stores/modal.store.ts';
 import { Breadcrumb } from '@/app/views/components/utils/Breadcrumb.tsx';
 import { useGlobalFastField } from '@/app/views/context/AppContextProvider.tsx';
-import { ThemeChangerButton } from '@buttons/index.ts';
 import ConfirmModal from '@modals/ConfirmModal.tsx';
-import { useTheme } from '@/app/views/context/ThemeContext';
-import { SunIcon, MoonIcon } from '@icons';
 
 // Icono de flecha para colapsar
 const CollapseArrow = ({ isCollapsed }: { isCollapsed: boolean }) => (
@@ -60,12 +57,10 @@ export const SidebarDesktop = ({
   companies,
   isProviderWithAccess,
   isAuth,
-  isCompanyPage,
 }: {
   companies: any;
   isProviderWithAccess: boolean;
   isAuth: boolean;
-  isCompanyPage: boolean;
 }) => {
   const navigate = useNavigate();
   const { logout, getUserdata } = useUserData();
@@ -80,8 +75,6 @@ export const SidebarDesktop = ({
   const { setIsOpen, setModalId } = useModalStore();
   const isProgressStarted = useGlobalFastField('isProgressStarted');
   const progress = useGlobalFastField('scanProgress');
-  const { theme, changeTheme } = useTheme();
-  // const isDark = theme === 'dark';
 
   // Estado para manejar qué secciones están colapsadas
   const [collapsedSections, setCollapsedSections] = useState<Set<string>>(new Set());
@@ -393,45 +386,13 @@ export const SidebarDesktop = ({
           isOpen={isOpenNetworkSetting.get}
         />
       )}
-      {isCompanyPage ? (
-        <>
-          <button type="button" className="company-sidebar-brand" onClick={openGuide}>
-            <SidebarWordmark />
-          </button>
-          <nav className="company-sidebar-nav" aria-label="Panel navigation">
-            {getItems(newMenuItems)}
-          </nav>
-          <SidebarAccountActions onSignOut={confirmLogout} />
-        </>
-      ) : (
-        <>
-          <div className="sidebar-logo-block" onClick={openGuide}>
-            <SidebarWordmark />
-          </div>
-          {getItems(newMenuItems)}
-          <hr style={{ margin: '18px 0 10px 0', border: 0, borderTop: '1px solid #e0e0e0' }} />
-          <div className="sidebar-group">
-            <SidebarItem
-              id="sidebar_action_theme"
-              title={theme === 'light' ? 'Dark mode' : 'Light mode'}
-              icon={theme === 'light' ? <MoonIcon width={1} height={1} /> : <SunIcon width={1} height={1} />}
-              to="#"
-              isActive={false}
-              isAuth={isAuth}
-              onClick={changeTheme}
-            />
-            <SidebarItem
-              id="sidebar_action_logout"
-              title="Close session"
-              icon={<LogoutIcon width={1} height={1} />}
-              to="#"
-              isActive={false}
-              isAuth={isAuth}
-              onClick={confirmLogout}
-            />
-          </div>
-        </>
-      )}
+      <button type="button" className="panel-sidebar-brand" onClick={openGuide}>
+        <SidebarWordmark />
+      </button>
+      <nav className="panel-sidebar-nav" aria-label="Panel navigation">
+        {getItems(newMenuItems)}
+      </nav>
+      <SidebarAccountActions onSignOut={confirmLogout} />
     </>
   );
 };

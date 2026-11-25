@@ -300,3 +300,68 @@ main.dashboard {
     }
   }
 }
+
+main.dashboard {
+  --dashboard-motion-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+  // Replace the default card entrance, which animates margin and shifts the layout.
+  > :is(.left, .right) > .card:not(.skeleton-card),
+  .box-assets > .card,
+  .card.stat:not(.skeleton-stat) {
+    animation: none;
+  }
+
+  .dashboard-count {
+    display: inline-grid;
+    text-align: end;
+    font-variant-numeric: tabular-nums;
+
+    > span {
+      grid-area: 1 / 1;
+    }
+
+    .dashboard-count-target {
+      opacity: 0;
+    }
+  }
+
+  .table-riskscores .item {
+    transition: background-color 160ms ease;
+
+    &:hover,
+    &:focus-within {
+      background-color: var(--primary-color-50);
+
+      .risk-proportion-fill {
+        filter: brightness(1.18);
+      }
+    }
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  main.dashboard.dashboard-entering {
+    > .right > .risk-chart {
+      .risk-proportion-fill {
+        transform-origin: left center;
+        animation: dashboard-bar-in 650ms var(--dashboard-motion-ease) 670ms backwards;
+      }
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  main.dashboard .table-riskscores .item {
+    transition: none;
+  }
+}
+
+@keyframes dashboard-bar-in {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}

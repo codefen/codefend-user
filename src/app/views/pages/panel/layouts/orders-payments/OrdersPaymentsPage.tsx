@@ -1,3 +1,4 @@
+import { PanelInterior } from '@/app/views/pages/panel/layouts/PanelInterior';
 import { useShowScreen } from '#commonHooks/useShowScreen';
 import SettingOrderAndBilling from '@/app/views/pages/panel/layouts/preferences/components/SettingOrderAndBilling';
 import { useDashboard, usePreferences } from '@panelHooks/index';
@@ -6,7 +7,6 @@ import { VulnerabilityRisk } from '@/app/views/components/VulnerabilityRisk/Vuln
 import { DashboardScanStart } from '@/app/views/components/DashboardScanStart/DashboardScanStart';
 import { useNewPreference } from '@panelHooks/preference/usePreferenceNew';
 import { ProviderScope } from '@modals/order-scope/OrderScope';
-import { OrdersAndPaymentHeaderPage } from '@/app/views/pages/panel/layouts/orders-payments/components/OrdersAndPaymentHeaderPage';
 import './orderspayments.scss';
 import { APP_EVENT_TYPE, USER_LOGGING_STATE } from '@interfaces/panel';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
@@ -33,12 +33,14 @@ export const OrdersPaymentsPage = () => {
   }, []);
 
   return (
-    <main
-      className={`orders-payments ${showScreen ? 'actived' : ''} ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
+    <PanelInterior
+      title="Orders and payments"
+      ready={showScreen}
+      description="View and manage your purchase orders and plans."
+      className={`orders-payments ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
       <ProviderScope />
       <CancelSuscriptionModal />
       <section className="left">
-        <OrdersAndPaymentHeaderPage />
         <VulnerabilitiesStatus vulnerabilityByShare={dashboardData?.issues_condicion || {}} />
         <SettingOrderAndBilling
           isLoading={isLoadingPreference}
@@ -57,6 +59,6 @@ export const OrdersPaymentsPage = () => {
           isLoading={isLoadingDashboard}
         />
       </section>
-    </main>
+    </PanelInterior>
   );
 };

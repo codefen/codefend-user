@@ -1,3 +1,4 @@
+import { PanelInterior } from '@/app/views/pages/panel/layouts/PanelInterior';
 import { Suspense } from 'react';
 import { Outlet } from 'react-router';
 
@@ -9,7 +10,7 @@ import './provider.scss';
 const ProviderPage = () => {
   const [showScreen] = useShowScreen();
   return (
-    <main className={`provider ${showScreen ? 'actived' : ''}`}>
+    <PanelInterior title="Provider workspace" ready={showScreen} className="provider">
       <section className="left">
         <ProviderHeader />
         <div className="provider-content">
@@ -21,7 +22,7 @@ const ProviderPage = () => {
           </div>
         </div>
       </section>
-    </main>
+    </PanelInterior>
   );
 };
 

@@ -1,3 +1,4 @@
+import { PanelInterior } from '@/app/views/pages/panel/layouts/PanelInterior';
 import { useEffect } from 'react';
 import { InxSearchAndData } from './components/InxSearchAndData.tsx';
 import { InxPreviousSearches } from './components/InxPreviousSearches.tsx';
@@ -17,7 +18,7 @@ const InxPanel = () => {
   }, [control]);
 
   return (
-    <main className={`issues-detail ${showScreen ? 'actived' : ''}`}>
+    <PanelInterior title="Intelligence search" ready={showScreen} className="issues-detail">
       <section className="left">
         <InxSearchAndData refetch={refetch} />
       </section>
@@ -25,7 +26,7 @@ const InxPanel = () => {
         <Navbar />
         <InxPreviousSearches isLoading={isLoading} previousSearches={previousSearches || []} />
       </section>
-    </main>
+    </PanelInterior>
   );
 };
 

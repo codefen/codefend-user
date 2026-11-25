@@ -1,3 +1,4 @@
+import { PanelInterior } from '@/app/views/pages/panel/layouts/PanelInterior';
 import { useEffect, useMemo, useState } from 'react';
 import SocialEngineering from './components/SocialEngineering.tsx';
 import LinkedInProfilesView from './components/LinkedInProfilesView.tsx';
@@ -168,8 +169,10 @@ const SocialEngineeringView = () => {
 
   return (
     <SectionTracker sectionName="social">
-      <main
-        className={`social ${showScreen ? 'actived' : ''} ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
+      <PanelInterior
+        title="Social attacks"
+        ready={showScreen}
+        className={`social ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
         <CredentialsModal />
         <AddSocialResourceModal onDone={() => refresh()} />
         <section className="left">
@@ -238,7 +241,7 @@ const SocialEngineeringView = () => {
             scope={OrderSection.SOCIAL_SCOPE}
           />
         </section>
-      </main>
+      </PanelInterior>
     </SectionTracker>
   );
 };

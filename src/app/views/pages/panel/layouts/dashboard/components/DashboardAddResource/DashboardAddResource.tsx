@@ -1,8 +1,15 @@
 import useModalStore from '@stores/modal.store';
 import { MODAL_KEY_OPEN } from '@/app/constants/app-texts';
 import DashboardAssets from '@/app/views/components/DashboardAssets/DashboardAssets';
+import type { ResourceCount } from '@interfaces/dashboard';
 
-export const DashboardAddResource = ({ data }: any | []) => {
+export const DashboardAddResource = ({
+  data,
+  animateMetrics,
+}: {
+  data?: { resources: ResourceCount };
+  animateMetrics?: boolean;
+}) => {
   const { setIsOpen, setModalId } = useModalStore();
   const addResource = () => {
     setIsOpen(true);
@@ -20,7 +27,11 @@ export const DashboardAddResource = ({ data }: any | []) => {
         <p>
           Add resources so we can size your attack surface and design a plan tailored to your needs
         </p>
-        <DashboardAssets resources={data?.resources || {}} borderStyle={true} />
+        <DashboardAssets
+          resources={data?.resources || {}}
+          borderStyle
+          animateMetrics={animateMetrics}
+        />
       </div>
     </div>
   );

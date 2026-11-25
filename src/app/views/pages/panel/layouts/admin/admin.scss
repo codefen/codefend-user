@@ -400,9 +400,6 @@ main.company {
 // Estilos para tema oscuro para la nueva tarjeta
 [data-theme='dark'] {
   .card.standard {
-    background: var(--primary-color-400);
-    border-color: var(--primary-color-500);
-
     .header {
       h3 {
         color: var(--tertiary-color-200);

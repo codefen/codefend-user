@@ -1,3 +1,4 @@
+import { PanelInterior } from '@/app/views/pages/panel/layouts/PanelInterior';
 import { useShowScreen } from '#commonHooks/useShowScreen';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider';
 import { ScanSection } from '@/app/views/pages/panel/layouts/scans/ScanSection/ScanSection';
@@ -34,7 +35,10 @@ export const ScansPage = () => {
 
   return (
     <SectionTracker sectionName="scans">
-      <main className={`scans ${showScreen ? 'actived' : ''} ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
+      <PanelInterior
+        title="AI Surveillance"
+        ready={showScreen}
+        className={`scans ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
         <section className="left">
           {/* Cards móviles - se muestran solo en móvil */}
           <div className="mobile-cards">
@@ -45,7 +49,10 @@ export const ScansPage = () => {
                   <StatIcon />
                   AI Surveillance
                 </h3>
-                <p>Comprehensive AI-powered security analysis combining automated scans and continuous surveillance of your web applications.</p>
+                <p>
+                  Comprehensive AI-powered security analysis combining automated scans and
+                  continuous surveillance of your web applications.
+                </p>
               </div>
             </div>
           </div>
@@ -66,7 +73,7 @@ export const ScansPage = () => {
             Available: {globalStore.company.get.disponibles_neuroscan}
           </div>
         </section>
-      </main>
+      </PanelInterior>
     </SectionTracker>
   );
 };

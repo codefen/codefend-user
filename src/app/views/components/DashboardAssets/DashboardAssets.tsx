@@ -7,15 +7,23 @@ import { RESOURCE_CLASS } from '@/app/constants/app-texts';
 import css from './dashboardasset.module.scss';
 import { SimpleSection } from '@/app/views/components/SimpleSection/SimpleSection';
 import { StatAsset } from '@/app/views/components/stat-asset/StatAsset';
+import { AnimatedCount } from '@/app/views/components/stat-asset/AnimatedCount';
 
 const hiddenResources = [RESOURCE_CLASS.CLOUD, RESOURCE_CLASS.SOURCE];
 
 export const DashboardAssets: FC<{
-  resources: ResourceCount;
+  resources: Partial<ResourceCount>;
   hasTitle?: boolean;
   disabled?: boolean;
   borderStyle?: boolean;
-}> = ({ resources, hasTitle = true, borderStyle = false, disabled = false }) => {
+  animateMetrics?: boolean;
+}> = ({
+  resources,
+  hasTitle = true,
+  borderStyle = false,
+  disabled = false,
+  animateMetrics = false,
+}) => {
   const location = useLocation();
   const navigate = useNavigate();
   const resourceKeys = useMemo(
@@ -45,16 +53,25 @@ export const DashboardAssets: FC<{
     <div className="grid-2x2">
       {Object.keys(resources)
         .filter(resource => !hiddenResources.includes(resource as RESOURCE_CLASS))
-        .map((resource: string | number, i: number) => (
-          <StatAsset
-            key={resourceKeys[i]}
-            valueTitle={mapAssetsNames[resource as keyof typeof mapAssetsNames]}
-            value={resources[resource as keyof typeof resources] || -1}
-            isActive={isActivePath(resource as string)}
-            borderStyle={borderStyle}
-            onClick={() => navigateTo(resource)}
-          />
-        ))}
+        .map((resource, i) => {
+          const value = resources[resource as keyof ResourceCount] ?? -1;
+          return (
+            <StatAsset
+              key={resourceKeys[i]}
+              valueTitle={mapAssetsNames[resource as keyof typeof mapAssetsNames]}
+              value={
+                animateMetrics && value != -1 ? (
+                  <AnimatedCount value={value} delay={450 + i * 55} />
+                ) : (
+                  value
+                )
+              }
+              isActive={isActivePath(resource)}
+              borderStyle={borderStyle}
+              onClick={() => navigateTo(resource)}
+            />
+          );
+        })}
     </div>
   );
 };

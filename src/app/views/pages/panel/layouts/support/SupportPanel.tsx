@@ -1,3 +1,4 @@
+import { PanelInterior } from '@/app/views/pages/panel/layouts/PanelInterior';
 import { useEffect, useState, type FC } from 'react';
 import { SupportChatDisplay } from './components/SupportChatDisplay';
 import { SupportTicketList } from './components/SupportTicketList';
@@ -71,7 +72,10 @@ const SupportPanel: FC = () => {
   }, [dad, getTikets()]);
   return (
     <>
-      <main className={`support ${showScreen ? 'actived' : ''} ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
+      <PanelInterior
+        title="Ask a hacker"
+        ready={showScreen}
+        className={`support ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
         <section className="left">
           {/* Cards móviles - se muestran solo en móvil */}
           <div className="mobile-cards">
@@ -93,7 +97,7 @@ const SupportPanel: FC = () => {
           <AddNewTicketBox />
           <SupportTicketList isLoading={isLoading} tickets={getTikets()} refresh={refresh} />
         </section>
-      </main>
+      </PanelInterior>
     </>
   );
 };

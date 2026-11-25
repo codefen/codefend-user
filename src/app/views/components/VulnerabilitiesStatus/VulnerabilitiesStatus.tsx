@@ -2,30 +2,27 @@ import { type FC } from 'react';
 
 import type { IssuesCondition } from '../../../data';
 import { StatAsset } from '@/app/views/components/stat-asset/StatAsset';
+import { AnimatedCount } from '@/app/views/components/stat-asset/AnimatedCount';
 
 export const VulnerabilitiesStatus: FC<{
   vulnerabilityByShare: IssuesCondition;
   isLoading?: boolean;
+  animateMetrics?: boolean;
 }> = props => {
-  const renderMetrics = () => {
-    return {
-      total: props.vulnerabilityByShare.total ?? 0,
-      fixed: props.vulnerabilityByShare.fixed ?? 0,
-      open: props.vulnerabilityByShare.open ?? 0,
-    };
-  };
-  const showSkeletonTotal = props.isLoading && !renderMetrics().total;
-  const showSkeletonFixed = props.isLoading && !renderMetrics().fixed;
-  const showSkeletonOpen = props.isLoading && !renderMetrics().open;
+  const total = props.vulnerabilityByShare.total ?? 0;
+  const fixed = props.vulnerabilityByShare.fixed ?? 0;
+  const open = props.vulnerabilityByShare.open ?? 0;
+  const metric = (value: string | number, delay: number) =>
+    props.animateMetrics ? <AnimatedCount value={value} delay={delay} /> : value;
 
   return (
     <div className="flex-box status-card-container">
       <StatAsset
         value={
-          !showSkeletonOpen ? (
+          !(props.isLoading && !open) ? (
             <>
-              <span className="codefend-text-red-200">{renderMetrics().open}</span>
-              {`/${renderMetrics().total}`}
+              <span className="codefend-text-red-200">{metric(open, 285)}</span>/
+              {metric(total, 285)}
             </>
           ) : (
             -1
@@ -36,10 +33,9 @@ export const VulnerabilitiesStatus: FC<{
       />
       <StatAsset
         value={
-          !showSkeletonFixed ? (
+          !(props.isLoading && !fixed) ? (
             <>
-              <span>{renderMetrics().fixed}</span>
-              {`/${renderMetrics().total}`}
+              <span>{metric(fixed, 340)}</span>/{metric(total, 340)}
             </>
           ) : (
             -1
@@ -48,7 +44,7 @@ export const VulnerabilitiesStatus: FC<{
         valueTitle="Fixed issues"
       />
       <StatAsset
-        value={!showSkeletonTotal ? renderMetrics().total : -1}
+        value={props.isLoading && !total ? -1 : metric(total, 395)}
         valueTitle="Total issues"
       />
     </div>

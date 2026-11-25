@@ -1,3 +1,4 @@
+import { PanelInterior } from '@/app/views/pages/panel/layouts/PanelInterior';
 import { useEffect, type FC } from 'react';
 import SnPreviousSearches from './components/SnPreviousSearches.tsx';
 import SnsCardTitle from './components/SnsCardTitle';
@@ -32,7 +33,10 @@ const SnsPanel: FC = () => {
 
   return (
     <>
-      <main className={`sb ${showScreen ? 'actived' : ''} ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
+      <PanelInterior
+        title="Dataleaks explorer"
+        ready={showScreen}
+        className={`sb ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
         <section className="left">
           {/* Cards móviles - se muestran solo en móvil */}
           <div className="mobile-cards">
@@ -66,7 +70,7 @@ const SnsPanel: FC = () => {
           </div>
           <SnPreviousSearches isLoading={isLoading} previousSearches={previousSearches || []} />
         </section>
-      </main>
+      </PanelInterior>
     </>
   );
 };

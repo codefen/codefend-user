@@ -6,6 +6,9 @@
   --space-4: 16px;
   --space-5: 20px;
   --space-6: 24px;
+  --space-7: 28px;
+  --panel-desktop-heading-height: 76px;
+  --panel-interior-inset: clamp(var(--space-4), 2vw, var(--space-7));
   --panel-inset: var(--space-5);
   --panel-block-inset: var(--space-5);
   --section-header-inset: var(--space-4);

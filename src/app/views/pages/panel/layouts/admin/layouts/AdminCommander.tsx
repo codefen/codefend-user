@@ -1,4 +1,6 @@
+import { PanelInterior } from '@/app/views/pages/panel/layouts/PanelInterior';
 import { type FC } from 'react';
+import { Link } from 'react-router';
 import { useMediaQuery } from 'usehooks-ts';
 import { useShowScreen } from '#commonHooks/useShowScreen';
 import '../../user-profile/userprofile.scss';
@@ -24,9 +26,7 @@ const QuickVariablesCard: FC = () => {
         <div className="header">
           <h2 className="table-title">Quick variables</h2>
         </div>
-        <p>
-          Configuración rápida de variables y ajustes del sistema.
-        </p>
+        <p>Configuración rápida de variables y ajustes del sistema.</p>
         <PrimaryButton
           click={handleQuickVariables}
           text="Abrir Variables"
@@ -58,7 +58,10 @@ const OnboardingCard: FC = () => {
           <h2 className="table-title">onboard</h2>
         </div>
         <p>
-          Inicia el proceso de bienvenida y configuración inicial del sistema.{' '}<a href="#" onClick={handleOnboarding} style={{color:'#168cb5', fontWeight:700}}>abrir onboard</a>
+          Inicia el proceso de bienvenida y configuración inicial del sistema.{' '}
+          <a href="#" onClick={handleOnboarding} style={{ color: '#168cb5', fontWeight: 700 }}>
+            abrir onboard
+          </a>
         </p>
       </div>
     </div>
@@ -76,10 +79,10 @@ const QuicklinksCard: FC = () => {
         <p>Accesos rápidos hacia las secciónes de mayor relevancia</p>
         <ul className="quicklinks-list">
           <li>
-            <a href="/admin/landers">Landers monitor</a>
+            <Link to="/admin/landers">Landers monitor</Link>
           </li>
           <li>
-            <a href="/admin/company">Company panel</a>
+            <Link to="/admin/company">Company panel</Link>
           </li>
         </ul>
       </div>
@@ -92,23 +95,19 @@ const AdminCommander: FC = () => {
   const isDesktop = useMediaQuery('(min-width: 1230px)');
 
   return (
-    <main className={`user-profile ${showScreen ? 'actived' : ''} ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
+    <PanelInterior
+      title="Admin Commander"
+      ready={showScreen}
+      description="Funciones administrativas para gestión de empresas y datos del sistema."
+      className={`user-profile ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
       <section className="left">
         <Navbar />
-        <div className="card rectangle">
-          <div className="over">
-            <div className="header-content">
-              <h2>Admin Commander</h2>
-              <p>Funciones administrativas para gestión de empresas y datos del sistema.</p>
-            </div>
-          </div>
-        </div>
-        
+
         {/* Contenedor fluido para todas las tarjetas */}
         <div className="panel-card-grid">
           {/* Crear nueva compañía */}
           <CreateCompany />
-          
+
           <DeleteNeuroscans />
           <QuickVariablesCard />
 
@@ -116,13 +115,13 @@ const AdminCommander: FC = () => {
           <OnboardingCard />
         </div>
       </section>
-      
+
       <section className="right">
         {/* Quicklinks */}
         <QuicklinksCard />
       </section>
-    </main>
+    </PanelInterior>
   );
 };
 
-export default AdminCommander; 
+export default AdminCommander;

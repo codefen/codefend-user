@@ -20,6 +20,7 @@ interface Company {
 }
 
 interface CompanyWorldMapProps {
+  onLoadSettled?: (ready: boolean) => void;
   companies: Company[];
   title?: string;
   isLoading?: boolean;
@@ -164,6 +165,7 @@ const locationColumns: ColumnTableV3[] = [
 
 export const CompanyWorldMap: FC<CompanyWorldMapProps> = ({
   companies,
+  onLoadSettled,
   title = 'Global companies distribution',
   isLoading = false,
 }) => {
@@ -253,18 +255,20 @@ export const CompanyWorldMap: FC<CompanyWorldMapProps> = ({
     const loadWorldData = async () => {
       try {
         const response = await fetch(
-          'https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson'
+          'https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson',
+          { signal: AbortSignal.timeout(8000) }
         );
         const geoData = await response.json();
         setWorldData(geoData);
-        setIsMapLoading(false);
       } catch (error) {
         console.error('Error loading world data:', error);
+      } finally {
         setIsMapLoading(false);
+        onLoadSettled?.(true);
       }
     };
     loadWorldData();
-  }, []);
+  }, [onLoadSettled]);
 
   // Configurar dimensiones responsivas
   useEffect(() => {

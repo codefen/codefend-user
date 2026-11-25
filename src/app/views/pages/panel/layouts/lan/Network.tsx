@@ -38,6 +38,7 @@ const NetworkPage: FC = () => {
 
   return (
     <EmptyLayout
+      title="Network devices"
       className={`lan ${!isDesktop ? 'sidebar-mobile-active' : ''}`}
       fallback={networkEmptyScreen}
       event={refetch}
@@ -64,7 +65,11 @@ const NetworkPage: FC = () => {
         <div className="card">
           <SimpleSection icon={<NetworkOutlineIcon />}>
             <div className="content">
-              <CardsResourcesWan isLoading={isLoading} refetchInternalNetwork={refetch} internalNetwork={networks as any} />
+              <CardsResourcesWan
+                isLoading={isLoading}
+                refetchInternalNetwork={refetch}
+                internalNetwork={networks as any}
+              />
             </div>
           </SimpleSection>
         </div>

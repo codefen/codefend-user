@@ -1,3 +1,4 @@
+import { PanelInterior } from '@/app/views/pages/panel/layouts/PanelInterior';
 import { type FC, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router';
 import { useOneIssue } from '@panelHooks/issues/useOneIssue.ts';
@@ -57,11 +58,7 @@ const IssueUpdate: FC = () => {
 
       // Verificar swipe horizontal de izquierda a derecha
       // Mínimo 100px de distancia horizontal y menos de 100px vertical
-      if (
-        deltaX > 100 &&
-        Math.abs(deltaY) < 100 &&
-        Math.abs(deltaX) > Math.abs(deltaY)
-      ) {
+      if (deltaX > 100 && Math.abs(deltaY) < 100 && Math.abs(deltaX) > Math.abs(deltaY)) {
         // Swipe de izquierda a derecha detectado - navegar al índice
         navigate('/issues');
       }
@@ -80,7 +77,7 @@ const IssueUpdate: FC = () => {
   }, [isMobile, navigate]);
 
   return (
-    <main ref={mainRef} className={`issue-detail ${showScreen ? 'actived' : ''}`}>
+    <PanelInterior title="Issue details" ready={showScreen} ref={mainRef} className="issue-detail">
       <Show when={showScreen} fallback={<PageLoader />}>
         <section className="left">
           <IssueUpdatePanel issueData={getIssue} isLoading={isLoading} />
@@ -90,7 +87,7 @@ const IssueUpdate: FC = () => {
           <IssueChatDisplay id={id || '0'} />
         </section>
       </Show>
-    </main>
+    </PanelInterior>
   );
 };
 

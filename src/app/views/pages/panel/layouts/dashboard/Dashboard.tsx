@@ -1,3 +1,4 @@
+import { PanelInterior } from '@/app/views/pages/panel/layouts/PanelInterior';
 import DashboardVulnerabilities from './components/DashboardVulnerabilities.tsx';
 
 import { useDashboard } from '@panelHooks/dashboard/useDashboard.ts';
@@ -9,17 +10,23 @@ import { DashboardInvoke } from '@/app/views/pages/panel/layouts/dashboard/compo
 import { DashboardAddResource } from '@/app/views/pages/panel/layouts/dashboard/components/DashboardAddResource/DashboardAddResource.tsx';
 import { DashboardAddCollaborators } from '@/app/views/pages/panel/layouts/dashboard/components/DashboardAddCollaborators/DashboardAddCollaborators.tsx';
 import { DashboardScanStart } from '@/app/views/components/DashboardScanStart/DashboardScanStart.tsx';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { APP_EVENT_TYPE, USER_LOGGING_STATE } from '@interfaces/panel.ts';
 import { useGlobalFastFields } from '@/app/views/context/AppContextProvider.tsx';
 import { SectionTracker } from '@/app/views/components/telemetry/SectionTracker';
 import { CardSkeleton } from '@/app/views/components/CardSkeleton/CardSkeleton.tsx';
 import { useMediaQuery } from 'usehooks-ts';
 
+const ENTRANCE_DURATION = 1450;
+
 const Dashboard = () => {
   const [showScreen] = useShowScreen();
   const isDesktop = useMediaQuery('(min-width: 1230px)');
+  const reducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)');
   const { isLoading, data, isScanning, company } = useDashboard();
+  const [entranceComplete, setEntranceComplete] = useState(false);
+  const ready = showScreen && !isLoading;
+  const entering = ready && !entranceComplete && !reducedMotion;
   const { appEvent, userLoggingState, scaningProgress, currentScan, lastScanId } =
     useGlobalFastFields([
       'appEvent',
@@ -39,6 +46,16 @@ const Dashboard = () => {
     document.title = 'Codefend: Dashboard';
   }, []);
 
+  useEffect(() => {
+    if (!ready || entranceComplete) return;
+    if (reducedMotion) {
+      setEntranceComplete(true);
+      return;
+    }
+    const timeout = window.setTimeout(() => setEntranceComplete(true), ENTRANCE_DURATION);
+    return () => window.clearTimeout(timeout);
+  }, [ready, entranceComplete, reducedMotion]);
+
   const openScan = () => {
     if (isScanning.get) {
       currentScan.set(null);
@@ -48,8 +65,11 @@ const Dashboard = () => {
 
   return (
     <SectionTracker sectionName="dashboard">
-      <main
-        className={`dashboard ${showScreen ? 'actived' : ''} ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
+      <PanelInterior
+        title="Dashboard"
+        ready={showScreen}
+        contentReady={!isLoading}
+        className={`dashboard ${!isDesktop ? 'sidebar-mobile-active' : ''} ${entering ? 'dashboard-entering' : ''}`}>
         {/* <div className="brightness variant-1"></div>
       <div className="brightness variant-2"></div> */}
 
@@ -67,7 +87,7 @@ const Dashboard = () => {
             <CardSkeleton />
           )}
           <div className="box-assets">
-            <DashboardAddResource data={data} isLoading={isLoading} />
+            <DashboardAddResource data={data} animateMetrics={entering} />
             <DashboardAddCollaborators isLoading={isLoading} data={data} />
           </div>
         </section>
@@ -78,10 +98,15 @@ const Dashboard = () => {
           <VulnerabilitiesStatus
             isLoading={isLoading}
             vulnerabilityByShare={data?.issues_condicion || {}}
+            animateMetrics={entering}
           />
-          <VulnerabilityRisk vulnerabilityByRisk={data?.issues_share || {}} isLoading={isLoading} />
+          <VulnerabilityRisk
+            vulnerabilityByRisk={data?.issues_share || {}}
+            isLoading={isLoading}
+            disableAnimation={reducedMotion}
+          />
         </section>
-      </main>
+      </PanelInterior>
     </SectionTracker>
   );
 };

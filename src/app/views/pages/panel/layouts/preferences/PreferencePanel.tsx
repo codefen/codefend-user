@@ -1,3 +1,4 @@
+import { PanelInterior } from '@/app/views/pages/panel/layouts/PanelInterior';
 import { usePreferences } from '@panelHooks/preference/usePreferences.ts';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
 import Show from '@/app/views/components/Show/Show.tsx';
@@ -29,7 +30,7 @@ const PreferencePanel = () => {
       <AddCollaboratorModal />
       <ChangePasswordModal />
       <Show when={showScreen} fallback={<PageLoader />}>
-        <main className={`preferences ${showScreen ? 'actived' : ''}`}>
+        <PanelInterior title="Preferences" ready={showScreen} className="preferences">
           <section className="left">
             <SettingCompanyInformation companyInfo={company} />
             <SettingCollaboratorAndTeam
@@ -44,7 +45,7 @@ const PreferencePanel = () => {
             <SettingCompanyInformation companyInfo={company} />
             <SettingPersonalDetails />
           </section>
-        </main>
+        </PanelInterior>
       </Show>
     </>
   );

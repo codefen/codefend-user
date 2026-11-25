@@ -43,6 +43,7 @@ const CloudApplicationPanel: FC = () => {
       <AddCloudModal isOpen={showModal} close={() => setShowModal(false)} onDone={onAdd} />
       <DeleteMobileCloudModal onDone={onDelete} app={{}} />
       <EmptyLayout
+        title="Cloud resources"
         className="mobile cloud"
         fallback={cloudEmptyScreen}
         event={refresh}

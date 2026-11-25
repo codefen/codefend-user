@@ -1,3 +1,4 @@
+import { PanelInterior } from '@/app/views/pages/panel/layouts/PanelInterior';
 import { type CSSProperties, type FC, useEffect, useState } from 'react';
 import { useMediaQuery } from 'usehooks-ts';
 import { useShowScreen } from '#commonHooks/useShowScreen';
@@ -53,20 +54,14 @@ const AdminLanders: FC = () => {
   };
 
   return (
-    <main
-      className={`user-profile ${showScreen ? 'actived' : ''} ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
+    <PanelInterior
+      title="Landers Monitor"
+      ready={showScreen}
+      contentReady={!isLoading}
+      description="Visitas, conversiones y dispositivos de tus páginas de registro."
+      className={`user-profile ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
       <section className="left full-width">
         <Navbar />
-
-        {/* Card 1: Header - Todo el ancho */}
-        <div className="card rectangle">
-          <div className="over">
-            <div className="header-content">
-              <h2>Landers Monitoring</h2>
-              <p>Monitoreo de visitas, conversiones y datos de dispositivos en la tabla landers.</p>
-            </div>
-          </div>
-        </div>
 
         {/* Cards 2 y 3: Gráfico (70%) y Métricas (30%) lado a lado */}
         <div className="landers-layout-container">
@@ -187,7 +182,7 @@ const AdminLanders: FC = () => {
         {/* Card 4: Tabla de datos - Todo el ancho */}
         <DataTableSection currentPeriod={currentPeriod} isLoading={isLoading} />
       </section>
-    </main>
+    </PanelInterior>
   );
 };
 

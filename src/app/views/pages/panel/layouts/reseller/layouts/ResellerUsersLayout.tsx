@@ -1,3 +1,4 @@
+import { PanelInterior } from '@/app/views/pages/panel/layouts/PanelInterior';
 import { useShowScreen } from '#commonHooks/useShowScreen';
 import { useEffect } from 'react';
 import { ResellerHeader } from '../components/ResellerHeader';
@@ -39,7 +40,7 @@ const ResellerUsersLayout = () => {
       }) as any
   );
   return (
-    <main className={`reseller ${showScreen ? 'actived' : ''}`}>
+    <PanelInterior title="Users" ready={showScreen} className="reseller">
       <section className="left">
         <ResellerHeader />
         <div className="reseller-tables table-users">
@@ -60,7 +61,7 @@ const ResellerUsersLayout = () => {
           title="Users by location"
         />
       </section>
-    </main>
+    </PanelInterior>
   );
 };
 export default ResellerUsersLayout;

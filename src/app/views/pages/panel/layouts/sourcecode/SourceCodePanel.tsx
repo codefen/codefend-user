@@ -26,6 +26,7 @@ const SourceCodePanel: FC = () => {
 
   return (
     <EmptyLayout
+      title="Source code"
       className="source-code"
       fallback={sourceEmptyScreen}
       event={refresh}

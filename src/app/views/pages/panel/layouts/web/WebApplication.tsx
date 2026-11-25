@@ -40,6 +40,7 @@ const WebApplicationView = () => {
 
   return (
     <EmptyLayout
+      title="Web software"
       className={`webapp ${!isDesktop ? 'sidebar-mobile-active' : ''}`}
       fallback={webEmptyScreen}
       event={refetch}
@@ -72,9 +73,9 @@ const WebApplicationView = () => {
             />
           </>
         )}
-        
+
         <WebApplicationResources isLoading={isLoading} webResources={webResources} />
-        
+
         {/* En móvil, mostrar el mapa debajo de la tabla */}
         {isMobile && (
           <ServerGeolocationMap

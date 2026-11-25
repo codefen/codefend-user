@@ -1,0 +1,288 @@
+// Interior shell: full-width heading, main pane and optional supporting pane.
+body #root > main.panel-interior {
+  --panel-heading-height: var(--panel-desktop-heading-height);
+  --panel-inset: var(--panel-interior-inset);
+  --panel-divider: 1px solid var(--primary-color-300);
+  --panel-aux-width: clamp(300px, 26vw, 386px);
+  --panel-viewport: 100dvh;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: var(--panel-heading-height) minmax(0, 1fr);
+  align-content: start;
+  width: 100% !important;
+  height: var(--panel-viewport) !important;
+  min-height: 0;
+  max-height: none;
+  margin: 0 !important;
+  padding: 0 !important;
+  gap: 0;
+  overflow: hidden;
+  background: var(--primary-color);
+  scrollbar-color: var(--primary-color-600) transparent;
+  scrollbar-width: thin;
+
+  > .panel-heading {
+    grid-area: 1 / 1 / 2 / -1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--content-gap);
+    padding: var(--space-3) var(--panel-inset);
+    border-block-end: var(--panel-divider);
+    background: var(--primary-color);
+
+    h1 {
+      color: var(--tertiary-color-700);
+      font-size: clamp(24px, 2vw, 30px);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.035em;
+      margin: 0;
+      overflow-wrap: anywhere;
+    }
+
+    p {
+      margin-block-start: var(--space-1);
+      color: var(--tertiary-color-400);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+  }
+
+  .panel-heading-actions {
+    flex: none;
+  }
+
+  > :is(.left, .right) {
+    grid-row: 2;
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+    height: 100%;
+    max-height: none;
+    min-height: 0;
+    margin: 0 !important;
+    padding: 0 !important;
+    gap: 0;
+    overscroll-behavior: contain;
+    scrollbar-color: var(--primary-color-600) transparent;
+    scrollbar-width: thin;
+    overflow: auto;
+    direction: ltr;
+    transition: none;
+    background: var(--primary-color);
+  }
+
+  > .left {
+    grid-column: 1;
+  }
+  > .right {
+    grid-column: 2;
+    border-inline-start: var(--panel-divider);
+  }
+
+  .table-group {
+    --table-search-inset: var(--panel-inset);
+  }
+
+  .over .table-group {
+    --table-search-inset: 0px;
+  }
+
+  .table-group > .table-search-bar {
+    margin-block: 0;
+    padding: var(--space-3) var(--table-search-inset);
+    background: var(--primary-color);
+    animation: none;
+
+    .form-input {
+      width: min(100%, 370px);
+      height: 38px;
+    }
+
+    .form-input input {
+      height: 38px;
+      border: var(--panel-divider);
+      border-radius: 6px;
+      padding-inline-end: var(--space-3);
+      background: var(--primary-color-100);
+    }
+
+    .form-input input:focus-visible {
+      outline: 2px solid var(--secondary-color-50);
+      outline-offset: 2px;
+    }
+  }
+
+  .table > :is(.table-header, .columns-name) {
+    min-height: 40px;
+    font-family: inherit;
+    font-size: 13px;
+    background: var(--primary-color-100);
+  }
+
+  .table > .table-rows-container .item {
+    font-family: inherit;
+    font-size: 13px;
+    border-block-end-color: var(--primary-color-300);
+  }
+
+  > :is(.empty-screen, .loader) {
+    grid-area: 2 / 1 / -1 / -1;
+    min-height: 0;
+    max-height: 100%;
+  }
+
+  // Structural panels have dividers; nested cards (metrics, tiles, dialogs) keep their own surfaces.
+  > :is(.left, .right) > .card:not(.stat, .skeleton-card),
+  > :is(.left, .right) > .scrollable-content > .card:not(.stat, .skeleton-card) {
+    margin: 0;
+    border: 0;
+    border-block-end: var(--panel-divider);
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .panel-heading-actions :is(button, a):focus-visible {
+    outline: 2px solid var(--secondary-color-100) !important;
+    outline-offset: 3px;
+  }
+
+  &:not(.dashboard) > :is(.left, .right) > .card:not(.skeleton-card, .skeleton-stat) {
+    animation: none;
+  }
+
+  @media (min-width: 981px) {
+    &:has(> .right) {
+      grid-template-columns: minmax(0, 1fr) var(--panel-aux-width);
+    }
+  }
+
+  @media (max-width: 1229px) {
+    --panel-viewport: calc(100dvh - 3rem);
+    grid-column: 1 / -1;
+    margin-block-start: 3rem !important;
+  }
+
+  @media (max-width: 980px) {
+    --panel-heading-height: 64px;
+    grid-template-rows: auto;
+    grid-auto-rows: max-content;
+    overflow: hidden auto;
+
+    > .panel-heading {
+      min-height: var(--panel-heading-height);
+      flex-wrap: wrap;
+      gap: var(--space-2);
+    }
+
+    > :is(.left, .right) {
+      grid-column: 1;
+      grid-row: auto;
+      height: auto;
+      container-type: inline-size;
+      overflow: visible;
+    }
+
+    > .left {
+      order: 1;
+    }
+    > .right {
+      order: 2;
+      border-inline-start: 0;
+      border-block-start: var(--panel-divider);
+    }
+
+    > .empty-screen {
+      min-height: calc(var(--panel-viewport) - var(--panel-heading-height));
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body #root > main.panel-interior .card:not(.skeleton-card, .skeleton-stat) {
+    animation: none;
+  }
+}
+
+// Page sections meet edge to edge. Insets belong to their content.
+body #root > main.panel-interior {
+  :is(.panel-card-grid, .landers-layout-container, .chart-section, .box-assets,
+      .team-members-two-columns, .left-column, .right-column, .scrollable-content,
+      .mobile-cards, .mobile-bottom-card) {
+    gap: 0;
+    margin: 0;
+    padding: 0;
+  }
+
+  :is(.left, .right) .card:not(.card .card, .stat, .skeleton-card, .skeleton-stat) {
+    margin: 0 !important;
+    border: 0;
+    border-bottom: var(--panel-divider);
+    border-radius: 0;
+    box-shadow: none;
+    background-color: var(--primary-color);
+    backdrop-filter: none;
+    animation: none;
+  }
+
+  .landers-layout-container .card.standard { padding: 0; }
+  .landers-layout-container .activity-chart-container { border: 0; border-radius: 0; }
+  .vulnerabilities-status-section { margin-top: 0; }
+
+  @media (min-width: 1025px) {
+    .metrics-section, .team-members-two-columns > .right-column {
+      border-inline-start: var(--panel-divider);
+    }
+  }
+
+  @media (min-width: 601px) {
+    .panel-card-grid > .card:nth-child(even) { border-inline-start: var(--panel-divider); }
+  }
+}
+
+body #root > main.panel-interior[aria-busy='true'] {
+  position: relative;
+  overflow: hidden !important;
+
+  > :not(.panel-initial-loader) {
+    visibility: hidden;
+  }
+
+  > .panel-initial-loader {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: var(--primary-color);
+
+    .loader { padding: 0; }
+  }
+}
+
+// The website's top rule and compact primary controls, adapted to the workspace.
+body #root > main.panel-interior {
+  > .panel-heading {
+    background-image: linear-gradient(90deg, var(--secondary-color), #458db4 48%, transparent);
+    background-size: 100% 2px;
+    background-position: top left;
+    background-repeat: no-repeat;
+  }
+
+  :is(.btn-red, .company-create-controls button) {
+    border-radius: 7px;
+    font-weight: 700;
+  }
+
+  :is(button, a, input, select, textarea):focus-visible {
+    outline: 2px solid var(--secondary-color-100) !important;
+    outline-offset: 2px;
+  }
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    :is(.btn-red, .company-create-controls button):enabled {
+      transition: translate 180ms ease, background-color 180ms ease;
+      &:hover { translate: 0 -2px; }
+      &:active { translate: none; }
+    }
+  }
+}

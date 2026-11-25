@@ -1,3 +1,4 @@
+import { PanelInterior } from '@/app/views/pages/panel/layouts/PanelInterior';
 import EmptyScreenView from '@/app/views/components/EmptyScreenView/EmptyScreenView';
 import { PageLoader } from '@/app/views/components/loaders/Loader';
 import Show from '@/app/views/components/Show/Show';
@@ -6,6 +7,7 @@ import { PureComponent, type ReactNode } from 'react';
 
 interface EmptyLayoutProps {
   className: string;
+  title: string;
   children: ReactNode;
   isLoading: boolean;
   showScreen: boolean;
@@ -17,10 +19,14 @@ interface EmptyLayoutProps {
 
 class EmptyLayout extends PureComponent<EmptyLayoutProps> {
   override render() {
-    const { children, className, showScreen, dataAvailable, isLoading, fallback, event } =
+    const { children, className, title, showScreen, dataAvailable, isLoading, fallback, event } =
       this.props;
     return (
-      <main className={`${className} ${showScreen ? 'actived' : ''}`}>
+      <PanelInterior
+        title={title}
+        className={className}
+        ready={showScreen}
+        contentReady={!isLoading}>
         <Show when={!isLoading && dataAvailable}>{children}</Show>
         <Show when={isLoading}>
           <PageLoader />
@@ -34,7 +40,7 @@ class EmptyLayout extends PureComponent<EmptyLayoutProps> {
             event={event}
           />
         </Show>
-      </main>
+      </PanelInterior>
     );
   }
 }

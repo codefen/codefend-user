@@ -1,4 +1,5 @@
-import { useEffect, type FC } from 'react';
+import { PanelInterior } from '@/app/views/pages/panel/layouts/PanelInterior';
+import { useEffect, useState, type FC } from 'react';
 import { useShowScreen } from '#commonHooks/useShowScreen';
 import '../admin.scss';
 import { useUserData } from '#commonUserHooks/useUserData';
@@ -13,6 +14,7 @@ import { useGetCompany } from '@userHooks/admins/useGetCompany';
 import { useMediaQuery } from 'usehooks-ts';
 
 const AdminCompany: FC = () => {
+  const [mapReady, setMapReady] = useState(false);
   const [showScreen] = useShowScreen();
   const { logout, getUserdata, isAuth } = useUserData();
   const { appEvent, userLoggingState } = useGlobalFastFields(['appEvent', 'userLoggingState']);
@@ -31,24 +33,33 @@ const AdminCompany: FC = () => {
 
   return (
     <>
-      <main className={`company admin-company-page ${showScreen ? 'actived' : ''} ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
-        <header className="company-page-heading">
-          <h1>Compañías</h1>
-          <a href="#company-tools" className="company-tools-link">Creación y distribución ↓</a>
-        </header>
+      <PanelInterior
+        title="Compañías"
+        ready={showScreen}
+        contentReady={!companiesLoading && mapReady}
+        actions={
+          <a href="#company-tools" className="company-tools-link">
+            Creación y distribución ↓
+          </a>
+        }
+        className={`company admin-company-page ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
         <section className="left" aria-label="Directorio de compañías">
           <CompanyIndexView />
         </section>
-        <section className="right" id="company-tools" aria-label="Creación y distribución de compañías">
+        <section
+          className="right"
+          id="company-tools"
+          aria-label="Creación y distribución de compañías">
           <Navbar />
           <CreateCompany compact />
           <CompanyWorldMap
+            onLoadSettled={setMapReady}
             companies={companies || []}
             title="Distribución geográfica"
             isLoading={companiesLoading}
           />
         </section>
-      </main>
+      </PanelInterior>
     </>
   );
 };
