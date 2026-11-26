@@ -26,18 +26,18 @@ main.user-profile {
 
     .box-assets {
       display: flex;
-      align-items: flex-start;
-      gap: var(--card-space);
+      align-items: stretch;
+      gap: var(--panel-soft-gap, var(--card-space));
       width: 100%;
       height: fit-content;
-      margin-top: 12px; // Normalizar espaciado con dashboard
+      margin-top: 0;
 
       .card {
         overflow: hidden;
         min-width: 200px;
-
         flex: 1 1 50%;
         height: fit-content;
+        padding: var(--space-5);
       }
     }
 

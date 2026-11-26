@@ -146,7 +146,7 @@ const OpenOrderButton = ({
           <Show when={!hasActiveOrder}>
             <PrimaryButton
               text={
-                type === ResourcesTypes.MOBILE ? 'Start dedicated testing' : 'Request a pentest now'
+                type === ResourcesTypes.MOBILE ? 'Start dedicated testing' : 'Start a pentest'
               }
               click={onOpen}
               className={className}

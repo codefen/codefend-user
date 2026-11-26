@@ -8,6 +8,7 @@ import { PureComponent, type ReactNode } from 'react';
 interface EmptyLayoutProps {
   className: string;
   title: string;
+  titleIcon?: ReactNode;
   children: ReactNode;
   isLoading: boolean;
   showScreen: boolean;
@@ -19,11 +20,21 @@ interface EmptyLayoutProps {
 
 class EmptyLayout extends PureComponent<EmptyLayoutProps> {
   override render() {
-    const { children, className, title, showScreen, dataAvailable, isLoading, fallback, event } =
-      this.props;
+    const {
+      children,
+      className,
+      title,
+      titleIcon,
+      showScreen,
+      dataAvailable,
+      isLoading,
+      fallback,
+      event,
+    } = this.props;
     return (
       <PanelInterior
         title={title}
+        titleIcon={titleIcon}
         className={className}
         ready={showScreen}
         contentReady={!isLoading}>

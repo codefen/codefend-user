@@ -159,9 +159,10 @@ const surveillanceColumns = (handleDomainClick: (domain: string) => void): Colum
   },
 ];
 
+const DEFAULT_SCAN_MODULES = ['webscan', 'subdomains', 'leaks'] as const;
+
 export const ScanSection = () => {
   const [domainScanned, setDomainScanned] = useState<string>('');
-  const [modules, setModules] = useState<('webscan' | 'subdomains' | 'leaks')[]>(['webscan', 'subdomains', 'leaks']);
   const [fetcher] = useFetcher();
   const { autoScan } = useAutoScan();
   const { scans, updateCompany, companyId } = useNewVerifyScanList();
@@ -348,7 +349,6 @@ export const ScanSection = () => {
   }
 
   const startAndAddedDomain = () => {
-    if (!modules.length) { toast.error('Select at least one scan module'); return; }
     if (verifyDomainName(domainScanned || '')) return;
     if (companyIdIsNull(companyId)) return;
 
@@ -377,7 +377,7 @@ export const ScanSection = () => {
 
           // Enviar al backend
           trackScanStart(soloDominio, 'web');
-          autoScan(soloDominio, false, '', 'website', modules)
+          autoScan(soloDominio, false, '', 'website', [...DEFAULT_SCAN_MODULES])
             .then(result => {
               if (apiErrorValidation(result)) {
                 if (result?.error_info === 'neuroscan_unreachable_domain') {
@@ -507,24 +507,24 @@ export const ScanSection = () => {
         isDisabled={loading || inputAnimationStep > 0}
         inputAnimationStep={inputAnimationStep}
       />
-      <fieldset className="scan-module-options"><legend>Scan modules</legend>{([['webscan','AI web scan'],['subdomains','Attack surface'],['leaks','Data leaks']] as const).map(([key,label]) => <label key={key}><input type="checkbox" checked={modules.includes(key)} onChange={() => setModules(current => current.includes(key) ? current.filter(item => item !== key) : [...current,key])} /> {label}</label>)}</fieldset>
       <div className="card">
-        <SimpleSection header={headerContent} icon={<StatIcon />}>
-          {/* Pestañas solo para la ruta unificada */}
+        <SimpleSection
+          header={isUnifiedRoute ? undefined : headerContent}
+          icon={isUnifiedRoute ? undefined : <StatIcon />}>
           {isUnifiedRoute && (
-            <div className="tabs-container">
-              <div className="tabs-header">
-                <button
-                  className={`tab-button ${activeTab === 'scans' ? 'active' : ''}`}
-                  onClick={() => handleTabChange('scans')}>
-                  AI Scans
-                </button>
-                <button
-                  className={`tab-button ${activeTab === 'surveillance' ? 'active' : ''}`}
-                  onClick={() => handleTabChange('surveillance')}>
-                  Web Surveillance
-                </button>
-              </div>
+            <div className="scan-quick-filters" role="group" aria-label="Quick filters">
+              <button
+                type="button"
+                className={`quick-filter ${activeTab === 'scans' ? 'active' : ''}`}
+                onClick={() => handleTabChange('scans')}>
+                AI Scans
+              </button>
+              <button
+                type="button"
+                className={`quick-filter ${activeTab === 'surveillance' ? 'active' : ''}`}
+                onClick={() => handleTabChange('surveillance')}>
+                Web Surveillance
+              </button>
             </div>
           )}
           <div className="content">{renderTabContent()}</div>

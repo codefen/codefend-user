@@ -21,6 +21,7 @@ import { useInitialDomainStore } from '@stores/initialDomain.store.ts';
 import { useGetWebResourcesv2 } from '@resourcesHooks/web/useGetWebResourcesv2.ts';
 import Navbar from '@/app/views/components/navbar/Navbar';
 import { useMediaQuery } from 'usehooks-ts';
+import { GlobeWebIcon } from '@icons';
 
 const WebApplicationView = () => {
   const {
@@ -41,6 +42,7 @@ const WebApplicationView = () => {
   return (
     <EmptyLayout
       title="Web software"
+      titleIcon={<GlobeWebIcon />}
       className={`webapp ${!isDesktop ? 'sidebar-mobile-active' : ''}`}
       fallback={webEmptyScreen}
       event={refetch}

@@ -21,10 +21,10 @@ export class SidebarItem extends PureComponent<SidebarItemProps> {
         id={id}
         className={`${isActive ? 'active' : ''}`}
         aria-label={title}
-        onClick={onClick}
-      >
-        {icon ? icon : null}
-        {title}
+        aria-current={isActive ? 'page' : undefined}
+        onClick={onClick}>
+        {icon ? <span className="sidebar-item-icon">{icon}</span> : null}
+        <span className="sidebar-item-label">{title}</span>
       </Link>
     );
   }

@@ -3,13 +3,13 @@ body[data-theme='light'] {
   --primary-color:#ffffff; --primary-color-50:#f7f9fa; --primary-color-100:#f2f5f6; --primary-color-200:#f2f4f5; --primary-color-300:#d9e2e5; --primary-color-400:#edf2f3; --primary-color-500:#e7eef0; --primary-color-600:#cbd9de;
   --secondary-color-mask:#168cb5; --secondary-color:#168cb5; --secondary-color-50:#168cb5; --secondary-color-100:#087da4; --secondary-color-150:#08799d; --secondary-color-200:#087da4; --secondary-color-300:#086784; --secondary-color-400:#075872;
   --tertiary-color-300:#657178; --tertiary-color-400:#46565e; --tertiary-color-450:#34454d; --tertiary-color-500:#20282d; --tertiary-color-600:#20282d; --tertiary-color-700:#17252c;
-  --codefend-color-red:#168cb5; --brd-radius:8px;
+  --codefend-color-red:#168cb5; --brd-radius:16px;
 }
 body[data-theme='dark'] {
   --primary-color:#1d2022; --primary-color-50:#1d2022; --primary-color-100:#17191b; --primary-color-200:#17191b; --primary-color-250:#222628; --primary-color-300:#343b3e; --primary-color-400:#282e31; --primary-color-500:#242a2d; --primary-color-600:#424e53;
   --secondary-color-mask:#72d7f5; --secondary-color:#72d7f5; --secondary-color-50:#72d7f5; --secondary-color-100:#72d7f5; --secondary-color-150:#62c7e8; --secondary-color-200:#72d7f5; --secondary-color-300:#54b9da; --secondary-color-400:#a2e5f8;
   --tertiary-color-50:#f0f5f6; --tertiary-color-100:#e5eff1; --tertiary-color-200:#c7d4d8; --tertiary-color-300:#e5eff1; --tertiary-color-400:#b2c2c6; --tertiary-color-500:#9eafb4; --tertiary-color-600:#aabac0; --tertiary-color-700:#e5eff1;
-  --codefend-color-red:#72d7f5; --brd-radius:8px;
+  --codefend-color-red:#72d7f5; --brd-radius:16px;
 }
 body, body button, body input, body select, body textarea {font-family:Urbanist,Satoshi,system-ui,sans-serif}
 body[data-theme='dark'] {background:#17191b}
@@ -212,70 +212,68 @@ body .sidebar a.active:before {background-color:var(--secondary-color-50)!import
 body .sidebar a.active svg {color:var(--secondary-color-50)!important;fill:none!important}
 body .card.stat:not(.stat-active) .value {color:var(--tertiary-color-400)!important}
 
-/* Continuous desktop columns and thin dividers. */
+/* Soft floating cards across the panel shell. */
 @media (min-width: 1231px) {
   #root {max-width:none; grid-template-columns:var(--sidebar-width) repeat(6,minmax(0,1fr))}
   body .sidebar.desktop-active {left:0; margin:0; border:0; border-right:1px solid var(--primary-color-300); border-radius:0; box-shadow:none}
   body #root > main:not(.auth-pages) {padding:0!important; column-gap:0!important; max-height:none}
-  body #root > main:not(.auth-pages) > .left {min-width:0; margin:0; gap:0}
-  body #root > main:not(.auth-pages) > .right {min-width:0; margin:0; border-left:1px solid var(--primary-color-300); gap:0!important}
-  body #root > main:not(.auth-pages) > .right > .card {margin:0!important; border:0!important; border-bottom:1px solid var(--primary-color-300)!important; border-radius:0!important; box-shadow:none!important}
-  body #root > main:not(.auth-pages) > .left > .card {border:0; border-radius:0; box-shadow:none}
+  body #root > main.panel-interior:not(.auth-pages) {
+    column-gap:var(--panel-soft-pad,16px)!important;
+  }
+  body #root > main.panel-interior:not(.auth-pages) > .left,
+  body #root > main.panel-interior:not(.auth-pages) > .right {
+    min-width:0; margin:0; border-left:0; gap:var(--panel-soft-gap,16px)!important
+  }
+  body #root > main.panel-interior:not(.auth-pages):has(> .right) > .left {
+    padding-inline-end:0!important;
+  }
+  body #root > main.panel-interior:not(.auth-pages):has(> .right) > .right {
+    padding-inline-start:0!important;
+  }
 }
 
-/* Continuous sections for side panels and groups of metrics. */
-body main > .right > .scrollable-content > .card,
-body main > .right > .scrollable-content > .flex-box:has(> .card.stat) {
-  margin:0!important; border:0!important; border-bottom:1px solid var(--primary-color-300)!important;
-  border-radius:0!important; box-shadow:none!important;
+body main.panel-interior > .right > .scrollable-content > .card,
+body main.panel-interior > .right > .card,
+body main.panel-interior > .left > .card,
+body main.panel-interior > .left > .box-assets > .card,
+body main.panel-interior .status-card-container > .card.stat,
+body main.panel-interior .flex-box > .card.stat,
+body main.panel-interior .team-members-two-columns > :is(.left-column,.right-column) > .card {
+  margin:0!important;
+  border:1px solid var(--primary-color-300)!important;
+  border-radius:var(--panel-soft-radius,20px)!important;
+  box-shadow:var(--panel-soft-shadow,0 12px 32px rgba(15,23,28,.08))!important;
+  background:color-mix(in srgb,var(--primary-color) 96%,#fff 4%)!important;
 }
-body main .flex-box:has(> .card.stat) {
-  gap:0!important; background:var(--primary-color); border-bottom:1px solid var(--primary-color-300);
-}
-body main .flex-box > .card.stat {
-  min-width:0; min-height:120px; aspect-ratio:auto; margin:0!important;
-  border:0!important; border-right:1px solid var(--primary-color-300)!important;
-  border-radius:0!important; background:transparent!important; box-shadow:none!important;
-}
-body main .flex-box > .card.stat:last-child {border-right:0!important}
-body main .flex-box > .card.stat .value {font-size:clamp(1.45rem,2vw,1.8rem);line-height:1.15}
-body main .flex-box > .card.stat p {line-height:1.25; overflow-wrap:anywhere}
 
-/* Make the center column use the same fine dividers as the right panel. */
-body main:is(.user-profile,.dashboard,.team-members) > .left > .card.rectangle {
-  border:0!important; border-bottom:1px solid var(--primary-color-300)!important;
-  border-radius:0!important; box-shadow:none!important; margin:0!important;
+body main.panel-interior .flex-box:has(> .card.stat),
+body main.panel-interior .status-card-container,
+body main.panel-interior > .left > .box-assets,
+body main.panel-interior .team-members-two-columns {
+  gap:var(--panel-soft-gap,16px)!important;
+  margin:0!important;
+  border:0!important;
+  background:transparent!important;
 }
-body main:is(.user-profile,.dashboard,.team-members) > .left > .box-assets {
-  gap:0!important; margin:0!important; align-items:stretch;
-  background:var(--primary-color); border-bottom:1px solid var(--primary-color-300);
+
+body main.panel-interior .flex-box > .card.stat,
+body main.panel-interior .status-card-container > .card.stat {
+  min-width:0; min-height:148px; aspect-ratio:auto; overflow:hidden; padding:16px 12px 14px
 }
-/* The introductory rectangle already supplies this divider on the empty dashboard. */
-body main.dashboard > .left > :not(.rectangle) + .box-assets {
-  border-top:1px solid var(--primary-color-300);
+body main.panel-interior .card.scan-start .table-header,
+body main.panel-interior .card.scan-start .columns-name {
+  gap:8px; overflow:hidden
 }
-body main:is(.user-profile,.dashboard,.team-members) > .left > .box-assets > .card {
-  min-width:0; height:auto; margin:0!important; border:0!important;
-  border-radius:0!important; box-shadow:none!important; background:transparent;
+body main.panel-interior .card.scan-start .table-header > *,
+body main.panel-interior .card.scan-start .columns-name > * {
+  min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap
 }
-body main:is(.user-profile,.dashboard,.team-members) > .left > .box-assets > .card + .card {
-  border-left:1px solid var(--primary-color-300)!important;
-}
-body main.team-members .team-members-two-columns {gap:0; margin:0; border-bottom:1px solid var(--primary-color-300)}
-body main.team-members .team-members-two-columns > .left-column {border-right:1px solid var(--primary-color-300)}
-body main.team-members .team-members-two-columns > :is(.left-column,.right-column) > .card {border:0;border-radius:0;box-shadow:none}
+body main.panel-interior .flex-box > .card.stat .value {font-size:clamp(1.45rem,2vw,1.8rem);line-height:1.15}
+body main.panel-interior .flex-box > .card.stat p {line-height:1.25; overflow-wrap:anywhere}
+
+body main.panel-interior.team-members .team-members-two-columns > .left-column {border-right:0}
 @media(min-width:1231px){body main.user-profile{width:100%!important}}
-@container left-main (max-width:640px) {
-  body main.dashboard > .left > .box-assets > .card + .card {
-    border-left:0!important; border-top:1px solid var(--primary-color-300)!important;
-  }
-}
-@container left-main (max-width:600px) {
-  body main.user-profile > .left > .box-assets > .card + .card {
-    border-left:0!important; border-top:1px solid var(--primary-color-300)!important;
-  }
-}
-@media(max-width:1024px){body main.team-members .team-members-two-columns > .left-column {border-right:0;border-bottom:1px solid var(--primary-color-300)}}
+@media(max-width:1024px){body main.team-members .team-members-two-columns > .left-column {border-right:0}}
 
 /* Keep tree lines continuous across row separators. */
 body .item-cell:has(> .sub-domain-icon-v) {overflow:visible}
@@ -320,11 +318,39 @@ body .sub-domain-icon-v {width:1px!important}
 body .sub-domain-icon-h {height:1px!important}
 
 /* Join the web-resource search and table with a single divider. */
-body main.webapp .left .table-search-bar {width:100%;margin:0!important;border-bottom:1px solid var(--primary-color-300);background:var(--primary-color)}
-body main.webapp .left .table-search-bar .form-input {width:100%}
-body main.webapp .left .table-search-bar input {width:100%;height:52px;border:0;border-radius:0;background:transparent}
-body main.webapp .left .table-search-bar + .table {border-radius:0}
-@media(min-width:1231px){body main.webapp > .right {flex:0 0 380px;width:380px;max-width:40vw}}
+body main.webapp .left .table-search-bar {
+  width:100%;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  background:transparent!important;
+}
+body main.webapp .left .table-search-bar .form-input {
+  width:100%!important;
+  max-width:none!important;
+  height:43px;
+  border:1px solid var(--primary-color-300)!important;
+  border-radius:12px!important;
+  background:var(--primary-color)!important;
+}
+body main.webapp .left .table-search-bar input {
+  width:100%!important;
+  max-width:none!important;
+  height:100%!important;
+  border:0!important;
+  border-radius:12px!important;
+  background:transparent!important;
+}
+body main.webapp .left .table-search-bar + .table {
+  border-radius:var(--panel-soft-radius,20px)!important;
+}
+@media(min-width:1231px){
+  body main.webapp.panel-interior > .right {
+    flex:none;
+    width:var(--panel-aux-width,420px);
+    max-width:var(--panel-aux-width,420px);
+  }
+}
 
 /* Recolor legacy embedded-raster artwork, including relative paths. */
 body img[src*="codefend/issues-bug-icon.svg"],
@@ -342,7 +368,9 @@ body img[src*="codefend/issues-bug-icon.svg"], body img[src*="codefend/gota.png"
 
 /* Consistent full-height side panels with the scrollbar beside the content. */
 @media (min-width:1231px) {
- body #root > main:not(.auth-pages) > .right {height:100dvh;max-height:100dvh;top:0;padding-top:0!important;overflow-y:auto;direction:rtl;scrollbar-width:thin;scrollbar-color:var(--primary-color-600) transparent}
+ body #root > main:not(.auth-pages) > .right {height:100dvh;max-height:100dvh;top:0;padding-top:0!important;overflow-y:auto;direction:rtl;scrollbar-width:none}
+ body #root > main.panel-interior > :is(.left,.right) {scrollbar-width:none!important}
+ body #root > main.panel-interior > :is(.left,.right)::-webkit-scrollbar {width:0!important;height:0!important;display:none!important}
  body #root > main:not(.auth-pages) > .right > * {direction:ltr}
  body #root > main.issues-list > .right > .scrollable-content {overflow:visible;flex:none;min-height:0}
 }
@@ -449,3 +477,32 @@ body .sidebar.desktop-active a.active svg[fill="currentColor"] {fill:currentColo
 body .sidebar.desktop-active a:focus-visible {outline:2px solid var(--secondary-color-100);outline-offset:-2px}
 body .sidebar.desktop-active > hr {height:1px;flex:none;border:0;background:var(--primary-color-300);margin:6px 16px 10px}
 body .sidebar.desktop-active > hr + .sidebar-group {margin:0 0 8px}
+
+/* Icon-rail shell: override the labeled sidebar treatment. */
+body .sidebar.desktop-active.panel-sidebar {width:var(--sidebar-width);padding:0}
+body .sidebar.desktop-active.panel-sidebar .sidebar-group {margin:0;padding:6px 0}
+body .sidebar.desktop-active.panel-sidebar .sidebar-group-title-container {display:none!important}
+body .sidebar.desktop-active.panel-sidebar .sidebar-group-content > a,
+body .sidebar.desktop-active.panel-sidebar .panel-sidebar-nav > a {
+  width:44px!important;height:44px!important;min-height:44px!important;max-height:44px!important;
+  margin:0 auto!important;padding:0!important;gap:0!important;border-radius:999px!important;
+  justify-content:center!important;text-align:center!important;font-size:0!important
+}
+body .sidebar.desktop-active.panel-sidebar a.active {
+  background:#72d7f5!important;color:#fff!important;font-weight:700;box-shadow:0 6px 16px rgba(114,215,245,.45)!important
+}
+body[data-theme='dark'] .sidebar.desktop-active.panel-sidebar a.active {
+  background:#72d7f5!important;color:#fff!important
+}
+body .sidebar.desktop-active.panel-sidebar a.active::before {display:none!important}
+body .sidebar.desktop-active.panel-sidebar a.active svg,
+body .sidebar.desktop-active.panel-sidebar a.active .sidebar-item-icon svg {
+  color:#fff!important;stroke:#fff!important
+}
+body .sidebar.desktop-active.panel-sidebar a.active svg[fill="currentColor"] {fill:#fff!important}
+body .sidebar.desktop-active.panel-sidebar .sidebar-item-icon svg {
+  width:18px!important;height:18px!important;flex:none
+}
+/* Kill the global rule that paints active icons the same as the pill. */
+body .sidebar.desktop-active.panel-sidebar a.active svg {color:#fff!important;fill:none!important}
+body .sidebar.desktop-active.panel-sidebar a.active svg[fill="currentColor"] {fill:#fff!important}

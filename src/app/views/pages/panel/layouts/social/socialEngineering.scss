@@ -1,7 +1,71 @@
+body #root > main.social.panel-interior {
+  overflow: auto !important;
+  height: var(--panel-viewport, 100dvh) !important;
+  max-height: var(--panel-viewport, 100dvh) !important;
+  grid-template-rows: var(--panel-heading-height) minmax(0, 1fr);
+  scrollbar-width: none !important;
+
+  &::-webkit-scrollbar {
+    width: 0 !important;
+    height: 0 !important;
+    display: none !important;
+  }
+
+  > .panel-heading {
+    padding-inline: var(--panel-soft-pad, 16px);
+
+    h1 {
+      font-size: clamp(18px, 1.55vw, 22px);
+      letter-spacing: -0.03em;
+    }
+
+    .panel-heading-icon {
+      width: 0.92em;
+      height: 0.92em;
+    }
+  }
+
+  > :is(.left, .right) {
+    width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    scrollbar-width: none !important;
+    padding: var(--panel-soft-pad, 16px) !important;
+    gap: var(--panel-soft-gap, 16px) !important;
+  }
+
+  @media (min-width: 981px) {
+    column-gap: var(--panel-soft-pad, 16px);
+
+    > .left {
+      padding-inline-end: 0 !important;
+    }
+
+    > .right {
+      padding-inline-start: 0 !important;
+      position: sticky;
+      top: calc(var(--panel-heading-height) + var(--panel-soft-pad, 16px));
+      align-self: start;
+    }
+  }
+}
+
+html:has(main.social),
+body:has(main.social) {
+  scrollbar-width: none;
+  overflow: hidden;
+}
+
+html:has(main.social)::-webkit-scrollbar,
+body:has(main.social)::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
 main.social {
   .left {
-    width: 70%;
-
     // Cards móviles - ocultas por defecto en desktop
     .mobile-cards {
       display: none;
@@ -14,7 +78,7 @@ main.social {
 
     .search-container {
       position: relative;
-      margin-bottom: 1rem;
+      margin-bottom: 0;
 
       .search-indicator {
         position: absolute;
@@ -34,7 +98,49 @@ main.social {
       }
     }
 
-    // Estilos para las pestañas (copiados exactamente de AI Surveillance)
+    .social-quick-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 14px var(--panel-inset, 16px) 4px;
+
+      .quick-filter {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        min-height: 32px;
+        padding: 0 12px;
+        border: 1px solid var(--primary-color-300);
+        border-radius: 999px;
+        background: var(--primary-color);
+        color: var(--tertiary-color-450);
+        font-size: 12px;
+        font-weight: 650;
+        cursor: pointer;
+        transition:
+          background-color 160ms ease,
+          border-color 160ms ease,
+          color 160ms ease;
+
+        &:hover {
+          color: var(--secondary-color-50);
+          border-color: color-mix(in srgb, var(--secondary-color-50) 40%, var(--primary-color-300));
+        }
+
+        &.active {
+          color: #11272e;
+          background: #72d7f5;
+          border-color: #72d7f5;
+        }
+
+        svg {
+          width: 14px;
+          height: 14px;
+        }
+      }
+    }
+
+    // Legacy tab styles kept for other social views if needed
     .tabs-container {
       margin-bottom: 1rem;
       border-bottom: 1px solid var(--borders-color);
@@ -92,8 +198,8 @@ main.social {
     .table {
       min-width: 700px;
       .rows {
-        overflow: auto;
-        max-height: calc(100cqh - 6rem);
+        overflow: visible;
+        max-height: none;
       }
 
       .item {
@@ -101,14 +207,17 @@ main.social {
       }
     }
 
-    .card .content-grid {
-      max-height: calc(100cqh - 170px);
-      overflow-y: auto;
+    > .card,
+    .card .content-grid,
+    .card .content {
+      max-height: none !important;
+      overflow: visible !important;
+      scrollbar-width: none !important;
     }
 
     .members-list {
-      overflow: auto;
-      max-height: calc(100cqh - 6rem);
+      overflow: visible !important;
+      max-height: none !important;
     }
   }
 

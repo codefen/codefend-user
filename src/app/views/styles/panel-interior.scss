@@ -3,8 +3,12 @@ body #root > main.panel-interior {
   --panel-heading-height: var(--panel-desktop-heading-height);
   --panel-inset: var(--panel-interior-inset);
   --panel-divider: 1px solid var(--primary-color-300);
-  --panel-aux-width: clamp(300px, 26vw, 386px);
+  --panel-aux-width: 420px;
   --panel-viewport: 100dvh;
+  --panel-soft-radius: 20px;
+  --panel-soft-gap: var(--space-4);
+  --panel-soft-pad: var(--space-4);
+  --panel-soft-shadow: 0 12px 32px rgba(15, 23, 28, 0.08);
   display: grid !important;
   grid-template-columns: minmax(0, 1fr);
   grid-template-rows: var(--panel-heading-height) minmax(0, 1fr);
@@ -17,9 +21,17 @@ body #root > main.panel-interior {
   padding: 0 !important;
   gap: 0;
   overflow: hidden;
-  background: var(--primary-color);
-  scrollbar-color: var(--primary-color-600) transparent;
-  scrollbar-width: thin;
+  background:
+    radial-gradient(ellipse at 12% 0%, color-mix(in srgb, var(--secondary-color-50) 14%, transparent), transparent 42%),
+    radial-gradient(ellipse at 88% 8%, color-mix(in srgb, #458db4 8%, transparent), transparent 36%),
+    var(--primary-color-50, var(--primary-color));
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
+  }
 
   > .panel-heading {
     grid-area: 1 / 1 / 2 / -1;
@@ -28,10 +40,14 @@ body #root > main.panel-interior {
     justify-content: space-between;
     gap: var(--content-gap);
     padding: var(--space-3) var(--panel-inset);
-    border-block-end: var(--panel-divider);
-    background: var(--primary-color);
+    border-block-end: none;
+    background: transparent;
+    backdrop-filter: none;
 
     h1 {
+      display: flex;
+      align-items: center;
+      gap: 12px;
       color: var(--tertiary-color-700);
       font-size: clamp(24px, 2vw, 30px);
       font-weight: 700;
@@ -39,6 +55,20 @@ body #root > main.panel-interior {
       letter-spacing: -0.035em;
       margin: 0;
       overflow-wrap: anywhere;
+    }
+
+    .panel-heading-icon {
+      display: grid;
+      place-items: center;
+      flex: none;
+      width: 1.05em;
+      height: 1.05em;
+      color: var(--secondary-color-50);
+
+      svg {
+        width: 100%;
+        height: 100%;
+      }
     }
 
     p {
@@ -49,12 +79,93 @@ body #root > main.panel-interior {
     }
   }
 
+  .panel-heading-search {
+    flex: 1 1 280px;
+    min-width: 180px;
+    max-width: 420px;
+    margin-inline: auto 0;
+
+    .form-input,
+    input {
+      width: 100%;
+      height: 40px;
+      border-radius: 12px !important;
+    }
+  }
+
   .panel-heading-actions {
     flex: none;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: var(--space-2);
+
+    :is(button, a) {
+      white-space: nowrap;
+      flex: none;
+    }
+  }
+
+  .panel-heading-utils {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-inline-start: 4px;
+  }
+
+  .panel-util-btn {
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    border: 1px solid var(--primary-color-300);
+    border-radius: 999px;
+    background: var(--primary-color-100);
+    color: var(--tertiary-color-500);
+    cursor: pointer;
+    transition:
+      background-color 160ms ease,
+      color 160ms ease,
+      transform 160ms ease,
+      border-color 160ms ease;
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    &:hover {
+      color: var(--secondary-color-50);
+      border-color: color-mix(in srgb, var(--secondary-color-50) 45%, var(--primary-color-300));
+      transform: translateY(-1px);
+    }
+  }
+
+  .panel-heading-utils .action.panel-util-btn {
+    width: 38px;
+    height: 38px;
+    margin: 0;
+    border: 1px solid var(--primary-color-300);
+    border-radius: 999px;
+    background: var(--primary-color-100);
+  }
+
+  .card.title .actions {
+    flex-wrap: nowrap;
+
+    button {
+      white-space: nowrap;
+      flex: none;
+      width: auto;
+      max-width: none;
+    }
   }
 
   > :is(.left, .right) {
     grid-row: 2;
+    display: flex;
+    flex-direction: column;
     width: 100%;
     max-width: none;
     min-width: 0;
@@ -62,15 +173,20 @@ body #root > main.panel-interior {
     max-height: none;
     min-height: 0;
     margin: 0 !important;
-    padding: 0 !important;
-    gap: 0;
+    padding: var(--panel-soft-pad) !important;
+    gap: var(--panel-soft-gap);
     overscroll-behavior: contain;
-    scrollbar-color: var(--primary-color-600) transparent;
-    scrollbar-width: thin;
+    scrollbar-width: none;
     overflow: auto;
     direction: ltr;
     transition: none;
-    background: var(--primary-color);
+    background: transparent;
+
+    &::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+      display: none;
+    }
   }
 
   > .left {
@@ -78,7 +194,9 @@ body #root > main.panel-interior {
   }
   > .right {
     grid-column: 2;
-    border-inline-start: var(--panel-divider);
+    width: var(--panel-aux-width);
+    max-width: var(--panel-aux-width);
+    border-inline-start: 0;
   }
 
   .table-group {
@@ -91,21 +209,23 @@ body #root > main.panel-interior {
 
   .table-group > .table-search-bar {
     margin-block: 0;
-    padding: var(--space-3) var(--table-search-inset);
-    background: var(--primary-color);
+    padding: 0;
+    background: transparent;
     animation: none;
 
     .form-input {
-      width: min(100%, 370px);
-      height: 38px;
+      width: 100%;
+      height: 43px;
+      border: 1px solid var(--primary-color-300);
+      border-radius: 12px;
+      background: var(--primary-color);
     }
 
     .form-input input {
-      height: 38px;
-      border: var(--panel-divider);
-      border-radius: 6px;
-      padding-inline-end: var(--space-3);
-      background: var(--primary-color-100);
+      height: 100%;
+      border: 0;
+      border-radius: 12px;
+      background: transparent;
     }
 
     .form-input input:focus-visible {
@@ -133,14 +253,42 @@ body #root > main.panel-interior {
     max-height: 100%;
   }
 
-  // Structural panels have dividers; nested cards (metrics, tiles, dialogs) keep their own surfaces.
-  > :is(.left, .right) > .card:not(.stat, .skeleton-card),
-  > :is(.left, .right) > .scrollable-content > .card:not(.stat, .skeleton-card) {
-    margin: 0;
-    border: 0;
-    border-block-end: var(--panel-divider);
-    border-radius: 0;
-    box-shadow: none;
+  // Floating soft cards: rounded, spaced, never edge-stuck.
+  > :is(.left, .right) > .card:not(.skeleton-card),
+  > :is(.left, .right) > .scrollable-content > .card:not(.skeleton-card),
+  > :is(.left, .right) .box-assets > .card,
+  > :is(.left, .right) .status-card-container .card.stat,
+  > :is(.left, .right) .panel-card-grid > .card,
+  > :is(.left, .right) .team-members-two-columns > :is(.left-column, .right-column) > .card {
+    margin: 0 !important;
+    border: 1px solid var(--primary-color-300) !important;
+    border-radius: var(--panel-soft-radius) !important;
+    box-shadow: var(--panel-soft-shadow) !important;
+    background: color-mix(in srgb, var(--primary-color) 96%, #fff 4%) !important;
+    backdrop-filter: none;
+    transition:
+      transform 180ms ease,
+      box-shadow 180ms ease,
+      border-color 180ms ease;
+  }
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    > :is(.left, .right) > .card:not(.skeleton-card):hover,
+    > :is(.left, .right) > .scrollable-content > .card:not(.skeleton-card):hover,
+    > :is(.left, .right) .box-assets > .card:hover,
+    > :is(.left, .right) .status-card-container .card.stat:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 34px rgba(15, 23, 28, 0.1);
+      border-color: color-mix(in srgb, var(--secondary-color-50) 40%, var(--primary-color-300)) !important;
+    }
+  }
+
+  :is(input, textarea, select):not([type='checkbox'], [type='radio'], [type='range'], [type='file']) {
+    border-radius: 12px !important;
+  }
+
+  .form-input input {
+    border-radius: 12px !important;
   }
 
   .panel-heading-actions :is(button, a):focus-visible {
@@ -155,6 +303,15 @@ body #root > main.panel-interior {
   @media (min-width: 981px) {
     &:has(> .right) {
       grid-template-columns: minmax(0, 1fr) var(--panel-aux-width);
+      column-gap: var(--panel-soft-pad);
+
+      > .left {
+        padding-inline-end: 0 !important;
+      }
+
+      > .right {
+        padding-inline-start: 0 !important;
+      }
     }
   }
 
@@ -189,6 +346,8 @@ body #root > main.panel-interior {
     }
     > .right {
       order: 2;
+      width: 100%;
+      max-width: none;
       border-inline-start: 0;
       border-block-start: var(--panel-divider);
     }
@@ -205,39 +364,68 @@ body #root > main.panel-interior {
   }
 }
 
-// Page sections meet edge to edge. Insets belong to their content.
+// Soft layout grids: air between cards instead of hairline seams.
 body #root > main.panel-interior {
   :is(.panel-card-grid, .landers-layout-container, .chart-section, .box-assets,
       .team-members-two-columns, .left-column, .right-column, .scrollable-content,
-      .mobile-cards, .mobile-bottom-card) {
-    gap: 0;
+      .mobile-cards, .mobile-bottom-card, .status-card-container) {
+    gap: var(--panel-soft-gap) !important;
     margin: 0;
+  }
+
+  .scrollable-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--panel-soft-gap);
     padding: 0;
   }
 
-  :is(.left, .right) .card:not(.card .card, .stat, .skeleton-card, .skeleton-stat) {
-    margin: 0 !important;
-    border: 0;
-    border-bottom: var(--panel-divider);
-    border-radius: 0;
-    box-shadow: none;
-    background-color: var(--primary-color);
-    backdrop-filter: none;
-    animation: none;
+  .box-assets,
+  .team-members-two-columns,
+  .panel-card-grid,
+  .status-card-container {
+    display: flex;
   }
 
-  .landers-layout-container .card.standard { padding: 0; }
-  .landers-layout-container .activity-chart-container { border: 0; border-radius: 0; }
+  .box-assets .grid-2x2 {
+    gap: var(--panel-soft-gap) !important;
+    width: 100%;
+  }
+
+  .box-assets .grid-2x2 > .card.stat {
+    border: 1px solid var(--primary-color-300) !important;
+    border-radius: 14px !important;
+    box-shadow: none !important;
+    background: var(--primary-color-50, var(--primary-color-100)) !important;
+    min-height: 132px;
+    aspect-ratio: auto;
+  }
+
+  .status-card-container {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .team-members-two-columns {
+    align-items: stretch;
+  }
+
+  .landers-layout-container .card.standard { padding: var(--space-4); }
+  .landers-layout-container .activity-chart-container {
+    border: 1px solid var(--primary-color-300);
+    border-radius: var(--panel-soft-radius);
+  }
   .vulnerabilities-status-section { margin-top: 0; }
 
   @media (min-width: 1025px) {
-    .metrics-section, .team-members-two-columns > .right-column {
-      border-inline-start: var(--panel-divider);
+    .metrics-section,
+    .team-members-two-columns > .right-column {
+      border-inline-start: 0;
     }
   }
 
   @media (min-width: 601px) {
-    .panel-card-grid > .card:nth-child(even) { border-inline-start: var(--panel-divider); }
+    .panel-card-grid > .card:nth-child(even) { border-inline-start: 1px solid var(--primary-color-300); }
   }
 }
 
@@ -256,6 +444,16 @@ body #root > main.panel-interior[aria-busy='true'] {
     background: var(--primary-color);
 
     .loader { padding: 0; }
+  }
+}
+
+body #root > main.panel-interior.dashboard {
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .risk-chart .chart:hover {
+      filter: saturate(1.08);
+      transform: scale(1.01);
+      transition: filter 180ms ease, transform 180ms ease;
+    }
   }
 }
 

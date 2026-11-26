@@ -68,13 +68,7 @@ const SocialEngineering: FC<SocialEngineeringProps> = ({
         </div>
       ))}
       
-      {/* Show skeleton when loading more content */}
       {hasMore && isLoadingMore && <SocialSkeleton count={4} />}
-      
-      {/* Show message only when no more elements and not loading */}
-      {!hasMore && !isLoading && paginatedMembers.length > 0 && (
-        <div className="loading-message">All elements are listed.</div>
-      )}
     </div>
   );
 };

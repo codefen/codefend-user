@@ -12,10 +12,10 @@ import {
   UsersGroupOutline,
   CreditCardIcon,
   GridOutlineIcon,
-  SocialOutlineIcons,
-  DataleakSearchIcon,
+  PeopleGroupIcon,
+  DataleakDropIcon,
   AskQuestionOutlineIcon,
-  DeviceSearchIcon,
+  EyeIcon,
   NetworkOutlineIcon,
 } from '@icons';
 import { LightningIcon } from '../icons/LightningIcon';
@@ -250,7 +250,7 @@ export const SidebarDesktop = ({
         {
           title: 'Social attacks',
           id: 'sidebar_social',
-          icon: <SocialOutlineIcons />,
+          icon: <PeopleGroupIcon />,
           to: '/social',
           root: false,
           haveAccess: isNotProviderAndReseller || isProviderWithAccess,
@@ -285,13 +285,13 @@ export const SidebarDesktop = ({
           id: 'sidebar_ai_surveillance',
           to: '/ai-surveillance',
           root: false,
-          icon: <DeviceSearchIcon />,
+          icon: <EyeIcon />,
           haveAccess: isNotProviderAndReseller || isProviderWithAccess,
         },
         {
           title: 'Dataleaks explorer',
           id: 'sidebar_sns',
-          icon: <DataleakSearchIcon />,
+          icon: <DataleakDropIcon />,
           to: '/sns',
           root: false,
           haveAccess: !isReseller(),
@@ -386,8 +386,8 @@ export const SidebarDesktop = ({
           isOpen={isOpenNetworkSetting.get}
         />
       )}
-      <button type="button" className="panel-sidebar-brand" onClick={openGuide}>
-        <SidebarWordmark />
+      <button type="button" className="panel-sidebar-brand" onClick={openGuide} title="Codefend guide" aria-label="Codefend guide">
+        <SidebarWordmark compact />
       </button>
       <nav className="panel-sidebar-nav" aria-label="Panel navigation">
         {getItems(newMenuItems)}

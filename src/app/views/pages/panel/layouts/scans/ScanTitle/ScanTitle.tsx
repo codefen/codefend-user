@@ -1,9 +1,9 @@
-import { ScanSearchIcon } from '@icons';
+import { EyeIcon } from '@icons';
 import { useLocation } from 'react-router-dom';
 
 export const ScanTitle = () => {
   const location = useLocation();
-  
+
   const isUnifiedRoute = location.pathname.startsWith('/ai-surveillance');
   const isLegacyWebSurveillance = location.pathname.startsWith('/web-surveillance');
 
@@ -26,7 +26,7 @@ export const ScanTitle = () => {
   return (
     <div className="card title">
       <div className="header">
-        <ScanSearchIcon />
+        <EyeIcon />
         <span>{getTitle()}</span>
       </div>
       <div className="content">

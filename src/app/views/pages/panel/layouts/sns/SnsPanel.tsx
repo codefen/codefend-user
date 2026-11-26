@@ -5,14 +5,12 @@ import SnsCardTitle from './components/SnsCardTitle';
 import SnsSearchAndData from './components/SnsSearchAndData.tsx';
 import { useShowScreen } from '#commonHooks/useShowScreen.ts';
 import { usePreviousSearch } from '@moduleHooks/usePreviousSearch.ts';
-import {
-  useGlobalFastField,
-  useGlobalFastFields,
-} from '@/app/views/context/AppContextProvider.tsx';
+import { useGlobalFastFields } from '@/app/views/context/AppContextProvider.tsx';
 import './Sns.scss';
 import { APP_EVENT_TYPE, USER_LOGGING_STATE } from '@interfaces/panel.ts';
 import Navbar from '@/app/views/components/navbar/Navbar';
 import { useMediaQuery } from 'usehooks-ts';
+import { DataleakDropIcon } from '@icons';
 
 const SnsPanel: FC = () => {
   const [showScreen, control, refresh] = useShowScreen();
@@ -35,12 +33,11 @@ const SnsPanel: FC = () => {
     <>
       <PanelInterior
         title="Dataleaks explorer"
+        titleIcon={<DataleakDropIcon />}
         ready={showScreen}
         className={`sb ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
         <section className="left">
-          {/* Cards móviles - se muestran solo en móvil */}
           <div className="mobile-cards">
-            {/* Card de bienvenida */}
             <SnsCardTitle
               arrow="none"
               title="Dataleaks search"
@@ -50,23 +47,24 @@ const SnsPanel: FC = () => {
 
           <SnsSearchAndData refetch={refresh} />
 
-          {/* Badge "Remaining searches" - se muestra solo en móvil */}
           <div className="mobile-bottom-card">
-            <div className="card remaining-searches">
+            <p className="sns-remaining-label">
               Remaining searches: {company.get.disponibles_sns}
-            </div>
+            </p>
           </div>
         </section>
 
         <section className="right">
           <Navbar />
-          <SnsCardTitle
-            arrow="none"
-            title="Dataleaks search"
-            description="Protect your brand.Check our data breach databases to find out if your users or business information has been exposed."
-          />
-          <div className="card remaining-searches">
-            Remaining searches: {company.get.disponibles_sns}
+          <div className="sns-side-block">
+            <SnsCardTitle
+              arrow="none"
+              title="Dataleaks search"
+              description="Protect your brand.Check our data breach databases to find out if your users or business information has been exposed."
+            />
+            <p className="sns-remaining-label">
+              Remaining searches: {company.get.disponibles_sns}
+            </p>
           </div>
           <SnPreviousSearches isLoading={isLoading} previousSearches={previousSearches || []} />
         </section>

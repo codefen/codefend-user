@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { GlobeWebIcon } from '@icons';
+import { DataleakDropIcon } from '@icons';
 import './SnsCardTitle.scss';
 
 interface SnsCardTitleProps {
@@ -66,11 +66,7 @@ const SnsCardTitle: FC<SnsCardTitleProps> = ({
           width: align === 'left' ? '80%' : '100%',
         }}>
         <div className="header">
-          <img
-            src={`${import.meta.env.BASE_URL}codefend/gota.png`}
-            alt="Globe Icon"
-            style={{ width: '18px', height: '24px', marginRight: '8px' }}
-          />
+          <DataleakDropIcon width="18" height="18" />
           <span style={{ verticalAlign: 'middle' }}>{title}</span>
         </div>
         <div className="content">

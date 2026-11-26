@@ -23,22 +23,22 @@ const scanColumns: ColumnTableV3[] = [
     key: 'resource_address',
     render: (value: any) => value,
     styles: 'item-cell-2',
-    weight: '40%',
+    weight: '46%',
   },
   {
-    header: 'total issues',
+    header: 'issues',
     type: TABLE_KEYS.FULL_ROW,
     key: 'm_nllm_issues_parsed',
     render: (value: any) => getTotalIssues(value),
     styles: 'item-cell-3',
-    weight: '25%',
+    weight: '22%',
   },
   {
     header: 'date',
     key: 'creacion',
     render: val => naturalTime(val),
     styles: 'item-cell-1',
-    weight: '35%',
+    weight: '32%',
   },
 ];
 

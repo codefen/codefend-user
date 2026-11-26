@@ -7,21 +7,27 @@ import {
   type ReactNode,
 } from 'react';
 import { PageLoader } from '@/app/views/components/loaders/Loader';
+import { PanelHeadingUtils } from '@/app/views/components/panel/PanelHeadingUtils';
 import { useLocation } from 'react-router';
 
 interface PanelInteriorProps extends ComponentPropsWithRef<'main'> {
   title: string;
+  titleIcon?: ReactNode;
   description?: string;
+  search?: ReactNode;
   actions?: ReactNode;
   ready: boolean;
   contentReady?: boolean;
 }
 
 const easing = 'cubic-bezier(0.22, 0.61, 0.36, 1)';
+const fadeIn = [{ opacity: 0 }, { opacity: 1 }] as Keyframe[];
 
 export const PanelInterior = ({
   title,
+  titleIcon,
   description,
+  search,
   actions,
   ready,
   contentReady = true,
@@ -43,13 +49,7 @@ export const PanelInterior = ({
   useLayoutEffect(() => {
     if (!revealed || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-    const animation = heading.current?.animate(
-      [
-        { opacity: 0, transform: 'translateX(24px)', clipPath: 'inset(0 0 -8px 75%)' },
-        { opacity: 1, transform: 'none', clipPath: 'inset(0 0 -8px 0)' },
-      ],
-      { duration: 470, easing }
-    );
+    const animation = heading.current?.animate(fadeIn, { duration: 240, easing });
     return () => animation?.cancel();
   }, [pathname, revealed]);
 
@@ -102,34 +102,23 @@ export const PanelInterior = ({
       a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1
     );
 
-    const step = Math.min(210, 1850 / Math.max(1, targets.length));
-    const animations = targets.map((node, index) => {
-      const draw = node.matches(
-        '.table-rows-container, .activity-chart-container, .map-container, .chart'
-      );
-      const frames = draw
-        ? [{ clipPath: 'inset(0 0 0 100%)' }, { clipPath: 'inset(0)' }]
-        : [
-            { opacity: 0, translate: '22px 0' },
-            { opacity: 1, translate: '0 0' },
-          ];
-      return node.animate(frames, {
-        duration: draw ? 620 : 410,
-        delay: 180 + index * step,
+    const step = Math.min(42, 320 / Math.max(1, targets.length));
+    const animations = targets.map((node, index) =>
+      node.animate(fadeIn, {
+        duration: 260,
+        delay: 40 + index * step,
         easing,
         fill: 'backwards',
-      });
-    });
+      })
+    );
     if (action) {
       animations.push(
-        action.animate(
-          [
-            { opacity: 0, translate: '16px 0', scale: '0.94' },
-            { opacity: 1, translate: '0 0', scale: '1.025', offset: 0.75 },
-            { opacity: 1, translate: '0 0', scale: '1' },
-          ],
-          { duration: 430, delay: 380 + targets.length * step, easing, fill: 'backwards' }
-        )
+        action.animate(fadeIn, {
+          duration: 220,
+          delay: 70 + targets.length * step,
+          easing,
+          fill: 'backwards',
+        })
       );
     }
     const finish = () => animations.forEach(animation => animation.cancel());
@@ -151,10 +140,17 @@ export const PanelInterior = ({
       {!revealed && <div className="panel-initial-loader" role="status" aria-label="Cargando"><PageLoader /></div>}
       <header className="panel-heading">
         <div className="panel-heading-copy">
-          <h1 ref={heading}>{title}</h1>
+          <h1 ref={heading}>
+            {titleIcon ? <span className="panel-heading-icon">{titleIcon}</span> : null}
+            <span className="panel-heading-title">{title}</span>
+          </h1>
           {description && <p>{description}</p>}
         </div>
-        {actions && <div className="panel-heading-actions">{actions}</div>}
+        {search ? <div className="panel-heading-search">{search}</div> : null}
+        <div className="panel-heading-actions">
+          {actions}
+          <PanelHeadingUtils />
+        </div>
       </header>
       {children}
     </main>

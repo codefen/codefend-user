@@ -1613,15 +1613,16 @@ export const CheckCircleIcon: FC<IconProps> = ({ isVisible }) => (
   </svg>
 );
 
-export const EyeIcon: FC<IconProps> = ({ className }) => (
+export const EyeIcon: FC<IconProps> = ({ className, width = '1.2em', height = '1.2em' }) => (
   <svg
     fill="none"
-    height="1.5rem"
-    width="1.5rem"
+    height={height}
+    width={width}
     viewBox="0 0 24 24"
     strokeWidth={1.5}
     stroke="currentColor"
-    className={className}>
+    className={className}
+    aria-hidden="true">
     <path
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -1959,30 +1960,23 @@ export const SocialOutlineIcons: FC<IconProps> = ({
   </svg>
 );
 
-export const DataleakSearchIcon: FC<IconProps> = ({
+export const DataleakDropIcon: FC<IconProps> = ({
   className,
   width = '1.2em',
   height = '1.2em',
 }) => (
   <svg
     viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
+    fill="currentColor"
     className={className}
     width={width}
     height={height}
-    style={{ overflow: 'visible' } as any}>
-    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-    <path d="M4 6c0 1.657 3.582 3 8 3s8 -1.343 8 -3s-3.582 -3 -8 -3s-8 1.343 -8 3" />
-    <path d="M4 6v6c0 1.657 3.582 3 8 3m8 -3.5v-5.5" />
-    <path d="M4 12v6c0 1.657 3.582 3 8 3" />
-    <path d="M18 18m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
-    <path d="M20.2 20.2l1.8 1.8" />
+    aria-hidden="true">
+    <path d="M12 2.4C12 2.4 5.2 10.1 5.2 14.4a6.8 6.8 0 1 0 13.6 0C18.8 10.1 12 2.4 12 2.4Z" />
   </svg>
 );
+
+export const DataleakSearchIcon: FC<IconProps> = props => <DataleakDropIcon {...props} />;
 
 export const AskQuestionOutlineIcon: FC<IconProps> = ({
   className,

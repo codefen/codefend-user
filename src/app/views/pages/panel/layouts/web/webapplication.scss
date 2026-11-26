@@ -1,78 +1,132 @@
-main.webapp {
-  // Sobrescribir estilos globales de main para evitar conflictos
-  height: auto !important;
-  max-height: none !important;
-  min-height: calc(100vh - 120px); // Ajustar según la altura del header
-  display: flex;
-  overflow: visible; // Permitir scroll natural del documento
-  position: relative;
-  padding-bottom: var(--card-space); // Margen inferior igual al superior
+body #root > main.webapp.panel-interior {
+  overflow: auto !important;
+  height: var(--panel-viewport, 100dvh) !important;
+  max-height: var(--panel-viewport, 100dvh) !important;
+  grid-template-rows: var(--panel-heading-height) minmax(0, 1fr);
+  scrollbar-width: none !important;
 
-  .empty-card-wrapper form .checkbox-container {
+  &::-webkit-scrollbar {
+    width: 0 !important;
+    height: 0 !important;
+    display: none !important;
+  }
+
+  > .panel-heading {
+    padding-inline: var(--panel-soft-pad, 16px);
+
+    h1 {
+      font-size: clamp(18px, 1.55vw, 22px);
+      letter-spacing: -0.03em;
+    }
+
+    .panel-heading-icon {
+      width: 0.92em;
+      height: 0.92em;
+    }
+  }
+
+  > :is(.left, .right) {
+    width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    scrollbar-width: none !important;
+    padding: var(--panel-soft-pad, 16px) !important;
+    gap: var(--panel-soft-gap, 16px) !important;
+  }
+
+  @media (min-width: 981px) {
+    column-gap: var(--panel-soft-pad, 16px);
+
+    > .left {
+      padding-inline-end: 0 !important;
+    }
+
+    > .right {
+      padding-inline-start: 0 !important;
+      position: sticky;
+      top: calc(var(--panel-heading-height) + var(--panel-soft-pad, 16px));
+      align-self: start;
+    }
+  }
+}
+
+html:has(main.webapp),
+body:has(main.webapp) {
+  scrollbar-width: none;
+  overflow: hidden;
+}
+
+html:has(main.webapp)::-webkit-scrollbar,
+body:has(main.webapp)::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
+main.webapp {
+  .empty-card-wrapper .checkbox-container {
     margin-bottom: 1rem;
   }
+
   .left {
-    flex: 1;
-    overflow-y: visible; // Usar scroll natural del documento
-    height: auto; // Altura automática para flujo natural
-    padding-inline-start: 0;
-    min-height: calc(100vh - var(--card-space) * 2 - 60px); // Altura mínima considerando márgenes
-    margin-bottom: var(--card-space); // Margen inferior igual al superior
+    .web-section {
+      display: flex;
+      flex-direction: column;
+      gap: var(--panel-soft-gap, 16px);
+      min-width: 0;
+    }
+
+    .table-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--panel-soft-gap, 16px);
+      min-width: 0;
+    }
+
+    .table-search-bar {
+      margin: 0 !important;
+      padding: 0 !important;
+      border: 0 !important;
+      background: transparent !important;
+      animation: none !important;
+
+      .form-input {
+        width: 100% !important;
+        max-width: none !important;
+        height: 43px;
+        border: 1px solid var(--primary-color-300) !important;
+        border-radius: 12px !important;
+        background: var(--primary-color) !important;
+
+        input {
+          width: 100% !important;
+          max-width: none !important;
+          height: 100%;
+          border: 0 !important;
+          border-radius: 12px !important;
+          background: transparent !important;
+          font-size: 15px;
+          letter-spacing: 0.2px;
+        }
+      }
+    }
 
     .table.table-web {
       background-color: var(--primary-color);
-      border-radius: var(--brd-radius);
+      border-radius: var(--panel-soft-radius, 20px);
+
       .rows {
-        max-height: calc(100cqh - 115px);
+        max-height: none;
       }
     }
 
     .empty-card {
-      min-width: auto; // Permitir que se ajuste en móvil
+      min-width: auto;
     }
-
-    // .search-bar-container {
-    //   margin: 0;
-
-    //   .form-input {
-    //     border: none;
-    //     border-radius: 0;
-    //     background-color: var(--primary-color);
-
-    //     input {
-    //       border: none;
-    //       border-radius: 0;
-    //       box-shadow: none;
-
-    //       &:focus {
-    //         border: none;
-    //         outline: none;
-    //         box-shadow: none;
-    //       }
-    //     }
-
-    //     .icon {
-    //       border-left: none;
-    //     }
-    //   }
-    // }
   }
 
   .right {
-    flex: 0 0 380px;
-    width: 380px;
-    max-width: 40vw;
-    box-sizing: border-box;
-    height: calc(100vh - var(--card-space) * 2 - 60px);
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    position: sticky;
-    top: var(--card-space);
-    scroll-behavior: smooth;
-    scrollbar-width: thin;
-    scrollbar-color: var(--primary-color-300) transparent;
-
     .card.title > .header {
       height: auto;
       min-height: 2.5rem;
@@ -83,13 +137,6 @@ main.webapp {
         white-space: normal;
         line-height: 1.3;
       }
-
-      img {
-        width: 28px;
-        height: 28px;
-        flex: 0 0 28px;
-        object-fit: contain;
-      }
     }
 
     .card.title .actions {
@@ -98,231 +145,49 @@ main.webapp {
       button {
         flex: 1 1 140px;
         min-width: 0;
+        white-space: nowrap;
       }
     }
 
-    &::-webkit-scrollbar {
-      width: 6px;
-    }
-    
-    &::-webkit-scrollbar-track {
-      background: transparent;
-    }
-    
-    &::-webkit-scrollbar-thumb {
-      background-color: var(--primary-color-300);
-      border-radius: 3px;
-      
-      &:hover {
-        background-color: var(--primary-color-400);
-      }
-    }
-    
-    // Navbar y header sticky opcional
     .navbar {
-      flex: 0 0 auto;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      background: var(--primary-color);
+      display: none;
     }
-    
-    // Contenido scrolleable
+
     .scrollable-content {
-      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: var(--panel-soft-gap, 16px);
       min-height: 0;
     }
 
-    .table {
-      .item {
-        .location {
-          .flag {
-            margin-inline-end: 0.75rem;
-                }
+    .table .item .location .flag {
+      margin-inline-end: 0.75rem;
     }
   }
 
-  // Responsive styles
   @media only screen and (max-width: 600px) {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    height: auto;
-    padding: 0;
-    overflow-y: visible !important; // Permitir scroll natural en móvil
-    max-height: none !important; // Remover altura máxima en móvil
-    width: 100% !important; // Forzar ancho completo en móvil
-    min-width: auto !important; // Remover ancho mínimo en móvil
-    margin: 0 !important; // Remover márgenes en móvil
-    box-sizing: border-box !important; // Incluir padding en el ancho
-
-          .left {
-        width: 100%;
-        padding-block-start: 10px;
-        flex: 1;
-        overflow-y: visible; // Usar scroll natural del documento
-        height: auto; // Altura automática para flujo natural
-        display: flex;
-        flex-direction: column;
-        gap: var(--card-space); // Espaciado entre cards en móvil
-
-              // Estilos para las cards movidas a la izquierda en móvil
-        .card {
-          width: 100% !important; // Forzar ancho completo en móvil
-          max-width: 100% !important; // Forzar ancho máximo completo en móvil
-          min-width: auto !important; // Remover ancho mínimo en móvil
-          margin: 0 !important; // Remover márgenes en móvil
-          margin-bottom: var(--card-space) !important; // Margen inferior entre cards
-          box-sizing: border-box !important; // Incluir padding en el ancho
-          
-          &.title {
-            // Card de "Web software"
-            order: 1;
-          }
-          
-          &.flex-box {
-            // Card de estadísticas (3 números)
-            order: 2;
-            
-            .content {
-              width: 100% !important; // Forzar ancho completo en móvil
-              display: flex !important;
-              justify-content: space-around !important;
-              align-items: center !important;
-              
-              .stat {
-                width: 100% !important; // Forzar ancho completo en móvil
-                max-width: 100% !important; // Forzar ancho máximo completo en móvil
-                min-width: auto !important; // Remover ancho mínimo en móvil
-                flex: 1 1 auto !important; // Distribución equitativa
-              }
-            }
-          }
-          
-          &.pentest-btn {
-            // Card de "Professional hackers on demand"
-            order: 3;
-          }
-        }
-
-              // Formulario de búsqueda
-        .search-bar-container,
-        .form-input,
-        input[type="text"],
-        input[type="search"] {
-          width: 100% !important; // Forzar ancho completo en móvil
-          max-width: 100% !important; // Forzar ancho máximo completo en móvil
-          min-width: auto !important; // Remover ancho mínimo en móvil
-          box-sizing: border-box !important; // Incluir padding en el ancho
-        }
-
-        .table.table-web {
-          order: 4; // Tabla después de las cards
-          width: 100% !important; // Forzar ancho completo en móvil
-          max-width: 100% !important; // Forzar ancho máximo completo en móvil
-          min-width: auto !important; // Remover ancho mínimo en móvil
-          box-sizing: border-box !important; // Incluir padding en el ancho
-          
-          .rows {
-            max-height: 60vh; // Ajustar altura en móvil
-          }
-        }
-
-              .server-geolocation-map {
-          order: 5; // Mapa al final
-          width: 100% !important; // Forzar ancho completo en móvil
-          max-width: 100% !important; // Forzar ancho máximo completo en móvil
-          min-width: auto !important; // Remover ancho mínimo en móvil
-          box-sizing: border-box !important; // Incluir padding en el ancho
-        }
-
-      .empty-card {
-        min-width: auto; // Permitir que se ajuste en móvil
-        width: 100% !important; // Forzar ancho completo en móvil
-      }
-    }
-
-                    .right {
-        width: 100%;
-        padding-block-start: 20px;
-        flex: 0 0 auto;
-      }
-  }
-}
-
-    .card.launch-pentest-card {
-      .pentest-info-container {
-        display: flex;
-        width: 100%;
-        align-items: center;
-        margin-inline: auto;
-        justify-content: flex-start;
-        margin-block-end: 1rem;
-        border-bottom: 1px solid var(--primary-color-300);
-        column-gap: 16px;
-
-        img {
-          width: 6rem;
-          height: 6rem;
-          object-fit: cover;
-          object-position: center;
-          max-width: 100%;
-        }
-
-        .main-info-container {
-          display: flex;
-          flex-direction: column;
-          row-gap: 8px;
-
-          & p {
-            display: flex;
-            flex-direction: column;
-            line-height: 23px;
-          }
-        }
-      }
-
-      button.btn.pentest-btn {
-        max-width: 94%;
-        margin-inline: auto;
-        width: 100%;
-        margin-block-end: 0.85rem;
-      }
-    }
-  }
-}
-
-[data-theme='dark'] {
-  .variant-1 {
-    width: 21rem;
-    top: 4dvh;
-    right: 22dvw;
-    filter: blur(125px) brightness(0.34) opacity(0.65);
-  }
-
-  main.webapp {
     .left {
-      .table.table-web {
-        background: var(--primary-color);
-        backdrop-filter: blur(9px) saturate(0.8) contrast(1);
+      display: flex;
+      flex-direction: column;
+      gap: var(--panel-soft-gap, 16px);
+
+      .card {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: auto !important;
+        margin: 0 !important;
+        box-sizing: border-box !important;
+      }
+
+      .table.table-web .rows {
+        max-height: 60vh;
       }
     }
   }
-}
 
-// Ocultar sección derecha en mobile/tablet como hacen las otras secciones
-@media only screen and (max-width: 1000px) {
-  main.webapp .right {
-    display: none !important;
-  }
-}
-@media only screen and (max-width: 680px) {
-  main.webapp .right {
-    display: none !important;
-  }
-}
-@media only screen and (max-width: 600px) {
-  main.webapp .right {
-    display: none !important;
+  @media (max-width: 1000px) {
+    .right {
+      display: none !important;
+    }
   }
 }

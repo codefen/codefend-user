@@ -29,6 +29,7 @@ export const VulnerabilitiesStatus: FC<{
           )
         }
         valueTitle="Open issues"
+        trend={total ? `${Math.round((open / Math.max(total, 1)) * 100)}% open` : undefined}
         isActive
       />
       <StatAsset
@@ -42,10 +43,12 @@ export const VulnerabilitiesStatus: FC<{
           )
         }
         valueTitle="Fixed issues"
+        trend={total ? `${Math.round((fixed / Math.max(total, 1)) * 100)}% fixed` : undefined}
       />
       <StatAsset
         value={props.isLoading && !total ? -1 : metric(total, 395)}
         valueTitle="Total issues"
+        trend={total ? 'tracked' : undefined}
       />
     </div>
   );

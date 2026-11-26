@@ -7,7 +7,8 @@
 // VARIABLES CSS DE SIDEBAR
 // -----------------------------------------------------------------------------
 :root {
-  --sidebar-width: 240px;
+  --sidebar-width: 72px;
+  --sidebar-rail-size: 44px;
 }
 
 // -----------------------------------------------------------------------------
@@ -1224,6 +1225,27 @@ main.sb.sidebar-mobile-active {
     height: auto;
   }
 
+  .sidebar-wordmark--mark {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: color-mix(in srgb, #72d7f5 22%, transparent);
+    color: #168cb5;
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  [data-theme='dark'] & .sidebar-wordmark--mark,
+  :root[data-theme='dark'] & .sidebar-wordmark--mark {
+    background: color-mix(in srgb, #72d7f5 28%, transparent);
+    color: #72d7f5;
+  }
+
   .panel-sidebar-brand,
   .panel-sidebar-actions button {
     font: inherit;
@@ -1270,13 +1292,17 @@ main.sb.sidebar-mobile-active {
 body .sidebar.desktop-active.panel-sidebar {
   padding: 0;
   overflow: hidden;
+  border-radius: 0;
+  border-right: 1px solid var(--primary-color-300);
+  background: color-mix(in srgb, var(--primary-color) 92%, transparent);
 
   .panel-sidebar-brand {
     display: flex;
     align-items: center;
+    justify-content: center;
     flex: 0 0 var(--panel-desktop-heading-height);
     width: 100%;
-    padding-inline: 22px;
+    padding: 0;
     border: 0;
     border-bottom: 1px solid var(--primary-color-300);
     background: transparent;
@@ -1287,33 +1313,151 @@ body .sidebar.desktop-active.panel-sidebar {
     min-height: 0;
     overflow: hidden auto;
     overscroll-behavior-y: contain;
-    scrollbar-width: thin;
-    scrollbar-color: var(--primary-color-300) transparent;
-    padding: 9px 0;
+    scrollbar-width: none;
+    padding: 10px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
   }
 
   .sidebar-group {
-    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    width: 100%;
+    margin: 0;
+    padding: 6px 0;
 
-    &:last-child {
-      margin-bottom: 0;
+    & + .sidebar-group {
+      border-top: 1px solid var(--primary-color-300);
     }
   }
 
   .sidebar-group-title-container {
-    min-height: 29px;
+    display: none;
   }
 
-  .sidebar-group-content > a {
-    height: 34px;
-    min-height: 34px;
+  .sidebar-group-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    width: 100%;
+    max-height: none !important;
+    opacity: 1 !important;
+    overflow: visible;
+  }
+
+  .sidebar-group-content > a,
+  .panel-sidebar-nav > a {
+    width: var(--sidebar-rail-size);
+    height: var(--sidebar-rail-size);
+    min-height: var(--sidebar-rail-size);
+    max-height: var(--sidebar-rail-size);
+    margin: 0;
+    padding: 0;
+    border-radius: 999px;
+    justify-content: center;
+    color: var(--tertiary-color-500);
+    background: transparent;
+    transition:
+      background-color 160ms ease,
+      color 160ms ease,
+      transform 160ms ease,
+      box-shadow 160ms ease;
+
+    .sidebar-item-icon {
+      display: grid;
+      place-items: center;
+      width: 20px;
+      height: 20px;
+    }
+
+    .sidebar-item-icon svg,
+    .sidebar-item-icon img {
+      width: 18px;
+      height: 18px;
+    }
+
+    .sidebar-item-label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    &:hover {
+      color: var(--secondary-color-50);
+      background: var(--primary-color-100);
+      transform: translateY(-1px);
+    }
+
+    &.active {
+      color: #fff;
+      background: #72d7f5;
+      box-shadow: 0 6px 16px color-mix(in srgb, #72d7f5 45%, transparent);
+
+      .sidebar-item-icon,
+      .sidebar-item-icon svg {
+        color: #fff !important;
+        stroke: #fff;
+        fill: none;
+      }
+
+      .sidebar-item-icon svg[fill='currentColor'] {
+        fill: #fff !important;
+      }
+
+      &:hover {
+        color: #fff;
+        background: #72d7f5;
+      }
+    }
   }
 
   .panel-sidebar-actions {
     flex: none;
-    padding: 9px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 0 14px;
     border-top: 1px solid var(--primary-color-300);
-    background: var(--primary-color);
+    background: transparent;
+
+    button {
+      width: var(--sidebar-rail-size);
+      height: var(--sidebar-rail-size);
+      min-height: var(--sidebar-rail-size);
+      padding: 0;
+      border-radius: 999px;
+      gap: 0;
+
+      .sidebar-item-label {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+    }
+  }
+}
+
+@media (max-width: 1229px) {
+  :root {
+    --sidebar-width: 240px;
   }
 }
 

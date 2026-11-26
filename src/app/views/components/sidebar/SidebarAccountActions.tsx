@@ -1,19 +1,11 @@
-import { LogoutIcon, MoonIcon, SunIcon } from '@icons';
-import { useTheme } from '@/app/views/context/ThemeContext';
+import { LogoutIcon } from '@icons';
 
 export const SidebarAccountActions = ({ onSignOut }: { onSignOut: () => void }) => {
-  const { theme, changeTheme } = useTheme();
-  const isLight = theme === 'light';
-
   return (
     <div className="panel-sidebar-actions" role="group" aria-label="Panel controls">
-      <button type="button" onClick={changeTheme}>
-        {isLight ? <MoonIcon width={1} height={1} /> : <SunIcon width={1} height={1} />}
-        {isLight ? 'Dark mode' : 'Light mode'}
-      </button>
-      <button type="button" onClick={onSignOut}>
+      <button type="button" onClick={onSignOut} title="Sign out" aria-label="Sign out">
         <LogoutIcon width={1} height={1} />
-        Sign out
+        <span className="sidebar-item-label">Sign out</span>
       </button>
     </div>
   );

@@ -1,14 +1,71 @@
-main.sb {
-  // Sobrescribir estilos globales de main para evitar conflictos
-  height: auto !important;
-  max-height: none !important;
-  min-height: calc(100vh - 120px); // Ajustar según la altura del header
-  display: flex;
-  overflow: visible; // Permitir scroll natural del documento
-  position: relative;
-  padding-bottom: var(--card-space); // Margen inferior igual al superior
-  max-width: 1800px;
+body #root > main.sb.panel-interior {
+  overflow: auto !important;
+  height: var(--panel-viewport, 100dvh) !important;
+  max-height: var(--panel-viewport, 100dvh) !important;
+  grid-template-rows: var(--panel-heading-height) minmax(0, 1fr);
+  scrollbar-width: none !important;
 
+  &::-webkit-scrollbar {
+    width: 0 !important;
+    height: 0 !important;
+    display: none !important;
+  }
+
+  > .panel-heading {
+    padding-inline: var(--panel-soft-pad, 16px);
+
+    h1 {
+      font-size: clamp(18px, 1.55vw, 22px);
+      letter-spacing: -0.03em;
+    }
+
+    .panel-heading-icon {
+      width: 0.92em;
+      height: 0.92em;
+      color: var(--secondary-color-50);
+    }
+  }
+
+  > :is(.left, .right) {
+    width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    scrollbar-width: none !important;
+    padding: var(--panel-soft-pad, 16px) !important;
+    gap: var(--panel-soft-gap, 16px) !important;
+  }
+
+  @media (min-width: 981px) {
+    column-gap: var(--panel-soft-pad, 16px);
+
+    > .left {
+      padding-inline-end: 0 !important;
+    }
+
+    > .right {
+      padding-inline-start: 0 !important;
+      position: sticky;
+      top: calc(var(--panel-heading-height) + var(--panel-soft-pad, 16px));
+      align-self: start;
+    }
+  }
+}
+
+html:has(main.sb),
+body:has(main.sb) {
+  scrollbar-width: none;
+  overflow: hidden;
+}
+
+html:has(main.sb)::-webkit-scrollbar,
+body:has(main.sb)::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
+main.sb {
   .crack-buttons-container {
     display: flex;
     gap: 12px;
@@ -146,49 +203,43 @@ main.sb {
   }
 
   .left {
-    flex: 1;
-    overflow-y: visible; // Usar scroll natural del documento
-    height: auto; // Altura automática para flujo natural
-    padding-inline-start: 0;
-    min-height: calc(100vh - var(--card-space) * 2 - 60px); // Altura mínima considerando márgenes
-    margin-bottom: var(--card-space); // Margen inferior igual al superior
-
-    // Cards móviles - ocultas por defecto en desktop
     .mobile-cards {
       display: none;
       margin-bottom: 1rem;
-      
+
       .card {
         margin-bottom: 1rem;
       }
     }
 
-    // Card inferior móvil - oculta por defecto en desktop
     .mobile-bottom-card {
       display: none;
       margin-top: 1rem;
     }
 
-    flex: 1 1 65%;
-    overflow-x: hidden;
-
-    .card.title {
-      box-shadow: 0 15px 45px 0 rgb(221 221 221 / 25%);
-
-      /* Sombra grande, difuminada y suave solo para el card title de la izquierda */
-    }
-    // Quitar gap solo en dataleaks/SNS
-    gap: 0 !important;
-    border: none;
-
     .content {
       flex-wrap: wrap;
-
-      /* gap: 20px; */
       padding: 10px;
-      overflow-y: auto;
-      height: 100%;
-      // max-height: 83dvh;
+      overflow: visible;
+      height: auto;
+      max-height: none;
+    }
+
+    .sns-results {
+      margin-bottom: 1.2rem;
+      height: auto;
+      overflow: visible;
+    }
+
+    .sns-empty-state {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 1rem;
+      min-height: 280px;
+      height: auto;
+      overflow: visible;
     }
 
     .search-result {
@@ -253,43 +304,14 @@ main.sb {
   }
 
   .right {
-    flex: 0 0 35%;
-    height: calc(100vh - var(--card-space) * 2 - 60px); // Altura considerando márgenes superior e inferior
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    position: sticky;
-    top: var(--card-space); // Mantener fijo con margen superior
-    
-    // Smooth scrolling para mejor UX
-    scroll-behavior: smooth;
-    scrollbar-width: thin;
-    scrollbar-color: var(--primary-color-300) transparent;
-    
-    &::-webkit-scrollbar {
-      width: 6px;
+    .sns-side-block {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
-    
-    &::-webkit-scrollbar-track {
-      background: transparent;
-    }
-    
-    &::-webkit-scrollbar-thumb {
-      background-color: var(--primary-color-300);
-      border-radius: 3px;
-      
-      &:hover {
-        background-color: var(--primary-color-400);
-      }
-    }
-    
-    // Navbar y header sticky opcional
+
     .navbar {
-      flex: 0 0 auto;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      background: var(--primary-color);
+      display: none;
     }
 
     .card.title.previous-searches {
@@ -300,27 +322,43 @@ main.sb {
       }
 
       .table .rows {
-        max-height: 52cqh;
+        max-height: none;
       }
     }
   }
 
-  // Media queries para responsive - ocultar .right en móvil
+  .sns-remaining-label {
+    margin: 0;
+    padding-inline: 4px;
+    color: var(--tertiary-color-500);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .card.title {
+    overflow: visible !important;
+    scrollbar-width: none !important;
+
+    &::-webkit-scrollbar {
+      width: 0 !important;
+      height: 0 !important;
+      display: none !important;
+    }
+
+    .header svg {
+      color: var(--secondary-color-50);
+      flex: none;
+    }
+  }
+
   @media (max-width: 1000px) {
     .left {
-      flex: 1 1 100% !important;
-      width: 100% !important;
-      max-width: 100% !important;
-      
-      // Mostrar cards móviles
-      .mobile-cards {
-        display: block !important;
-      }
-      
+      .mobile-cards,
       .mobile-bottom-card {
         display: block !important;
       }
-      
+
       .card {
         width: 100% !important;
         max-width: 100% !important;
@@ -328,87 +366,9 @@ main.sb {
         margin: 0 !important;
       }
     }
-    
+
     .right {
       display: none !important;
-    }
-  }
-
-  @media (max-width: 680px) {
-    .left {
-      flex: 1 1 100% !important;
-      width: 100% !important;
-      max-width: 100% !important;
-      
-      // Mostrar cards móviles
-      .mobile-cards {
-        display: block !important;
-      }
-      
-      .mobile-bottom-card {
-        display: block !important;
-      }
-      
-      .card {
-        width: 100% !important;
-        max-width: 100% !important;
-        min-width: auto !important;
-        margin: 0 !important;
-      }
-    }
-    
-    .right {
-      display: none !important;
-    }
-  }
-}
-
-@media (max-width: 600px) {
-  main.sb {
-    height: auto !important;
-    min-height: auto;
-    flex-direction: column;
-    padding-bottom: var(--card-space); // Mantener margen inferior en móvil
-
-    .left {
-      width: 100%;
-      flex: 1;
-      overflow-y: visible; // Usar scroll natural en móvil
-      height: auto;
-      min-height: 50vh;
-      margin-bottom: var(--card-space); // Margen entre paneles en móvil
-
-      // Mostrar cards móviles
-      .mobile-cards {
-        display: block !important;
-      }
-      
-      .mobile-bottom-card {
-        display: block !important;
-      }
-
-      .card.title {
-        box-shadow: 0 8px 32px 0 rgb(44 44 44 / 25%);
-        /* Sombra grande, difuminada y suave solo para el card title de la izquierda */
-      }
-      
-      // Quitar gap solo en dataleaks/SNS
-      gap: 0 !important;
-      width: 100%;
-
-      .card {
-        overflow-x: auto;
-      }
-    }
-
-    .right {
-      width: 100%;
-      flex: 0 0 auto;
-      height: auto;
-      max-height: 50vh;
-      overflow-y: auto;
-      position: static; // Quitar sticky en móvil
-      margin-bottom: 0; // Sin margen extra al final en móvil
     }
   }
 }

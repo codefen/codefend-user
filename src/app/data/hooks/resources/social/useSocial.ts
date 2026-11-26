@@ -46,7 +46,10 @@ export const useSocial = (filters: SocialFilterState, searchTerm: string) => {
 
   const members = data ? [].concat(...data.map(page => page.disponibles || [])) : [];
   const isLoadingMore = isLoading || (size > 0 && data && typeof data[size - 1] === 'undefined');
-  const isReachingEnd = data && (data[data.length - 1]?.disponibles?.length < 250 || (data[0] && size >= data[0].ds_size));
+  const totalPages = data?.[0]?.ds_size ?? 0;
+  const isReachingEnd =
+    !!data &&
+    (data[data.length - 1]?.disponibles?.length < 250 || (totalPages > 0 && size >= totalPages));
 
   const isSearchingBackend = !!debouncedSearchTerm && isLoading;
 
@@ -55,6 +58,14 @@ export const useSocial = (filters: SocialFilterState, searchTerm: string) => {
       company.set(data[0].company);
     }
   }, [data, company]);
+
+  // Preload every page so Filter by counts and LinkedIn filters work without scrolling.
+  useEffect(() => {
+    if (!totalPages || totalPages < 2) return;
+    if (size < totalPages) {
+      setSize(totalPages);
+    }
+  }, [totalPages, size, setSize]);
 
   const loadMore = () => {
     if (!isLoadingMore && !isReachingEnd) {

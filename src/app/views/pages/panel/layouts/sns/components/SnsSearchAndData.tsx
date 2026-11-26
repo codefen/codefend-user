@@ -74,33 +74,15 @@ const SnsSearchAndData: FC<{ refetch: () => void }> = ({ refetch }) => {
   const renderEmptyState = () => {
     if (!hasSearched) {
       return (
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            height: 'calc(100cqh - calc(63px + 1.2rem))',
-            flexDirection: 'column',
-            gap: '1rem',
-          }}>
-          <div>
-            <SnsCardTitle arrow="down" />
-          </div>
+        <div className="sns-empty-state">
+          <SnsCardTitle arrow="down" />
         </div>
       );
     }
 
     return (
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          height: 'calc(100cqh - calc(63px + 1.2rem))',
-          flexDirection: 'column',
-          gap: '1rem',
-        }}>
-        <div className="no-results-text" style={{}}>
+      <div className="sns-empty-state">
+        <div className="no-results-text">
           <p>No results found. Please try a different search.</p>
         </div>
       </div>
@@ -118,7 +100,7 @@ const SnsSearchAndData: FC<{ refetch: () => void }> = ({ refetch }) => {
       />
 
       <Show when={!isLoading} fallback={<PageLoader />}>
-        <div className="content" style={{ marginBottom: '1.2rem', height: '100%' }}>
+        <div className="content sns-results">
           <AnimatePresence mode="wait">
             {intelData.length === 0 ? (
               <motion.div
