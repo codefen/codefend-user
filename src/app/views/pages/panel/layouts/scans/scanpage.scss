@@ -89,35 +89,7 @@ main.scans {
     .search-bar-container {
       margin: 0 !important;
       padding: 0 !important;
-
-      .search-bar {
-        height: 43px;
-
-        &-wrapper-form {
-          gap: 10px;
-
-          .search-input {
-            height: 43px;
-            padding-inline: 1rem;
-            border: 1px solid var(--primary-color-300) !important;
-            border-radius: 12px !important;
-            background: var(--primary-color) !important;
-            color: var(--tertiary-color-500) !important;
-            font-size: 15px;
-            letter-spacing: 0.2px;
-          }
-
-          .search-button {
-            flex: 0 0 auto;
-            min-width: 118px;
-            height: 43px;
-            padding-inline: 16px;
-            border: 0 !important;
-            border-radius: 12px !important;
-            white-space: nowrap;
-          }
-        }
-      }
+      width: 100%;
     }
 
     .scan-quick-filters {

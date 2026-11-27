@@ -5,31 +5,45 @@ import { TaskHacker } from './components/taskHacker';
 import './talktohacker.scss';
 import Navbar from '@/app/views/components/navbar/Navbar';
 import { useMediaQuery } from 'usehooks-ts';
+import { PanelInterior } from '@/app/views/pages/panel/layouts/PanelInterior';
+import { AskQuestionOutlineIcon } from '@icons';
 
 export const TalkToHackerPage = () => {
-  const [showScreen, refresh] = useShowScreen();
+  const [showScreen] = useShowScreen();
   const isDesktop = useMediaQuery('(min-width: 1230px)');
+
   return (
-    <main className={`talk-to-hacker ${showScreen ? 'actived' : ''} ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
+    <PanelInterior
+      title="Ask a hacker"
+      titleIcon={<AskQuestionOutlineIcon />}
+      ready={showScreen}
+      className={`talk-to-hacker ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
       <section className="left">
-        {/* Cards móviles - se muestran solo en móvil */}
         <div className="mobile-cards">
-          {/* Card de "New question" */}
-          <NewQuestHacker />
+          <div className="card">
+            <NewQuestHacker />
+          </div>
         </div>
 
-        <TalkHackerScreen />
+        <div className="card talk-hacker-main">
+          <TalkHackerScreen />
+        </div>
 
-        {/* Tickets - se muestran solo en móvil */}
         <div className="mobile-bottom-card">
-          <TaskHacker />
+          <div className="card">
+            <TaskHacker />
+          </div>
         </div>
       </section>
       <section className="right">
         <Navbar />
-        <NewQuestHacker />
-        <TaskHacker />
+        <div className="card">
+          <NewQuestHacker />
+        </div>
+        <div className="card">
+          <TaskHacker />
+        </div>
       </section>
-    </main>
+    </PanelInterior>
   );
 };

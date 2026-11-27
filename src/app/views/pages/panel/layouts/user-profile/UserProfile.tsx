@@ -11,6 +11,7 @@ import { APP_EVENT_TYPE, USER_LOGGING_STATE } from '@interfaces/panel';
 import { useEffect } from 'react';
 import { useMediaQuery } from 'usehooks-ts';
 import Navbar from '@/app/views/components/navbar/Navbar';
+import { PeopleIconOutline } from '@icons';
 
 export const UserProfilePage = () => {
   const { isLoading, data } = useDashboard();
@@ -31,6 +32,7 @@ export const UserProfilePage = () => {
   return (
     <PanelInterior
       title="User profile"
+      titleIcon={<PeopleIconOutline />}
       ready={showScreen}
       description="Manage your password and two-factor authentication."
       className={`user-profile ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>

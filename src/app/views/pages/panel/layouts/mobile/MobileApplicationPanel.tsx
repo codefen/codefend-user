@@ -15,6 +15,7 @@ import { MobileApplicationTitle } from './components/MobileApplicationTitle';
 import AddMobileModal from '@modals/adding-modals/AddMobileModal';
 import { APP_EVENT_TYPE, USER_LOGGING_STATE } from '@interfaces/panel';
 import Navbar from '@/app/views/components/navbar/Navbar';
+import { MobileIcon } from '@icons';
 
 const MobileApplicationPanel: FC = () => {
   const [showScreen, control, refresh] = useShowScreen();
@@ -51,6 +52,7 @@ const MobileApplicationPanel: FC = () => {
   return (
     <EmptyLayout
       title="Mobile apps"
+      titleIcon={<MobileIcon />}
       className={`mobile ${!Boolean(data.length) && 'empty-active'}`}
       fallback={mobileEmptyScreen}
       event={refresh}

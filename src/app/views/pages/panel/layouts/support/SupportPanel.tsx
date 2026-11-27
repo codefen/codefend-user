@@ -16,6 +16,7 @@ import { APP_EVENT_TYPE, USER_LOGGING_STATE } from '@interfaces/panel';
 import { SupperEmptyDisplay } from '@/app/views/pages/panel/layouts/support/components/SupperEmptyDisplay';
 import Navbar from '@/app/views/components/navbar/Navbar';
 import { useMediaQuery } from 'usehooks-ts';
+import { AskQuestionOutlineIcon } from '@icons';
 
 const SupportPanel: FC = () => {
   const [showScreen, control, refresh] = useShowScreen();
@@ -74,6 +75,7 @@ const SupportPanel: FC = () => {
     <>
       <PanelInterior
         title="Ask a hacker"
+        titleIcon={<AskQuestionOutlineIcon />}
         ready={showScreen}
         className={`support ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
         <section className="left">

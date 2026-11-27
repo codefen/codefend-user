@@ -16,6 +16,7 @@ import { useGlobalFastFields } from '@/app/views/context/AppContextProvider.tsx'
 import { SectionTracker } from '@/app/views/components/telemetry/SectionTracker';
 import { CardSkeleton } from '@/app/views/components/CardSkeleton/CardSkeleton.tsx';
 import { useMediaQuery } from 'usehooks-ts';
+import { GridOutlineIcon } from '@icons';
 
 const ENTRANCE_DURATION = 1450;
 
@@ -67,6 +68,7 @@ const Dashboard = () => {
     <SectionTracker sectionName="dashboard">
       <PanelInterior
         title="Dashboard"
+        titleIcon={<GridOutlineIcon />}
         ready={showScreen}
         contentReady={!isLoading}
         className={`dashboard ${!isDesktop ? 'sidebar-mobile-active' : ''} ${entering ? 'dashboard-entering' : ''}`}>

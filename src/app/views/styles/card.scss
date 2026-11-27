@@ -1,5 +1,6 @@
 .card {
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
   flex: 0 0 auto;
 
   // border-width: 1px;
@@ -171,17 +172,19 @@
     .actions {
       display: flex;
       flex-direction: row;
-      flex-wrap: nowrap;
+      flex-wrap: wrap;
       align-items: center;
       gap: 12px;
+      min-width: 0;
+      max-width: 100%;
 
       button {
-        // flex: 1;
         cursor: pointer !important;
         white-space: nowrap;
-        flex: none;
+        flex: 1 1 auto;
         width: auto;
-        max-width: none;
+        max-width: 100%;
+        min-width: 0;
       }
     }
 

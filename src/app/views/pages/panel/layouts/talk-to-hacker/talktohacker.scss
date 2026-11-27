@@ -1,73 +1,92 @@
-main.talk-to-hacker {
-  // Sobrescribir estilos globales de main para evitar conflictos
-  height: auto !important;
-  max-height: none !important;
-  min-height: calc(100vh - 120px); // Ajustar según la altura del header
-  display: flex;
-  overflow: visible; // Permitir scroll natural del documento
-  position: relative;
-  padding-bottom: var(--card-space); // Margen inferior igual al superior
-  
-  // background-color: var(--primary-color);
-  // border-radius: var(--brd-radius);
-  .left {
-    flex: 1;
-    overflow-y: visible; // Usar scroll natural del documento
-    height: auto; // Altura automática para flujo natural
-    padding-inline-start: 0;
-    min-height: calc(100vh - var(--card-space) * 2 - 60px); // Altura mínima considerando márgenes
-    margin-bottom: var(--card-space); // Margen inferior igual al superior
+body #root > main.talk-to-hacker.panel-interior {
+  overflow: auto !important;
+  height: var(--panel-viewport, 100dvh) !important;
+  max-height: var(--panel-viewport, 100dvh) !important;
+  grid-template-rows: var(--panel-heading-height) minmax(0, 1fr);
+  scrollbar-width: none !important;
 
-    // Cards móviles - ocultas por defecto en desktop
+  &::-webkit-scrollbar {
+    width: 0 !important;
+    height: 0 !important;
+    display: none !important;
+  }
+
+  > .panel-heading {
+    padding-inline: var(--panel-soft-pad, 16px);
+
+    h1 {
+      font-size: clamp(18px, 1.55vw, 22px);
+      letter-spacing: -0.03em;
+    }
+  }
+
+  > :is(.left, .right) {
+    width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    scrollbar-width: none !important;
+    padding: var(--panel-soft-pad, 16px) !important;
+    gap: var(--panel-soft-gap, 16px) !important;
+  }
+
+  @media (min-width: 981px) {
+    column-gap: var(--panel-soft-pad, 16px);
+
+    > .left {
+      padding-inline-end: 0 !important;
+    }
+
+    > .right {
+      padding-inline-start: 0 !important;
+      position: sticky;
+      top: calc(var(--panel-heading-height) + var(--panel-soft-pad, 16px));
+      align-self: start;
+    }
+  }
+}
+
+main.talk-to-hacker {
+  .left {
     .mobile-cards {
       display: none;
       margin-bottom: 1rem;
-      
-      .card {
-        margin-bottom: 1rem;
-      }
     }
 
-    // Card inferior móvil - oculta por defecto en desktop
     .mobile-bottom-card {
       display: none;
       margin-top: 1rem;
     }
-
-    position: relative;
-    background-color: var(--primary-color);
-    border-radius: var(--brd-radius);
-    padding: 1.5rem;
-    overflow-x: hidden;
-    position: relative;
-    background-color: var(--primary-color);
-    border-radius: var(--brd-radius);
-    padding: 1.5rem;
-    overflow-x: hidden;
 
     .talk-hacker_header {
       max-height: 20px;
       display: flex;
       gap: 1rem;
       margin-bottom: 10px;
+
       svg {
         color: var(--secondary-color-100);
       }
     }
+
     .talk-hacker_comments {
       flex: 2;
+
       .comment {
         border-bottom: 3px solid var(--primary-color-500);
         padding-block: 15px;
+
         .comment_header {
           color: var(--tertiary-color-300);
         }
+
         .comment_body {
           display: flex;
           align-items: center;
           gap: 2rem;
           margin-block: 15px;
           padding-inline: 0.8rem;
+
           svg {
             padding: 5px;
             min-width: 85px;
@@ -79,6 +98,7 @@ main.talk-to-hacker {
         }
       }
     }
+
     .response-hacker {
       width: 100%;
       flex: 1;
@@ -95,76 +115,42 @@ main.talk-to-hacker {
         border: 3px solid var(--primary-color-600);
         margin: 10px 0;
       }
+
       button {
         align-self: flex-end;
       }
     }
   }
-  .right {
-    flex: 0 0 35%;
-    height: calc(100vh - var(--card-space) * 2 - 60px); // Altura considerando márgenes superior e inferior
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    position: sticky;
-    top: var(--card-space); // Mantener fijo con margen superior
-    
-    // Smooth scrolling para mejor UX
-    scroll-behavior: smooth;
-    scrollbar-width: thin;
-    scrollbar-color: var(--primary-color-300) transparent;
-    
-    &::-webkit-scrollbar {
-      width: 6px;
-    }
-    
-    &::-webkit-scrollbar-track {
-      background: transparent;
-    }
-    
-    &::-webkit-scrollbar-thumb {
-      background-color: var(--primary-color-300);
-      border-radius: 3px;
-      
-      &:hover {
-        background-color: var(--primary-color-400);
-      }
-    }
-    
-    // Navbar y header sticky opcional
-    .navbar {
-      flex: 0 0 auto;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      background: var(--primary-color);
-    }
 
+  .right {
     .new-quest-hacker {
-      background-color: var(--primary-color);
-      padding: 1.5rem;
+      padding: 4px 2px;
+
       .new-quest_header {
         display: flex;
         align-items: center;
         gap: 0.8rem;
+
         svg {
           width: 30px;
           height: 30px;
           color: var(--secondary-color-100);
         }
       }
+
       p {
         margin: 10px 0 20px;
       }
     }
+
     .task-hacker {
-      background-color: var(--primary-color);
-      border-radius: var(--brd-radius);
-      padding: 1.5rem;
+      padding: 4px 2px;
+
       .task_header {
         display: flex;
         align-items: center;
         gap: 1rem;
+
         svg {
           color: var(--secondary-color-100);
         }
@@ -172,22 +158,13 @@ main.talk-to-hacker {
     }
   }
 
-  // Media queries para responsive - ocultar .right en móvil
   @media (max-width: 1000px) {
     .left {
-      flex: 1 1 100% !important;
-      width: 100% !important;
-      max-width: 100% !important;
-      
-      // Mostrar cards móviles
-      .mobile-cards {
-        display: block !important;
-      }
-      
+      .mobile-cards,
       .mobile-bottom-card {
         display: block !important;
       }
-      
+
       .card {
         width: 100% !important;
         max-width: 100% !important;
@@ -195,76 +172,9 @@ main.talk-to-hacker {
         margin: 0 !important;
       }
     }
-    
+
     .right {
       display: none !important;
-    }
-  }
-
-  @media (max-width: 680px) {
-    .left {
-      flex: 1 1 100% !important;
-      width: 100% !important;
-      max-width: 100% !important;
-      
-      // Mostrar cards móviles
-      .mobile-cards {
-        display: block !important;
-      }
-      
-      .mobile-bottom-card {
-        display: block !important;
-      }
-      
-      .card {
-        width: 100% !important;
-        max-width: 100% !important;
-        min-width: auto !important;
-        margin: 0 !important;
-      }
-    }
-    
-    .right {
-      display: none !important;
-    }
-  }
-
-  @media (max-width: 600px) {
-    height: auto !important;
-    min-height: auto;
-    flex-direction: column;
-    padding-bottom: var(--card-space); // Mantener margen inferior en móvil
-
-    .left {
-      width: 100%;
-      flex: 1;
-      overflow-y: visible; // Usar scroll natural en móvil
-      height: auto;
-      min-height: 50vh;
-      margin-bottom: var(--card-space); // Margen entre paneles en móvil
-
-      // Mostrar cards móviles
-      .mobile-cards {
-        display: block !important;
-      }
-      
-      .mobile-bottom-card {
-        display: block !important;
-      }
-
-      .card {
-        overflow-x: auto;
-      }
-    }
-
-    .right {
-      width: 100%;
-      flex: 0 0 auto;
-      height: auto;
-      max-height: 50vh;
-      overflow-y: auto;
-      position: static; // Quitar sticky en móvil
-      margin-bottom: 0; // Sin margen extra al final en móvil
     }
   }
 }

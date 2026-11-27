@@ -203,6 +203,12 @@ main.sb {
   }
 
   .left {
+    .search-bar-container {
+      margin: 0 !important;
+      padding: 0 !important;
+      width: 100%;
+    }
+
     .mobile-cards {
       display: none;
       margin-bottom: 1rem;

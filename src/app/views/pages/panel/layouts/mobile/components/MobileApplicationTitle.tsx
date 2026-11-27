@@ -1,5 +1,6 @@
 import { type FC } from 'react';
 import { PrimaryButton } from '@buttons/index';
+import { MobileIcon } from '@icons';
 
 interface MobileApplicationTitleProps {
   onAddClick: () => void;
@@ -13,7 +14,7 @@ export const MobileApplicationTitle: FC<MobileApplicationTitleProps> = ({
   return (
     <div className="card title">
       <div className="header">
-        {/* <MobileIcon /> */}
+        <MobileIcon />
         <span>Mobile resources</span>
       </div>
       <div className="content">

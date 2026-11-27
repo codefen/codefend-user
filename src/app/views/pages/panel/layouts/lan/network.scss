@@ -2,14 +2,57 @@
 @use './components/network-cards.scss';
 @use './components/world-map.scss';
 
-main.lan {
-  height: 100vh;
-  overflow: hidden;
+body #root > main.lan.panel-interior {
+  overflow: auto !important;
+  height: var(--panel-viewport, 100dvh) !important;
+  max-height: var(--panel-viewport, 100dvh) !important;
+  grid-template-rows: var(--panel-heading-height) minmax(0, 1fr);
+  scrollbar-width: none !important;
 
+  &::-webkit-scrollbar {
+    width: 0 !important;
+    height: 0 !important;
+    display: none !important;
+  }
+
+  > .panel-heading {
+    padding-inline: var(--panel-soft-pad, 16px);
+
+    h1 {
+      font-size: clamp(18px, 1.55vw, 22px);
+      letter-spacing: -0.03em;
+    }
+  }
+
+  > :is(.left, .right) {
+    width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    scrollbar-width: none !important;
+    padding: var(--panel-soft-pad, 16px) !important;
+    gap: var(--panel-soft-gap, 16px) !important;
+  }
+
+  @media (min-width: 981px) {
+    column-gap: var(--panel-soft-pad, 16px);
+
+    > .left {
+      padding-inline-end: 0 !important;
+    }
+
+    > .right {
+      padding-inline-start: 0 !important;
+      position: sticky;
+      top: calc(var(--panel-heading-height) + var(--panel-soft-pad, 16px));
+      align-self: start;
+    }
+  }
+}
+
+main.lan {
   .left {
-    flex: 1 1 68%;
-    width: 68%;
-    overflow: auto;
+    overflow: visible;
 
     // Cards móviles - ocultas por defecto en desktop
     .mobile-cards {

@@ -1,7 +1,7 @@
 import DashboardCollaborators from '../DashboardCollaborators/DashboardCollaborators';
 import useModalStore from '@stores/modal.store';
 import { MODAL_KEY_OPEN } from '@/app/constants/app-texts';
-import { useDashboard } from '@panelHooks/index';
+import { CollaboratorsIcon } from '@icons';
 
 interface DashboardAddCollaboratorsProps {
   isLoading: boolean;
@@ -16,7 +16,10 @@ export const DashboardAddCollaborators = ({ isLoading, data }: DashboardAddColla
     <div className="card">
       <div className="over">
         <div className="table-title">
-          <h2>Collaborators</h2>
+          <h2>
+            <CollaboratorsIcon />
+            Collaborators
+          </h2>
           <a
             className="link"
             onClick={() => {

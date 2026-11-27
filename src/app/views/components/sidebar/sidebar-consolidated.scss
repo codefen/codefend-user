@@ -1402,7 +1402,7 @@ body .sidebar.desktop-active.panel-sidebar {
     &.active {
       color: #fff;
       background: #72d7f5;
-      box-shadow: 0 6px 16px color-mix(in srgb, #72d7f5 45%, transparent);
+      box-shadow: none;
 
       .sidebar-item-icon,
       .sidebar-item-icon svg {

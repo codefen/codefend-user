@@ -104,15 +104,9 @@ main.user-profile {
   }
 
   .right {
-    height: 100%;
     margin-left: 0;
-    // overflow-y: auto;
-    margin-bottom: 0px;
 
     .card {
-      margin-bottom: var(--card-space);
-      margin-top: 0; // Normalizar márgenes superiores para consistencia
-
       &.stats {
         .content {
           display: flex;
@@ -133,18 +127,6 @@ main.user-profile {
     }
   }
 
-  &.actived {
-    .left {
-      flex: 1 1 60%;
-      padding-block-start: 0;
-      margin-block-start: 0;
-    }
-    .right {
-      flex: 1 1 40%;
-      padding-block-start: 0;
-      margin-block-start: 0;
-    }
-  }
 
   // @media only screen and (max-width: 600px) {
   //   display: block;

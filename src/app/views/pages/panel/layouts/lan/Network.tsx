@@ -39,6 +39,7 @@ const NetworkPage: FC = () => {
   return (
     <EmptyLayout
       title="Network devices"
+      titleIcon={<NetworkOutlineIcon />}
       className={`lan ${!isDesktop ? 'sidebar-mobile-active' : ''}`}
       fallback={networkEmptyScreen}
       event={refetch}

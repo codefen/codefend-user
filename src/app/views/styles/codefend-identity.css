@@ -238,7 +238,8 @@ body main.panel-interior > .left > .card,
 body main.panel-interior > .left > .box-assets > .card,
 body main.panel-interior .status-card-container > .card.stat,
 body main.panel-interior .flex-box > .card.stat,
-body main.panel-interior .team-members-two-columns > :is(.left-column,.right-column) > .card {
+body main.panel-interior .team-members-two-columns > :is(.left-column,.right-column) > .card,
+body main.panel-interior .card.vulnerability-status-card {
   margin:0!important;
   border:1px solid var(--primary-color-300)!important;
   border-radius:var(--panel-soft-radius,20px)!important;
@@ -256,9 +257,15 @@ body main.panel-interior .team-members-two-columns {
   background:transparent!important;
 }
 
-body main.panel-interior .flex-box > .card.stat,
-body main.panel-interior .status-card-container > .card.stat {
+body main.panel-interior .flex-box > .card.stat {
   min-width:0; min-height:148px; aspect-ratio:auto; overflow:hidden; padding:16px 12px 14px
+}
+body main.panel-interior .table-header,
+body main.panel-interior .columns-name,
+body main.panel-interior .table > :is(.table-header,.columns-name) {
+  background:transparent!important;
+  box-shadow:none!important;
+  filter:none!important;
 }
 body main.panel-interior .card.scan-start .table-header,
 body main.panel-interior .card.scan-start .columns-name {
@@ -489,7 +496,7 @@ body .sidebar.desktop-active.panel-sidebar .panel-sidebar-nav > a {
   justify-content:center!important;text-align:center!important;font-size:0!important
 }
 body .sidebar.desktop-active.panel-sidebar a.active {
-  background:#72d7f5!important;color:#fff!important;font-weight:700;box-shadow:0 6px 16px rgba(114,215,245,.45)!important
+  background:#72d7f5!important;color:#fff!important;font-weight:700;box-shadow:none!important
 }
 body[data-theme='dark'] .sidebar.desktop-active.panel-sidebar a.active {
   background:#72d7f5!important;color:#fff!important

@@ -12,6 +12,7 @@ import { useGlobalFastField, useGlobalFastFields } from '@/app/views/context/App
 import { useEffect } from 'react';
 import Navbar from '@/app/views/components/navbar/Navbar';
 import { useMediaQuery } from 'usehooks-ts';
+import { CompanyIcon, UsersGroupOutline } from '@icons';
 
 // Función para formatear el tamaño del negocio
 const formatBusinessSize = (size: string): string => {
@@ -199,6 +200,7 @@ export const TeamMembersPage = () => {
   return (
     <PanelInterior
       title="Team members"
+      titleIcon={<UsersGroupOutline />}
       ready={showScreen}
       actions={<AddCollaboratorAction />}
       className={`team-members` + `${!isDesktop ? ' sidebar-mobile-active' : ''}`}>
@@ -207,6 +209,7 @@ export const TeamMembersPage = () => {
           <div className="left-column">
             <div className="card company-info-card">
               <div className="header">
+                <CompanyIcon />
                 <h2>Business details</h2>
               </div>
               <div className="company-info-content">
@@ -275,14 +278,6 @@ export const TeamMembersPage = () => {
           <div className="right-column">
             <DashboardAddCollaborators isLoading={isLoading} data={data} />
           </div>
-        </div>
-
-        {/* VulnerabilitiesStatus abajo del layout de dos columnas */}
-        <div className="vulnerabilities-status-section">
-          <VulnerabilitiesStatus
-            isLoading={isLoading}
-            vulnerabilityByShare={data?.issues_condicion || {}}
-          />
         </div>
       </section>
       <section className="right">

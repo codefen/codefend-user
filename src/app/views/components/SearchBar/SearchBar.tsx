@@ -72,14 +72,7 @@ export const SearchBar: FC<SearchBarProps> = props => {
           <input
             type="text"
             value={props.inputValue}
-            onChange={e => {
-              console.log('📝 SearchBar input onChange:', {
-                value: e.target.value,
-                hasSpaces: e.target.value.includes(' '),
-                charCodes: e.target.value.split('').map(c => c.charCodeAt(0)),
-              });
-              props.handleChange(e);
-            }}
+            onChange={props.handleChange}
             onKeyDown={handleKeyPress}
             placeholder={props.placeHolder}
             className={`text search-input ${inputClass} ${animClass}`}
@@ -107,7 +100,7 @@ export const SearchBar: FC<SearchBarProps> = props => {
             text={props?.searchIcon ? props?.searchIcon : props?.searchText || 'Search'}
             click={() => {}}
             type="submit"
-            className="search-button no-border-height"
+            className="search-button"
             isDisabled={props?.isDisabled}
             disabledLoader
           />

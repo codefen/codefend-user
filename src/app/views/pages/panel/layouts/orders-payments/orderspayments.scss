@@ -47,32 +47,7 @@ main.orders-payments {
   }
 
   .right {
-    height: 100%;
     margin-left: 0;
-    // overflow-y: auto;
-    .card {
-      margin-bottom: 12px;
-    }
-  }
-
-  &.actived {
-    opacity: 1;
-    width: 100%;
-    margin-left: 0;
-    margin-right: auto;
-    display: flex;
-    flex-direction: row;
-
-    .left {
-      flex: 3.5;
-      padding-block-start: 0;
-      margin-block-start: 0;
-    }
-    .right {
-      flex: 2.5;
-      padding-block-start: 0;
-      margin-block-start: 0;
-    }
   }
 
   @media only screen and (max-width: 600px) {

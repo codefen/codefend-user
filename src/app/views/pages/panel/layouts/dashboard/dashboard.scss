@@ -104,11 +104,8 @@ main.dashboard {
   .right {
     display: flex;
     flex-direction: column;
-    margin-bottom: 12px;
 
     .card {
-      margin-bottom: 12px;
-
       &.stats {
         .content {
           display: flex;

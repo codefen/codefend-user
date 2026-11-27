@@ -20,17 +20,18 @@ body #root > main.panel-interior {
   margin: 0 !important;
   padding: 0 !important;
   gap: 0;
-  overflow: hidden;
+  overflow: auto !important;
+  max-height: var(--panel-viewport) !important;
   background:
     radial-gradient(ellipse at 12% 0%, color-mix(in srgb, var(--secondary-color-50) 14%, transparent), transparent 42%),
     radial-gradient(ellipse at 88% 8%, color-mix(in srgb, #458db4 8%, transparent), transparent 36%),
     var(--primary-color-50, var(--primary-color));
-  scrollbar-width: none;
+  scrollbar-width: none !important;
 
   &::-webkit-scrollbar {
-    width: 0;
-    height: 0;
-    display: none;
+    width: 0 !important;
+    height: 0 !important;
+    display: none !important;
   }
 
   > .panel-heading {
@@ -166,26 +167,26 @@ body #root > main.panel-interior {
     grid-row: 2;
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 100% !important;
     max-width: none;
     min-width: 0;
-    height: 100%;
-    max-height: none;
+    height: auto !important;
+    max-height: none !important;
     min-height: 0;
     margin: 0 !important;
     padding: var(--panel-soft-pad) !important;
-    gap: var(--panel-soft-gap);
+    gap: var(--panel-soft-gap) !important;
     overscroll-behavior: contain;
-    scrollbar-width: none;
-    overflow: auto;
+    scrollbar-width: none !important;
+    overflow: visible !important;
     direction: ltr;
     transition: none;
     background: transparent;
 
     &::-webkit-scrollbar {
-      width: 0;
-      height: 0;
-      display: none;
+      width: 0 !important;
+      height: 0 !important;
+      display: none !important;
     }
   }
 
@@ -194,8 +195,8 @@ body #root > main.panel-interior {
   }
   > .right {
     grid-column: 2;
-    width: var(--panel-aux-width);
-    max-width: var(--panel-aux-width);
+    width: var(--panel-aux-width) !important;
+    max-width: var(--panel-aux-width) !important;
     border-inline-start: 0;
   }
 
@@ -234,11 +235,59 @@ body #root > main.panel-interior {
     }
   }
 
-  .table > :is(.table-header, .columns-name) {
+  // Launch / search bars (AI Surveillance, Dataleaks, INX, etc.)
+  .search-bar-container {
+    margin: 0 !important;
+    width: 100%;
+
+    .search-bar {
+      width: 100%;
+      height: 43px;
+
+      .search-bar-wrapper-form {
+        gap: 10px;
+
+        .search-input,
+        .search-select,
+        .search-button {
+          height: 43px;
+          border-radius: 12px !important;
+        }
+
+        .search-input {
+          flex: 1 1 auto;
+          min-width: 0;
+          max-width: none !important;
+          width: auto !important;
+          border: 1px solid var(--primary-color-300);
+          background: var(--primary-color);
+        }
+
+        .search-select {
+          flex: 0 0 auto;
+          border: 1px solid var(--primary-color-300);
+          background: var(--primary-color);
+        }
+
+        .search-button {
+          flex: 0 0 auto;
+          min-width: 118px;
+          border: 0 !important;
+        }
+      }
+    }
+  }
+
+  .table > :is(.table-header, .columns-name),
+  .table .table-header,
+  .table .columns-name {
     min-height: 40px;
     font-family: inherit;
     font-size: 13px;
-    background: var(--primary-color-100);
+    background: transparent !important;
+    box-shadow: none !important;
+    filter: none !important;
+    border-block-end: 1px solid var(--primary-color-300);
   }
 
   .table > .table-rows-container .item {
@@ -258,6 +307,10 @@ body #root > main.panel-interior {
   > :is(.left, .right) > .scrollable-content > .card:not(.skeleton-card),
   > :is(.left, .right) .box-assets > .card,
   > :is(.left, .right) .status-card-container .card.stat,
+  > :is(.left, .right) .card.vulnerability-status-card,
+  > :is(.left, .right) .card.risk-chart,
+  > :is(.left, .right) .card.stats,
+  > :is(.left, .right) .card.scan-start,
   > :is(.left, .right) .panel-card-grid > .card,
   > :is(.left, .right) .team-members-two-columns > :is(.left-column, .right-column) > .card {
     margin: 0 !important;
@@ -266,6 +319,7 @@ body #root > main.panel-interior {
     box-shadow: var(--panel-soft-shadow) !important;
     background: color-mix(in srgb, var(--primary-color) 96%, #fff 4%) !important;
     backdrop-filter: none;
+    overflow-x: hidden !important;
     transition:
       transform 180ms ease,
       box-shadow 180ms ease,
@@ -311,6 +365,9 @@ body #root > main.panel-interior {
 
       > .right {
         padding-inline-start: 0 !important;
+        position: sticky;
+        top: calc(var(--panel-heading-height) + var(--panel-soft-pad));
+        align-self: start;
       }
     }
   }
@@ -427,6 +484,19 @@ body #root > main.panel-interior {
   @media (min-width: 601px) {
     .panel-card-grid > .card:nth-child(even) { border-inline-start: 1px solid var(--primary-color-300); }
   }
+}
+
+html:has(main.panel-interior),
+body:has(main.panel-interior) {
+  scrollbar-width: none;
+  overflow: hidden;
+}
+
+html:has(main.panel-interior)::-webkit-scrollbar,
+body:has(main.panel-interior)::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
 }
 
 body #root > main.panel-interior[aria-busy='true'] {

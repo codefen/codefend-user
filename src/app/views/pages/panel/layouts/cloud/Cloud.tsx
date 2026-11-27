@@ -11,6 +11,7 @@ import { ListResourceWithSearch } from '@/app/views/components/ListResourceWithS
 import EmptyLayout from '../EmptyLayout';
 import { cloudEmptyScreen } from '@/app/constants/app-texts';
 import Navbar from '@/app/views/components/navbar/Navbar';
+import { CLoudIcon } from '@icons';
 
 /**
  * TODO:
@@ -44,6 +45,7 @@ const CloudApplicationPanel: FC = () => {
       <DeleteMobileCloudModal onDone={onDelete} app={{}} />
       <EmptyLayout
         title="Cloud resources"
+        titleIcon={<CLoudIcon />}
         className="mobile cloud"
         fallback={cloudEmptyScreen}
         event={refresh}

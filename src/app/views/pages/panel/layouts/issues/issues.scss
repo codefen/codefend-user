@@ -321,25 +321,57 @@ main.issue-detail {
   }
 }
 
-main.issues-list {
-  // Sobrescribir estilos globales de main para evitar conflictos
-  height: auto !important;
-  max-height: none !important;
-  min-height: calc(100vh - 120px); // Ajustar según la altura del header
-  display: flex;
-  overflow: visible; // Permitir scroll natural del documento
-  position: relative;
-  padding-bottom: var(--card-space); // Margen inferior igual al superior
-  overflow-y: auto; // Asegurar que el contenedor principal sea scrolleable
+body #root > main.issues-list.panel-interior {
+  overflow: auto !important;
+  height: var(--panel-viewport, 100dvh) !important;
+  max-height: var(--panel-viewport, 100dvh) !important;
+  grid-template-rows: var(--panel-heading-height) minmax(0, 1fr);
+  scrollbar-width: none !important;
 
+  &::-webkit-scrollbar {
+    width: 0 !important;
+    height: 0 !important;
+    display: none !important;
+  }
+
+  > .panel-heading {
+    padding-inline: var(--panel-soft-pad, 16px);
+
+    h1 {
+      font-size: clamp(18px, 1.55vw, 22px);
+      letter-spacing: -0.03em;
+    }
+  }
+
+  > :is(.left, .right) {
+    width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    scrollbar-width: none !important;
+    padding: var(--panel-soft-pad, 16px) !important;
+    gap: var(--panel-soft-gap, 16px) !important;
+  }
+
+  @media (min-width: 981px) {
+    column-gap: var(--panel-soft-pad, 16px);
+
+    > .left {
+      padding-inline-end: 0 !important;
+    }
+
+    > .right {
+      padding-inline-start: 0 !important;
+      position: sticky;
+      top: calc(var(--panel-heading-height) + var(--panel-soft-pad, 16px));
+      align-self: start;
+    }
+  }
+}
+
+main.issues-list {
   .left {
-    flex: 1;
-    overflow-y: auto; // Permitir scroll en el contenedor izquierdo
-    height: auto; // Altura automática para flujo natural
-    padding-inline-start: 0;
-    min-height: calc(100vh - var(--card-space) * 2 - 60px); // Altura mínima considerando márgenes
-    margin-bottom: var(--card-space); // Margen inferior igual al superior
-    overflow: visible; // Asegurar que no haya restricciones de overflow
+    overflow: visible;
 
     // Cards móviles - ocultas por defecto en desktop
     .mobile-cards {
@@ -485,53 +517,20 @@ main.issues-list {
   }
 
   .right {
-    flex: 0 0 35%;
-    height: calc(
-      100vh - var(--card-space) * 2 - 60px
-    ); // Altura considerando márgenes superior e inferior
-    overflow-y: auto;
     display: flex;
     flex-direction: column;
-    position: sticky;
-    top: var(--card-space); // Mantener fijo con margen superior
 
-    // Smooth scrolling para mejor UX
-    scroll-behavior: smooth;
-    scrollbar-width: thin;
-    scrollbar-color: var(--primary-color-300) transparent;
-
-    &::-webkit-scrollbar {
-      width: 6px;
-    }
-
-    &::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background-color: var(--primary-color-300);
-      border-radius: 3px;
-
-      &:hover {
-        background-color: var(--primary-color-400);
-      }
-    }
-
-    // Navbar y header sticky opcional
     .navbar,
     .issue-panel-header {
       flex: 0 0 auto;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      background: var(--primary-color);
     }
 
-    // Contenido scrolleable
     .scrollable-content {
-      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: var(--panel-soft-gap, 16px);
       min-height: 0;
-      overflow-y: auto; // Asegurar que el contenido sea scrolleable
+      overflow: visible;
     }
 
     .card.filtered {

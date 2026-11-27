@@ -20,6 +20,7 @@ import { useFlashlight } from '@/app/views/context/FlashLightContext.tsx';
 import { SectionTracker } from '@/app/views/components/telemetry/SectionTracker';
 import Navbar from '@/app/views/components/navbar/Navbar';
 import { useMediaQuery } from 'usehooks-ts';
+import { BugIcon } from '@icons';
 
 const IssuesPanel: FC = () => {
   const [showScreen, control, refresh] = useShowScreen();
@@ -50,6 +51,7 @@ const IssuesPanel: FC = () => {
     <SectionTracker sectionName="issues">
       <PanelInterior
         title="Detected issues"
+        titleIcon={<BugIcon />}
         ready={showScreen}
         className={`issues-list ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
         <SelectAnyResourceModal issues={displayIssues} />

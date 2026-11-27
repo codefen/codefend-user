@@ -14,6 +14,7 @@ import { sourceEmptyScreen } from '@/app/constants/app-texts.ts';
 import OpenOrderButton from '@/app/views/components/OpenOrderButton/OpenOrderButton.tsx';
 import { ResourcesTypes } from '@interfaces/order.ts';
 import Navbar from '@/app/views/components/navbar/Navbar';
+import { SourceCodeIcon } from '@icons';
 
 const SourceCodePanel: FC = () => {
   const [showScreen, control, refresh] = useShowScreen();
@@ -27,6 +28,7 @@ const SourceCodePanel: FC = () => {
   return (
     <EmptyLayout
       title="Source code"
+      titleIcon={<SourceCodeIcon />}
       className="source-code"
       fallback={sourceEmptyScreen}
       event={refresh}

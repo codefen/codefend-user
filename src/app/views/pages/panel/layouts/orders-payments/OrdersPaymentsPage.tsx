@@ -14,6 +14,7 @@ import { useEffect } from 'react';
 import { useMediaQuery } from 'usehooks-ts';
 import Navbar from '@/app/views/components/navbar/Navbar';
 import { CancelSuscriptionModal } from '@modals/cancel-susceiption/CancelSuscriptionModal';
+import { CreditCardIcon } from '@icons';
 
 export const OrdersPaymentsPage = () => {
   const [showScreen, _, refresh] = useShowScreen();
@@ -35,13 +36,13 @@ export const OrdersPaymentsPage = () => {
   return (
     <PanelInterior
       title="Orders and payments"
+      titleIcon={<CreditCardIcon />}
       ready={showScreen}
       description="View and manage your purchase orders and plans."
       className={`orders-payments ${!isDesktop ? 'sidebar-mobile-active' : ''}`}>
       <ProviderScope />
       <CancelSuscriptionModal />
       <section className="left">
-        <VulnerabilitiesStatus vulnerabilityByShare={dashboardData?.issues_condicion || {}} />
         <SettingOrderAndBilling
           isLoading={isLoadingPreference}
           orders={preference.company_orders}
